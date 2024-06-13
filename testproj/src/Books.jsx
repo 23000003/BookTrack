@@ -1,6 +1,7 @@
 import supabase from './Supabase';
 import './styles/book.css'
 import { useEffect, useState } from 'react';
+import BookDetails from './BookDetails';
 
 async function booksDataFilter(CurrGenre){
     const {data:booksData, error: booksError} = await supabase
@@ -21,6 +22,8 @@ function DisplayBooks(){
     const [genres, setGenres] = useState(['Novel','Romance','Fiction', 
                                         'Science', 'Self-Help', 'Manga']);
     const [bookData, setBookData] = useState([]);
+    const [bookDets, bookDetsState] = useState(false);
+    const [passDets, passDetsState] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,7 +31,7 @@ function DisplayBooks(){
 
             for (const genre of genres) {
                 const data = await booksDataFilter(genre);
-                allBookData.push({ genre, data }); //Object
+                allBookData.push({ genre, data }); //object
             }
             setBookData(allBookData);
             console.log(allBookData);
@@ -36,36 +39,56 @@ function DisplayBooks(){
         fetchData();
     }, [genres]);
 
+    const DisplayDets = (data) =>{
+        passDetsState(data);
+        bookDetsState(true);
+    }
+
     return(
-        <div className="BookArea">
-            <div className="Books-Column">
-                
-                {bookData.map((genreData, idx) => (
-                    <div key={idx}>
-                        <h2>{genreData.genre}</h2>
-                        <div className="bg">
-                            
-                            {genreData.data.map((book, index) => (
-                                <div className="first" key={index}>
-                                    <img src={book.imagetag} alt=""/>
-                                    <div className="text">
-                                        <div className="titlediv">
-                                            <label>{book.book_title}</label>
-                                        </div>
-                                        <div className="price">
-                                            <p>P{book.book_price}</p>
-                                        </div>
-                                        <span className="Buybutton">Buy</span>
-                                    </div>
-                                </div> 
-                            ))} 
-
-                        </div>
+        <>
+        {bookDets === false ? (
+                <div id="BookSection">
+                    <button id="Booksec-back">X Exit</button> {/**onclick="loadback()" */}
+                    <div className="LabelArea">
+                        <span>Books</span>
                     </div>
-                ))}
+                    <div className="FlexBooks">
+                        <div className="BookArea">
+                            <div className="Books-Column">
 
-            </div>
-        </div>
+                            {bookData.map((genreData, idx) => (
+                                <div key={idx}>
+                                    <h2>{genreData.genre}</h2>
+                                    <div className="bg">
+                                        
+                                        {genreData.data.map((book, index) => (
+                                            <div className="first" key={index}>
+                                                <img src={book.imagetag} alt=""/>
+                                                <div className="text">
+                                                    <div className="titlediv">
+                                                        <label>{book.book_title}</label>
+                                                    </div>
+                                                    <div className="price">
+                                                        <p>P{book.book_price}</p>
+                                                    </div>
+                                                    <span className="Buybutton" onClick={() => DisplayDets(book)}>Buy</span>
+                                                </div>
+                                            </div> 
+                                        ))} 
+
+                                    </div>
+                                </div>
+                            ))}
+
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            ) : (
+                <BookDetails {...passDets}/>
+            )}
+
+        </>
     );
 }
 
@@ -73,6 +96,7 @@ function DisplayBooks(){
 export default function Books(){
 
     return(
+        <>
         <div className='container'>
             <div className='background-search'>
                 <div className="background-search">
@@ -143,16 +167,9 @@ export default function Books(){
                     </div>
                 </div>
             </div>
-
-            <div id="BookSection">
-                <button id="Booksec-back">X Exit</button> {/**onclick="loadback()" */}
-                <div className="LabelArea">
-                    <span>Books</span>
-                </div>
-                <div className="FlexBooks">
-                   <DisplayBooks/>
-                </div>
-            </div>
+            <DisplayBooks/>
         </div>
+
+        </>
     );
 }
