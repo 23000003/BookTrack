@@ -4,3 +4,4 @@
 
 ``npm install create-router-dom``
 
+``npm install @supabase/auth-helpers-react``
