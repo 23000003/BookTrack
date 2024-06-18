@@ -34,7 +34,6 @@ export default function CreateAccount(){
             alert("Welcome ")
             const {data, error} = await supabase.from('Accounts')
             .insert({
-                account_id: 10,
                 account_name: accountName,
                 email: email,
                 contact: contactNum
