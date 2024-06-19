@@ -22,11 +22,14 @@ export default function Navbar() {
     <>
         <div className="wrapper">
             <div className="navbar">
-                <div className="navbar_left">
+                <div className="navbar_left" style={{display: "flex", alignItems: "center"}}>
                     <div className="logo">
                         <Link to="/">
                             <img src="https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/BookTrack__4_.png?t=2024-05-29T13%3A51%3A43.693Z" alt="" className="Booktrack" />
                         </Link>
+                    </div>
+                    <div style={{display: "flex", position: "absolute", marginLeft: "220px"}}>
+                        <span>Browse Books</span>
                     </div>
                 </div>
                 <div className="navbar_right">
