@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import UploadData from "./PostingPage/UploadData.jsx";
 import Profile from "./profilePage/profile.jsx";
-import Books from './booksPage/Books.jsx';
+import LandingBooks from './booksPage/LandingBooks.jsx';
 import Landing from './LandingPage/Landing.jsx';
 import LoginPage from "./LandingPage/Login.jsx";
 import CreateAccount from "./LandingPage/CreateAccount.jsx";
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/books',
-        element: <Books />
+        element: <LandingBooks />
       },
       {
         path: '/myprofile',
