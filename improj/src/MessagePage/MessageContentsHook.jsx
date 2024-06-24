@@ -9,16 +9,33 @@ export default function useMessageContents(sender_name){
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data, error } = await supabase
+                const { data: sender, error: senderError } = await supabase
                     .from('messages')
                     .select()
-                    .eq('sender_name', sender_name || user.account_name);
-
-                if (error) {
+                    .eq('sender_name', sender_name)
+                    .eq('receiver_name', user.account_name);
+                
+                const {data: you, error: youError} = await supabase
+                    .from('messages')
+                    .select()
+                    .eq('sender_name', user.account_name)
+                    .eq('receiver_name', sender_name);
+                
+                if (youError || senderError) {
                     console.error('Error fetching messages:', error.message);
                 } else {
-                    setContent(data);
-                    console.log('Fetched data:', data);
+                    // setContent();
+                    if(sender.length === 0 && you.length === 0){
+                        console.log('empty')
+                    }else{
+                        let combinedArray = [...sender, ...you];
+                        combinedArray.sort((a, b) => a.messageid - b.messageid);
+                        console.log('Fetched data:', sender);
+                        console.log('Fetched data 2:', you);
+                        console.log('Fetched data 2:', combinedArray);
+                        setContent(combinedArray)
+                    }
+                    
                 }
             } catch (error) {
                 console.error('Error in fetchData:', error.message);

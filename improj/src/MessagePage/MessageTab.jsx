@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import '../styles/message.css';
 import MessageUser from './MessageWithUser';
 import MessageTabHook from './MessageTabHook';
+import supabase from '../Supabase/Supabase';
 
 export default function MessageTab() {
-    const [clickUser, setClickUser] = useState([]); // Initialize clickUser state as an empty string
+    const [clickUser, setClickUser] = useState([]);
     const [clickTrigger, setClickTrigger] = useState(false);
-    const { messageData } = MessageTabHook();
+    const [enterMessage, setEnterMessage] = useState('');
+    const { messageData, sendMessage } = MessageTabHook();
     
     useEffect(() => {
         document.body.style.backgroundColor = "#FFF6F6";
@@ -16,9 +18,14 @@ export default function MessageTab() {
     }, []);
 
     const clickedUser = (data) => {
-        setClickUser(data.sender_name); // Set clickUser to the data object from messageData
+        setClickUser(data.sender_name); 
         setClickTrigger(true);
     }
+
+    const passMessage = () =>{
+        sendMessage(clickUser, enterMessage);
+        console.log(enterMessage)
+    }   
 
     return (
         <div className="grid-container-container">
@@ -51,8 +58,10 @@ export default function MessageTab() {
                             <div className='input-message-bar'>
                                 <hr />
                                 <div style={{display: "flex", alignItems: "center"}}>
-                                    <input placeholder='Enter Message...'></input>
-                                    <span className="profile-circle" style={{marginLeft: "8%"}}></span>
+                                    <input placeholder='Enter Message...' onChange={(e) => setEnterMessage(e.target.value)}></input>
+                                    <span className="profile-circle" 
+                                    style={{marginLeft: "8%", cursor: "pointer"}}
+                                    onClick={() => passMessage()}></span>
                                 </div>
                             </div>
                         </>

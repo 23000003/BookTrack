@@ -23,5 +23,15 @@ export default function usefetchMessageTab(){
         fetchMessage();
     },[user])
 
-    return { messageData };
+
+    const sendMessage = async (sender_name, enterMessage) =>{
+        const {data, error} = await supabase.from('messages')
+        .insert({
+            content: enterMessage,
+            sender_name: user.account_name,
+            receiver_name: sender_name
+        });
+    }
+
+    return { messageData, sendMessage };
 }
