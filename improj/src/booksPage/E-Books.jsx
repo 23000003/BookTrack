@@ -5,6 +5,7 @@ import useEBookData from './FetchEBookData'
 import { useState, useEffect } from 'react';
 import staticbg from './Stylefilter';
 import SearchSuggest from './SearchSuggest';
+import { Link } from 'react-router-dom';
 
 export function DisplayBooks({Genre, filterGenre, setfilterGenre}) {
     const { ebookData, loading } = useEBookData(); 
@@ -185,7 +186,7 @@ export default function Books(){
             </div>
             <DisplayBooks Genre={genre} filterGenre={filterGenre} setfilterGenre={setfilterGenre}/>
         </div>
-
+        <Link to ='/uploadEbooks'><button id="PostBox">POST ITEM</button></Link>
         </>
     );
 }

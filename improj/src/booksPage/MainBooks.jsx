@@ -96,7 +96,7 @@ export default function LandingBooks(){
             </div>
             <BooksDisplay Genre={genre} filterGenre={filterGenre} setfilterGenre={setfilterGenre}/>
         </div>
-        <Link to ='/upload'><button id="PostBox">POST ITEM</button></Link>
+        <Link to ='/uploadBooks'><button id="PostBox">POST ITEM</button></Link>
         </>
     );
 }

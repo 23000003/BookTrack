@@ -12,6 +12,7 @@ import UserProfile from "./UserProfilePage/UserProfile.jsx";
 import LandingEBooks from './booksPage/E-Books.jsx'
 import BulkUploadData from './PostingPage/UploadBulkBookData.jsx';
 import MessageTab from './MessagePage/MessageTab.jsx';
+import UploadEBookData from './PostingPage/UploadEbookData.jsx';
 
 function Layout(){
   return (
@@ -64,8 +65,12 @@ const router = createBrowserRouter([
         element: <Profile />
       },
       {
-        path: '/upload',
+        path: '/uploadBooks',
         element: <UploadBookData />
+      },
+      {
+        path: '/uploadEBooks',
+        element: <UploadEBookData/>
       },
       {
         path: '/bulkupload',
