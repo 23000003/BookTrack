@@ -8,7 +8,7 @@ export default function useMessageContents(sender_name){
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
+            try{
                 const { data: sender, error: senderError } = await supabase
                     .from('messages')
                     .select()
@@ -23,7 +23,8 @@ export default function useMessageContents(sender_name){
                 
                 if (youError || senderError) {
                     console.error('Error fetching messages:', error.message);
-                } else {
+                }
+                else{
                     // setContent();
                     if(sender.length === 0 && you.length === 0){
                         console.log('empty')
@@ -37,7 +38,8 @@ export default function useMessageContents(sender_name){
                     }
                     
                 }
-            } catch (error) {
+            }
+            catch(error){
                 console.error('Error in fetchData:', error.message);
             }
         };

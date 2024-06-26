@@ -5,6 +5,7 @@ import '../styles/Navbar.css';
 import MenuTab from './MenuTab';
 import UserHook from '../Supabase/UserSessionData';
 import pfp from '../assets/nopfp.png'
+import FetchNotif from './FetchNotif';
 
 export default function Navbar() {
     const [menu, setMenu] = useState(false);
@@ -17,11 +18,12 @@ export default function Navbar() {
     const location = useLocation();
     const guest = checkUser ? user.profile : pfp;
     const navigate = useNavigate();
+    const { notifContent } = FetchNotif();
 
     console.log(user.profile);
     console.log(user);
-
-
+    console.log("Notif", notifContent)
+   
     useEffect(() =>{
         document.body.style.overflow = menu ? 'hidden' : 'auto';
     }, [menu]);
@@ -120,12 +122,16 @@ export default function Navbar() {
                                 <div className="notif-texts">
                                     <div className="label-notif">
                                         <p>Notifications</p>
-                                        <p id="notif-count">0</p>
+                                        <p id="notif-count">{user.notification === 0 ? '' : user.notification}</p>
                                         <p className="read">Mark as read</p>
                                     </div>
                                     <hr />
                                     <div className="notif-append">
                                         {/** Appends Notif Contents here */}
+                                        <div class="notif-content">
+                                            <p>Item #432 : Great Expectations</p>
+                                            <p>Added to your Process</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

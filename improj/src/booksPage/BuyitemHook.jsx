@@ -51,6 +51,7 @@ export default function useBuyItem(){
                 .single();           // Checks if item already exists in DB to update 
                                     // the quantity or insert the data
                 console.log("Hey",data.quantity);
+
                 if(data === null){ 
                     const {error: transacError} = await supabase
                     .from('transaction')
@@ -70,6 +71,7 @@ export default function useBuyItem(){
                         alert('error inserting to transac');
                         console.log(transacError);
                     }
+
                 }else{
                     const {error: transacError} = await supabase
                     .from('transaction')
@@ -83,7 +85,32 @@ export default function useBuyItem(){
                         alert('error updating to transac');
                         console.log(transacError);
                     }
-                }   
+                }
+                
+                const {error: notifError} = await supabase
+                .from('notification_contents')
+                .insert({
+                    book_id: id,
+                    seller_name: seller,
+                    buyer_name: user.account_name
+                });
+
+                if(notifError){
+                    alert("error notif insert")
+                    console.log(error);
+                }
+
+                const {error: accError} = await supabase
+                .from('Accounts')
+                .update({
+                    notification: user.notification + 1
+                })
+                .eq('account_id', user.account_id);
+
+                if(notifError){
+                    alert("error notif insert")
+                    console.log(error);
+                }
             }
             insert();
         }
