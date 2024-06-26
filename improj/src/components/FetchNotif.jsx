@@ -16,7 +16,9 @@ export default function FetchNotif(){
                 .from('notification_contents')
                 .select()
                 .eq('buyer_name', user.account_name)
-        
+                
+                console.log(user.account_name)
+
                 if(buyerError){
                     alert('buyer error');
                     console.log(buyerError);
@@ -47,7 +49,7 @@ export default function FetchNotif(){
             
         }
         FetchContent();
-    },[])
+    },[user])
     
 
     return { notifContent };
