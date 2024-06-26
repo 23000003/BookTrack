@@ -10,6 +10,26 @@ export default function BookDetails() {
     const location = useLocation();
     const [passDets, setPassDets] = useState(location.state.book);
 
+    // If no input it will reset back the prices quantity to normal
+    // if refresh, it will not load the current progress (in_process)
+    
+    // if same book that he bought, it should not be inserted but rather update its quantity
+
+    useEffect(() =>{ // try to improve this (second ' // ' )
+        const retrieve = async () =>{
+            const {data, error} = await supabase
+            .from('books')
+            .select()
+            .eq('id', passDets.id)
+            .single()
+
+            setPassDets(data)
+        }
+        retrieve();
+        console.log("HEY", passDets)
+    },[])
+
+
     useEffect(() => {
         const subscription = supabase
             .channel('books')
@@ -261,12 +281,17 @@ export default function BookDetails() {
                             <div>
                                 <button id="BuyItem1" 
                                     onClick={() => 
-                                    BuyItemTrigger(
+                                    {BuyItemTrigger(
                                         quantity, 
                                         passDets.book_quantity, 
                                         passDets.id,
-                                        passDets.in_process
-                                    )}>
+                                        passDets.in_process,
+                                        passDets.account_name,
+                                        totalPrice
+                                    ), 
+                                    setTotalPrice(passDets.book_price),
+                                    setQuantity(1)
+                                    }}>
                                     Done
                                 </button> {/**onclick="buyitem() */}
                             </div>
