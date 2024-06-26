@@ -77,6 +77,8 @@ export default function useBuyItem(){
                         quantity: data.quantity + quantity,
                         price: data.price + totalPrice
                     })
+                    .eq('book_id', id);
+                    
                     if(transacError){
                         alert('error updating to transac');
                         console.log(transacError);
