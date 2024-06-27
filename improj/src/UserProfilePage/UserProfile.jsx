@@ -1,9 +1,10 @@
 import '../profilePage/profile.css'
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserAccountData from "./UserProfileHook.jsx";
 
 export default function UserProfile(props){
     
+    const navigate = useNavigate();
     const location = useLocation();
     const { passDets } = location.state;
     const {accountData, profile, loading} = UserAccountData(passDets.account_name, passDets.location);
@@ -11,6 +12,10 @@ export default function UserProfile(props){
     console.log(profile) 
     console.log("hey", passDets.account_name);
     
+    // Can buy via users profile,
+    // must navigate back to the users profile (book details)
+    // name of the seller in the book details should not be allowed to navigate back to the user
+
     return(
         <>
             <div className="container">
@@ -43,7 +48,8 @@ export default function UserProfile(props){
                                     <div className="quantity-onsale">Quantity: {book.book_quantity}</div>
                                     <div className="genre-onsale">{book.book_genre}</div>
                                     <div className="sell">
-                                        <button className="sell-button" onClick={() => ViewItem(book)}>View Item</button>
+                                        <button className="sell-button" onClick={
+                                            () => navigate(`/books/${book.book_title}?Details`, {state: {book}})}>View Item</button>
                                     </div>
                                     <div className="on-sale-image">
                                         <img src={book.imagetag} alt="Book Image" />
