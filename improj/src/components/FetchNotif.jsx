@@ -9,12 +9,22 @@ export default function FetchNotif(){
 
     useEffect(() =>{
         const FetchContent = async () =>{
-        
+            //Notif bug found
             try{
                 
                 const {data: buyer, error:buyerError} = await supabase
                 .from('notification_contents')
-                .select()
+                .select(`
+                    notif_id,
+                    book_id,
+                    buyer_name,
+                    seller_name,
+                    time,
+                    books(
+                        book_title,
+                        imagetag
+                    )
+                `)
                 .eq('buyer_name', user.account_name)
                 
                 console.log(user.account_name)
@@ -27,7 +37,17 @@ export default function FetchNotif(){
                 
                 const {data: seller, error: sellerError} = await supabase
                 .from('notification_contents')
-                .select()
+                .select(`
+                    notif_id,
+                    book_id,
+                    buyer_name,
+                    seller_name,
+                    time,
+                    books(
+                        book_title,
+                        imagetag
+                    )
+                `)
                 .eq('seller_name', user.account_name)
     
                 if(sellerError){

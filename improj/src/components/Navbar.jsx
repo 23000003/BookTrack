@@ -117,7 +117,7 @@ export default function Navbar() {
                             </div>
                         )}
 
-                        {showNotif && (
+                        {showNotif && checkUser && (
                             <div className="notif-bar">
                                 <div className="notif-texts">
                                     <div className="label-notif">
@@ -128,10 +128,13 @@ export default function Navbar() {
                                     <hr />
                                     <div className="notif-append">
                                         {/** Appends Notif Contents here */}
-                                        <div class="notif-content">
-                                            <p>Item #432 : Great Expectations</p>
-                                            <p>Added to your Process</p>
-                                        </div>
+                                        {notifContent.map((notif, index) =>(
+                                            <div className="notif-content" key={index}>
+                                                <p>Item #{notif.book_id} : {notif.books.book_title}</p>
+                                                <p>{notif.buyer_name === user.account_name ? 
+                                                "Item Added To Your Transaction" : "Someone Bought Your Item"}</p>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
