@@ -32,6 +32,6 @@ export default function UserHook(){
     },[checkUser]);
 
 
-    return {user, checkUser, userloading};
+    return {user, checkUser, userloading, setUser};
 }
 

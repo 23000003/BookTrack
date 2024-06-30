@@ -6,6 +6,7 @@ export default function FetchNotif(){
     
     const { user } = UserHook();
     const [notifContent, setNotifContent] = useState([]);
+    const [mapError, setMapError] = useState(true);
 
     useEffect(() =>{
         const FetchContent = async () =>{
@@ -71,6 +72,30 @@ export default function FetchNotif(){
         FetchContent();
     },[user])
     
+    const MarkAsRead = async () =>{
+        
+        const {error} = await supabase.from('Accounts')
+        .update({
+            notification: 0
+        })
+        .eq('account_id', user.account_id)
 
-    return { notifContent };
+        if(error){
+            console.log(error)
+        }
+        console.log(user.account_id)
+
+        const {error:notif} = await supabase.from('notification_contents')
+        .update({
+            buyer_name: "read"
+        })
+        .eq('buyer_name', user.account_name)
+        
+        setMapError(false);
+        console.log(notif)
+        console.log(user.account_name)
+        
+    }
+
+    return { notifContent, MarkAsRead, setNotifContent, mapError };
 }

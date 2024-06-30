@@ -122,13 +122,13 @@
     right: 1px;
     width: 15px;
     height: 15px;
+    line-height: 15px;
     background: red;
     color: #ffffff;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
     font-size: 8px;
-    display: none;
   }
   
   .icon-button:hover {

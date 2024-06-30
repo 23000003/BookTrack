@@ -45,46 +45,24 @@ export default function useBuyItem(){
 
             const insert = async () =>{
 
-                const {data} = await supabase.from('transaction')
-                .select()
-                .eq('book_id', id)
-                .single();           // Checks if item already exists in DB to update 
-                                    // the quantity or insert the data
-                console.log("Hey",data.quantity);
+                const {error: transacError} = await supabase
+                .from('transaction')
+                .insert({
+                    book_id: id,
+                    buyer_name: user.account_name,
+                    seller_name: seller,
+                    full_name: firstName + ' ' + lastName,
+                    location: location,
+                    contact_no: contactNo,
+                    ref_no: referenceNo,
+                    order_type: isChecked,
+                    price: totalPrice,
+                    quantity: quantity
+                })
 
-                if(data === null){ 
-                    const {error: transacError} = await supabase
-                    .from('transaction')
-                    .insert({
-                        book_id: id,
-                        buyer_name: user.account_name,
-                        seller_name: seller,
-                        full_name: firstName + ' ' + lastName,
-                        location: location,
-                        contact_no: contactNo,
-                        ref_no: referenceNo,
-                        order_type: isChecked,
-                        price: totalPrice,
-                        quantity: quantity
-                    })
-                    if(transacError){
-                        alert('error inserting to transac');
-                        console.log(transacError);
-                    }
-
-                }else{
-                    const {error: transacError} = await supabase
-                    .from('transaction')
-                    .update({
-                        quantity: data.quantity + quantity,
-                        price: data.price + totalPrice
-                    })
-                    .eq('book_id', id);
-                    
-                    if(transacError){
-                        alert('error updating to transac');
-                        console.log(transacError);
-                    }
+                if(transacError){
+                    alert('error inserting to transac');
+                    console.log(transacError);
                 }
                 
                 const {error: notifError} = await supabase
@@ -107,7 +85,8 @@ export default function useBuyItem(){
                 })
                 .eq('account_id', user.account_id);
 
-                if(notifError){
+
+                if(accError){
                     alert("error notif insert")
                     console.log(error);
                 }
