@@ -10,6 +10,7 @@ export default function UploadEBookData(){
         return () => {
             document.body.style.backgroundColor = ''; // changes back to normal when ur not using the uploaddata component
         };
+
     }, []);
 
     return(

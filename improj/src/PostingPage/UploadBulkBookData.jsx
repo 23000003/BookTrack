@@ -6,9 +6,11 @@ export default function BulkUploadData(){
 
     useEffect(() => {
         document.body.style.backgroundColor = '#e9e8e8';
+
         return () => {
             document.body.style.backgroundColor = '';
         };
+        
     }, []);
 
     return(
