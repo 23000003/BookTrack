@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import '../styles/upload.css'
 import { useEffect } from 'react';
+import useUploadHook from './UploadHook';
+
 
 export default function UploadData(){
 
@@ -12,8 +14,22 @@ export default function UploadData(){
         };
     }, []);
 
-
+    const {
+        setTitle,
+        setPrice,
+        setLocation,
+        setPasteLoc,
+        setGenre,
+        setQuantity,
+        setAuthor,
+        setDescription,
+        setSecondHand,
+        setImage,
+        UploadBook
+    } = useUploadHook(); //no onChange yet
     
+
+
     return(
         <>
         <div className="upload-container">

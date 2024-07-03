@@ -16,7 +16,7 @@ export default function UploadEBookData(){
     return(
         <>
         <div className="upload-container">
-        <Link to = '/books'>
+        <Link to = '/e-books'>
             <button className="back-but">
                 <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024">
                     <path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.08367
@@ -35,7 +35,7 @@ export default function UploadEBookData(){
 
             <div className='post-button-choices' >
                 <button className='chosen' style={{marginRight: "15px"}}>Single Post</button>
-                <Link to='/bulkupload'><button className='not-chosen'>Bulk Post</button></Link>
+                <Link to='/bulkEbookUpload'><button className='not-chosen'>Bulk Post</button></Link>
             </div>
 
             <div className="book-upload-data">

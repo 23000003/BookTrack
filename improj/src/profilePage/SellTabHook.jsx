@@ -15,10 +15,10 @@ export default function useSellHook(ExitViewItem){
 
         const {error:errorUpdate} = await supabase.from('books')
         .update({
-            book_title: itemName,
-            book_price: itemPrice,
-            book_quantity: itemQuantity,
-            description: itemDescription
+            book_title: itemName === '' ? data.book_title : itemName,
+            book_price: itemPrice === '' ? data.book_price : itemPrice,
+            book_quantity: itemQuantity === '' ? data.book_quantity : itemQuantity,
+            description: itemDescription === '' ? data.description : itemDescription
         }).eq('id', data.id);
 
         if(errorUpdate){
@@ -43,7 +43,7 @@ export default function useSellHook(ExitViewItem){
         }
     }
 
-    //Still needs to configure books_sell and sold database allowing auto_increment
+    //Still needs to configure books_sell and sold database allowing auto_increment and real tikme
 
     const CancelandEditItem = (visibility, enableInput, style, bool) =>{
         visibility.current[0].current.style.visibility = style;
@@ -66,6 +66,7 @@ export default function useSellHook(ExitViewItem){
 
         const {error: soldError} = await supabase.from('Books_Sold')
         .insert({
+            id: data.id,
             book_title: data.book_title,
             account_name: data.account_name,
             book_price: data.book_price,

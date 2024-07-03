@@ -13,6 +13,7 @@ import LandingEBooks from './booksPage/E-Books.jsx'
 import BulkUploadData from './PostingPage/UploadBulkBookData.jsx';
 import MessageTab from './MessagePage/MessageTab.jsx';
 import UploadEBookData from './PostingPage/UploadEbookData.jsx';
+import BulkEBookUploadData from './PostingPage/UploadBulkEBookData.jsx';
 import BookDetails from './booksPage/BookDetails.jsx';
 
 
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: '/bulkupload',
         element: <BulkUploadData/>
+      },
+      {
+        path: '/bulkEbookUpload',
+        element: <BulkEBookUploadData/>
       }
     ]
   }

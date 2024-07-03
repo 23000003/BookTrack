@@ -6,6 +6,7 @@ export default function BookSoltTab(){
     const {user} = UserHook();
     const {tabData, loading} = FetchBook('Books_Sold', user.account_name)
     console.log("sold", tabData)
+    
     return(
         <>
         <div className="ItemSold">
