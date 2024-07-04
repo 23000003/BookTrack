@@ -30,18 +30,39 @@ export default function BulkEBookUploadData(){
             </button>   
         </Link>
         <div className="upload-container-content">
-            <h2 className='upload-tagline'>WHAT E - BOOK ARE YOU SELLING?</h2>
+            <h2 className='upload-tagline'>WHAT E - BOOKS ARE YOU SELLING?</h2>
             <hr style={{width: "50%", marginTop: "50px"}}/>
 
             <div className='post-button-choices' >
                 <Link to='/uploadEBooks'><button className='not-chosen' style={{marginRight: "15px"}}>Single Post</button></Link>
                 <button className='chosen'>Bulk Post</button>
             </div>
-
-            <div className="book-upload-data" style={{textAlign: "center"}}>
-                <h2 style={{textDecoration: "underline", marginTop: "35px"}}>GUIDE</h2>
-                <h2 style={{marginTop: "35px"}}>Download this CSV file and input all Tables required *</h2>
-                <button style={{margin: "auto"}}>Download.csv</button>
+            <h2 style={{textDecoration: "underline", marginTop: "35px"}}>GUIDE</h2>
+            
+            <div className='example-input'>
+                <div className="book-upload-data">
+                    <h2 style={{marginTop: "35px"}}>Download this CSV file and input all Tables required *</h2>
+                    <a href="/e-books.csv" download="e-books.csv" style={{width: "83px"}}>
+                        E-books.csv
+                    </a>
+                    <h2>Do Note: In the given examples below"</h2>
+                    <a href="/example.csv" download="example.csv">
+                        example.csv
+                    </a>
+                </div>
+                <div style={{marginTop: "20px"}}>
+                    <h3>imgtag:</h3>
+                    <p>https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/"Your Image Name" + png</p>
+                    <p>ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/Ikigai.png</p>
+                </div>
+                <div style={{marginTop: "20px"}}>
+                    <h3>File:</h3>
+                    <p>https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/"Your File Name" + pdf</p>
+                    <p>ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/Ikigai.pdf</p>
+                </div>
+                <div style={{marginTop: "20px"}}>
+                    <h3>Locationtag: "Your Google Map Location Link"</h3>
+                </div>
             </div>
     
             <div className="image-upload">
@@ -89,7 +110,10 @@ export default function BulkEBookUploadData(){
                         </g>
                     </g></svg></span>
                 <p>Select a PNG File</p></label>
+
                 <input className="input" name="text" id="file" type="file"/>
+            
+            
             </div>
             <button className="Post-Button">POST</button>
             <div style={{marginBottom: "10%"}}></div>

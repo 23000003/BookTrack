@@ -14,35 +14,75 @@ export default function useUploadHook(){
     const [quantity, setQuantity] = useState('');
     const [author, setAuthor] = useState('');
     const [description, setDescription] = useState('');
-    const [secondHand, setSecondHand] = useState('');
+    const [secondHand, setSecondHand] = useState(false);
     const [image, setImage] = useState(null);
+    
+    const UploadBook = async (type) =>{
 
-    const UploadBook = async () =>{
+        if(type === 'physical'){
+            
+            if(title === '' || price === '' || location === '' || pasteLoc === '' ||
+                genre === '' || quantity === '' || author === '' || description === '' ||
+                image.files.length === 0
+            ){
+                alert('Input all fields');
+                return;
+            }
+            
+            const {error} = await supabase.from('books')
+            .insert({
+                book_title: title,
+                book_genre: genre,
+                book_quantity: quantity,
+                account_name: user.account_name,
+                second_hand: secondHand,
+                book_price: price,
+                imagetag: image,
+                description: description,
+                location: location, // update
+                author: author,
+                location_tag: pasteLoc,
+                city: city, //update
+                book_type: 'physical'
+            })
 
-        if(title === '' || price === '' || location === '' || pasteLoc === '' ||
-            genre === '' || quantity === '' || author === '' || description === '' ||
-            image === null
-        ){
-            alert('Input all fields');
-            return;
+            if(error){
+                console.log(error)
+                alert("error book insert")
+            }else{
+                alert("Upload Book Successfully!")
+            }
+        
+        }else if(type === 'e-book'){
+
+            if(title === '' || price === '' || genre === '' || 
+                author === '' || description === '' || image === null
+            ){
+                alert('Input all fields');
+                return;
+            }
+
+            const {error} = await supabase.from('books')
+            .insert({
+                book_title: title,
+                book_genre: genre,
+                account_name: user.account_name,
+                book_price: price,
+                imagetag: image,
+                description: description,
+                author: author,
+                book_type: 'e-book',
+                file: file // still needs file functionality
+            })
+
+            if(error){
+                console.log(error)
+                alert("error ebook insert")
+            }else{
+                alert("Upload E - Book Successfully!")
+            }
         }
-
-        const {error} = await supabase.from('books')
-        .insert({
-            book_title: title,
-            book_genre: genre,
-            book_quantity: quantity,
-            account_name: user.account_name,
-            second_hand: secondHand, //update since its bool
-            book_price: price,
-            imagetag: image,
-            description: description,
-            location: location, // update
-            author: author,
-            location_tag: pasteLoc,
-            city: city, //update
-            book_type: 'physical'
-        })
+        
 
     }
     
@@ -57,6 +97,7 @@ export default function useUploadHook(){
         setDescription,
         setSecondHand,
         setImage,
-        UploadBook
+        UploadBook,
+        image
     };
 }

@@ -1,3 +1,9 @@
+/*
+THIS SELL TAB HOOK ACTS AS A HOOK TO PASS FUNCTIONS TO
+THE MAIN COMPONENT "BookSelLTab"
+*/
+
+/** Real Time is lacking */
 
 import { useRef, useState } from "react"
 import supabase from "../Supabase/Supabase";
@@ -27,10 +33,10 @@ export default function useSellHook(ExitViewItem){
         }else{
             const {error: errorUpdateSell} = await supabase.from('Books_Sell')
             .update({
-                book_title: itemName,
-                book_quantity: itemQuantity,
-                book_price: itemPrice,
-                description: itemDescription
+                book_title: itemName === '' ? data.book_title : itemName,
+                book_price: itemPrice === '' ? data.book_price : itemPrice,
+                book_quantity: itemQuantity === '' ? data.book_quantity : itemQuantity,
+                description: itemDescription === '' ? data.description : itemDescription
             }).eq('id', data.id)
 
             if(errorUpdateSell){
@@ -42,8 +48,6 @@ export default function useSellHook(ExitViewItem){
             }
         }
     }
-
-    //Still needs to configure books_sell and sold database allowing auto_increment and real tikme
 
     const CancelandEditItem = (visibility, enableInput, style, bool) =>{
         visibility.current[0].current.style.visibility = style;

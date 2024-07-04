@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import supabase from "../Supabase/Supabase";
 import UserHook from "../Supabase/UserSessionData";
 
-export default function FetchNotif(){
+export default function FetchNotif(){ // Will try to pass this to  UserSessionData to prevent more rendering
     
     const { user } = UserHook();
     const [notifContent, setNotifContent] = useState([]);

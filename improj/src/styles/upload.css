@@ -46,7 +46,8 @@
     margin-left: 18px;
     cursor: pointer;
     padding: 4px;
-    display: none;
+    visibility: hidden;
+
 }
 
 #Cancel-Image:hover{
@@ -189,8 +190,26 @@
     cursor: pointer;
 }
 
+.example-input{
+    line-height: 50px;
+}
+
 .not-chosen:hover{
     color: black;
+}
+
+.book-upload-data a{
+    border: 1px solid grey;
+    width: 70px;
+    padding: 10px;
+    line-height: 13px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: black;
+}
+
+.book-upload-data a:nth-child(4){
+    width: 83px;
 }
 
 @media screen and (max-width: 1040px){
