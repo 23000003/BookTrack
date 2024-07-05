@@ -15,7 +15,9 @@ import MessageTab from './MessagePage/MessageTab.jsx';
 import UploadEBookData from './PostingPage/UploadEbookData.jsx';
 import BulkEBookUploadData from './PostingPage/UploadBulkEBookData.jsx';
 import BookDetails from './booksPage/BookDetails.jsx';
-
+import ViewOrders from './components/ViewOrders.jsx';
+import MyEbooksTab from './components/MyEbooksTab.jsx';
+import AdminPanel from './AdminPage/AdminLanding.jsx';
 
 function Layout(){
   return (
@@ -86,6 +88,18 @@ const router = createBrowserRouter([
       {
         path: '/bulkEbookUpload',
         element: <BulkEBookUploadData/>
+      },
+      {
+        path: '/viewOrders',
+        element: <ViewOrders/>
+      },
+      {
+        path: '/MyEbooks',
+        element: <MyEbooksTab/>
+      },
+      {
+        path: '/AdminPanel',
+        element: <AdminPanel/>
       }
     ]
   }

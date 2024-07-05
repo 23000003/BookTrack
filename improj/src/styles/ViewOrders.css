@@ -1,0 +1,43 @@
+
+.view-orders{
+    background-color: white;
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    display: flex;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.flex-orders{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1.5em;
+}
+
+.view-order-label hr{
+    margin-top: 10px;
+    width: 99.8%;
+}
+
+.order-contents{
+    height: 100%;
+}
+
+.my-contents{
+    height: 10%;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.user-content{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+}

@@ -52,13 +52,13 @@ export default function BulkEBookUploadData(){
                 </div>
                 <div style={{marginTop: "20px"}}>
                     <h3>imgtag:</h3>
-                    <p>https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/"Your Image Name" + png</p>
-                    <p>ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/Ikigai.png</p>
+                    <p>https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/e-books/"Your Image Name" + png</p>
+                    <p>ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/e-books/Ikigai.png</p>
                 </div>
                 <div style={{marginTop: "20px"}}>
                     <h3>File:</h3>
-                    <p>https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/"Your File Name" + pdf</p>
-                    <p>ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/Ikigai.pdf</p>
+                    <p>https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/files/"Your File Name" + pdf</p>
+                    <p>ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/files/Ikigai.pdf</p>
                 </div>
                 <div style={{marginTop: "20px"}}>
                     <h3>Locationtag: "Your Google Map Location Link"</h3>

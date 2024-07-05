@@ -45,8 +45,9 @@ export default function MenuTab({ menu, setMenu, user, checkUser }) {
                 <div className="menus-choice">
                     <Link to="/myprofile" className='span'><span className='span' onClick={handleCloseMenu}>My Account</span></Link>
                     <Link to="/message" className='span'><span className='span' onClick={handleCloseMenu}>Messages</span></Link>
-                    <Link to="" className='span'><span className='span'>View Orders</span></Link>
-                    <Link to="" className='span'><span className='span'>E - Books</span></Link>
+                    <Link to="/viewOrders" className='span'><span className='span' onClick={handleCloseMenu}>View Orders</span></Link>
+                    <Link to="/MyEbooks" className='span'><span className='span' onClick={handleCloseMenu}>E - Books</span></Link>
+                    {user.type === 'admin' && <Link to='/AdminPanel' className='span'><span className="span" onClick={handleCloseMenu}>Admin</span></Link>}
                     <hr style={{ marginTop: '35px' }} />
                     <button onClick={()=> LogOut()}>Log Out</button>
                 </div>
