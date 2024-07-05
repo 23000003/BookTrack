@@ -1,17 +1,21 @@
 import { useEffect } from 'react';
 import '../styles/ViewOrders.css'
+import FetchEBook from '../Supabase/FetchEBook'
 
 export default function MyEbooksTab(){
 
     useEffect(() =>{
         document.body.style.backgroundColor = 'rgb(238, 238, 238)';
-
+        console.log("Hey");
         return () => {
             document.body.style.backgroundColor = '';
         }
     },[])
 
+    const eBook = FetchEBook();
 
+    console.log("Heyyyy", eBook);
+    
     return(
         <>
         <div className="view-orders">
