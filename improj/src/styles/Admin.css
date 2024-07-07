@@ -90,25 +90,91 @@
   
   .account-data h2{
     font-weight: 500;
-    margin-left: 20px;
-    margin-right: 20px;
     font-size: 15px;
   }
   
+  .Accounts-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
   .Accounts{
     display: flex;
     font-size: 15px;
     align-items: center;
-    padding: 1.5em;
+    padding: 1em 0em 1em 0em;  
+    width: 49.9%;
+    border-left: 1px solid grey;
+    border-bottom: 1px solid grey;
   }
   
+  .Accounts-notapprove{
+    display: flex;
+    align-items: center;
+    margin: 0em 1em 0em 1em;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .Account-details{
+    display: flex;
+    align-items: center;
+  }
+
+  .Accounts-notapprove h4{
+    font-size: 13px;
+  }
+  
+
+  .InApproval {
+    width: 70%;
+    height: 80%;
+    background-color: #7f8db0;
+    position: fixed;
+    display: flex;
+    top: 50%;
+    left: 50%;
+    flex-direction: column;
+    transform: translate(-50%, -50%);
+    padding: 2em; 
+    box-sizing: border-box;
+  }
+
+.approval-attributes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100% - 2em); 
+    overflow-y: auto; 
+    font-size: 12px; 
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-input{
+  background-color: #7f8db0;
+  border: none;
+}
+
+th, td {
+    border: 1px solid #ddd; 
+    padding: 8px; 
+    text-align: left; 
+}
+
+th {
+    background-color: #f2f2f2; 
+}
   .Accounts img{
     width: 30px;
     border-radius: 2em;
   }
   
   .View-button{
-    margin-left: 25%;
     cursor: pointer;
     padding: 0.5em 1em 0.5em 1em;
     
@@ -124,4 +190,34 @@
     margin-left: 190px; 
     margin-top: 130px; 
     position: absolute;
+  }
+
+  .outside{
+    position: fixed; 
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(49, 49, 49, 0.425);
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+  }
+
+  .book-listed-by{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+
+  .book-listed-by button{
+    height: 30px;
+    border-radius: 5px;
+    margin-left: 15px;
+    border: none;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+
+  .book-listed-by button:hover{
+    background-color: #ff5f5f;
   }

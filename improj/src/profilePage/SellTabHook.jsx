@@ -21,31 +21,18 @@ export default function useSellHook(ExitViewItem){
 
         const {error:errorUpdate} = await supabase.from('books')
         .update({
-            book_title: itemName === '' ? data.book_title : itemName,
-            book_price: itemPrice === '' ? data.book_price : itemPrice,
-            book_quantity: itemQuantity === '' ? data.book_quantity : itemQuantity,
-            description: itemDescription === '' ? data.description : itemDescription
-        }).eq('id', data.id);
+            book_title: itemName === '' ? data.books.book_title : itemName,
+            book_price: itemPrice === '' ? data.books.book_price : itemPrice,
+            book_quantity: itemQuantity === '' ? data.books.book_quantity : itemQuantity,
+            description: itemDescription === '' ? data.books.description : itemDescription
+        }).eq('id', data.books_id);
 
         if(errorUpdate){
             alert("error updating books")
             console.log(errorUpdate)
         }else{
-            const {error: errorUpdateSell} = await supabase.from('Books_Sell')
-            .update({
-                book_title: itemName === '' ? data.book_title : itemName,
-                book_price: itemPrice === '' ? data.book_price : itemPrice,
-                book_quantity: itemQuantity === '' ? data.book_quantity : itemQuantity,
-                description: itemDescription === '' ? data.description : itemDescription
-            }).eq('id', data.id)
-
-            if(errorUpdateSell){
-                alert("error updating sell books");
-                console.log(errorUpdateSell);
-            }else{
-                alert("Update Successful!")
-                ExitViewItem();
-            }
+            alert("Update Successful!")
+            ExitViewItem();
         }
     }
 
@@ -70,11 +57,11 @@ export default function useSellHook(ExitViewItem){
 
         const {error: soldError} = await supabase.from('Books_Sold')
         .insert({
-            id: data.id,
-            book_title: data.book_title,
-            account_name: data.account_name,
-            book_price: data.book_price,
-            imagetag: data.imagetag
+            id: data.book_id,
+            book_title: data.books.book_title,
+            account_name: data.books.account_name,
+            book_price: data.books.book_price,
+            imagetag: data.books.imagetag
         })
 
 
@@ -85,7 +72,7 @@ export default function useSellHook(ExitViewItem){
         else{
             const {error:sellError} = await supabase.from('Books_Sell')
             .delete()
-            .eq('id', data.id)
+            .eq('book_id', data.book_id)
 
             if(sellError){
                 alert("Error deleting from sell")
@@ -93,7 +80,7 @@ export default function useSellHook(ExitViewItem){
             }else{
                 const {error:bookError} = await supabase.from('books')
                 .delete()
-                .eq('id', data.id)
+                .eq('id', data.book_id)
                 
                 if(bookError){
                     alert("Error deleting from books")

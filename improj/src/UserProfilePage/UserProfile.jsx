@@ -7,7 +7,7 @@ export default function UserProfile(props){
     const navigate = useNavigate();
     const location = useLocation();
     const { passDets } = location.state;
-    const {accountData, profile, loading} = UserAccountData(passDets.account_name, passDets.location);
+    const {accountData, profile, loading} = UserAccountData(passDets.account_name);
     console.log("wtf", accountData);
     console.log(profile) 
     console.log("hey", passDets.account_name);
@@ -15,7 +15,8 @@ export default function UserProfile(props){
     // Can buy via users profile,
     // must navigate back to the users profile (book details)
     // name of the seller in the book details should not be allowed to navigate back to the user
-
+    // Create a new file to handle details
+    
     return(
         <>
             <div className="container">

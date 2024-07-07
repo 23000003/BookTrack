@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import supabase from "../Supabase/Supabase";
 
-export default function UserAccountData(account, loc){
+export default function UserAccountData(account){
 
     const [accountData, setAccountData] = useState([]);
     const [profile, setProfile] = useState([]);
@@ -34,7 +34,7 @@ export default function UserAccountData(account, loc){
             try{
                 const {data, error} = await supabase.from('Accounts')
                 .select('profile')
-                .eq('location', loc)
+                .eq('account_name', account)
                 .single();
 
                 if(error){
@@ -50,6 +50,7 @@ export default function UserAccountData(account, loc){
             }
         }
         fetchProfile();
+        
     },[account])
     
 

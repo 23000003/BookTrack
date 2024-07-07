@@ -23,7 +23,7 @@ export default function BookSellTab(){
         document.body.style.overflow = "auto";
     }
 
-    const { tabData, loading } = FetchBook('Books_Sell', user.account_name)
+    const { tabData, loading } = FetchBook('books_sell', user.account_name)
     
     const { 
         CancelandEditItem, 
@@ -62,17 +62,18 @@ export default function BookSellTab(){
                 ) : (
                 tabData.map((book, index) =>(
                     <div key={index} className="on-sale">
-                        <div className="quantity-onsale">Quantity: {book.book_quantity}</div>
+                        <div className="quantity-onsale">{book.books.book_type === "e-book" ? "E - Book" : `Quantity: ${book.books.book_quantity}`}</div>
+                        {!book.books.isApprove && <div className="genre-onsale">In Approval</div>}
                         <div className="sell">
                             <button className="sell-button" onClick={() => ViewItem(book)}>View Item</button>
                         </div>
                         <div className="on-sale-image">
-                            <img src={book.imagetag} alt="Book Image" />
+                            <img src={book.books.imagetag} alt="Book Image" />
                         </div>
                         <div className="on-sale-text">
                             <hr />
-                            <span>{book.book_title}</span>
-                            <span>₱{book.book_price}.00</span>
+                            <span>{book.books.book_title}</span>
+                            <span>₱{book.books.book_price}.00</span>
                         </div>
                     </div>
                 ))
@@ -85,7 +86,7 @@ export default function BookSellTab(){
                 <div className="Sell-container">
                     <div className="sell-image">
                         <div className="sell-image2">
-                            <img src={data.imagetag}/>
+                            <img src={data.books.imagetag}/>
                         </div>
                     </div>
                     <div className="sell-details">
@@ -96,7 +97,7 @@ export default function BookSellTab(){
                                 Item Name: <input
                                 type="text"
                                 id="item-title"
-                                placeholder={data.book_title}
+                                placeholder={data.books.book_title}
                                 ref={enableInput.current[0]}
                                 onChange={(e) => setItemName(e.target.value)}
                                 disabled
@@ -106,7 +107,7 @@ export default function BookSellTab(){
                                 Item Price: <input
                                 type="text"
                                 id="item-price"
-                                placeholder={`P${data.book_price}.00`}
+                                placeholder={`P${data.books.book_price}.00`}
                                 ref={enableInput.current[1]}
                                 onChange={(e) => setItemPrice(e.target.value)}
                                 disabled
@@ -116,7 +117,7 @@ export default function BookSellTab(){
                                 Quantity: <input
                                 type="text"
                                 id="item-quantity"
-                                placeholder={data.book_quantity}
+                                placeholder={data.books.book_quantity}
                                 ref={enableInput.current[2]}
                                 onChange={(e) => setItemQuantity(e.target.value)}
                                 disabled
@@ -125,7 +126,7 @@ export default function BookSellTab(){
                             <span>Description: </span>
                             <textarea
                                 id="item-description"
-                                placeholder={data.description}
+                                placeholder={data.books.description}
                                 ref={enableInput.current[3]}
                                 onChange={(e) => setItemDescription(e.target.value)}
                                 disabled

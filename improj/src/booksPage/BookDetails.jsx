@@ -10,12 +10,7 @@ export default function BookDetails() {
     const location = useLocation();
     const [passDets, setPassDets] = useState(location.state.book);
 
-    // If no input it will reset back the prices quantity to normal
-    // if refresh, it will not load the current progress (in_process)
-    
-    // if same book that he bought, it should not be inserted but rather update its quantity
-
-    useEffect(() =>{ // try to improve this (second ' // ' )
+    useEffect(() =>{ 
         const retrieve = async () =>{
             const {data, error} = await supabase
             .from('books')

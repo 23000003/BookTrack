@@ -2,7 +2,7 @@ import supabase from '../Supabase/Supabase';
 import { useEffect, useState } from 'react';
 
 export default function FetchBook(Tab, name){
-    
+    // bug when order type is delivery
     const [tabData, setTabData] = useState([]);
     const [loading, setLoading] = useState(true);
     console.log("Tab", Tab)
@@ -39,7 +39,26 @@ export default function FetchBook(Tab, name){
                     `)
                     .eq('buyer_name', name)
                 );
-            } else {
+            } else if(Tab === 'books_sell'){
+                ({ data, error } = await supabase.from(Tab)
+                    .select(`
+                        account_name,
+                        books(
+                            id,
+                            book_title,
+                            book_quantity,
+                            book_price,
+                            description,
+                            imagetag,
+                            in_process,
+                            isApprove,
+                            book_type
+                        )
+                    `)
+                    .eq('account_name', name)
+                );
+            } 
+            else {
                 ({ data, error } = await supabase.from(Tab)
                     .select()
                     .eq('account_name', name)

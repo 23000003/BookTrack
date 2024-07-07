@@ -7,7 +7,8 @@ async function booksDataFilter(CurrGenre) {
     .from('books')
     .select()
     .eq('book_genre', CurrGenre)
-    .eq('book_type', 'physical');
+    .eq('book_type', 'physical')
+    .eq('isApprove', true);
 
     return booksData;
 }

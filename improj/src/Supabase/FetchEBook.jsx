@@ -1,28 +1,25 @@
-import { useEffect, useState } from 'react'
-import supabase from './Supabase'
+import { useEffect, useState } from 'react';
+import supabase from './Supabase';
 
+export default function useFetchEBooks() {
+  const [eBooks, setEBooks] = useState([]);
 
-export default function Ebooks(){
+  useEffect(() => {
+    const fetchEBooks = async () => {
+      const { data, error } = await supabase
+        .from('history')
+        .select()
+        .neq('file', null);
 
-    const [eBooks, setEBooks] = useState([]);
+      if (error) {
+        console.log(error);
+      } else {
+        setEBooks(data);
+      }
+    };
 
-    useEffect(() =>{
-        let temp = [];
-        const Fetch = async () =>{
-            const {data, error} = await supabase.from('history')
-            .select()
-            .neq('file', null)
+    fetchEBooks();
+  }, []);
 
-            if(error){
-                console.log(error);
-            }else{
-                temp.push({data});
-                setEBooks(temp);
-            }
-        }
-        Fetch();
-    },[])
-
-
-    return eBooks;
+  return { eBooks };
 }
