@@ -74,9 +74,6 @@ export default function BulkEBookUploadData() {
                             <p>"Your File Name" + pdf</p>
                             <p>ex. Ikigai.pdf</p>
                         </div>
-                        <div style={{ marginTop: "20px" }}>
-                            <h3>Locationtag: "Your Google Map Location Link"</h3>
-                        </div>
                     </div>
 
                     <div className="image-upload">

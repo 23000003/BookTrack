@@ -1,7 +1,11 @@
 import '../styles/Admin.css'
 import AdminPostApproval from './AdminPostApproval';
+import AdminViewAccount from './AdminViewAccounts';
+import { useNavigate } from 'react-router-dom';
 
 export default function AdminPanel(){
+
+    const navigate = useNavigate();
 
     return(
         <div className="admin-container">
@@ -56,7 +60,18 @@ export default function AdminPanel(){
                         </div>
                     </div>
                 </div>
-                <AdminPostApproval/>                    
+                <div className="admin-view">
+                    <div className="view-container">
+                        <div className="tab-labels">
+                            <h2 onClick={() => navigate('/Admin/ViewAccounts')}>Accounts</h2>
+                            <hr />
+                            <h2 onClick={() => navigate('/Admin/PostApproval')}>Post Approval</h2> {/*make a nested route*/}
+                        </div>
+                        {/* <AdminPostApproval/> */}
+                            <AdminViewAccount/>
+                    </div>
+                    <div style={{ marginTop: '10%' }}></div>
+                </div>
             </div>
         </div>
     );

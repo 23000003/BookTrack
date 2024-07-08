@@ -98,7 +98,7 @@ const router = createBrowserRouter([
         element: <MyEbooksTab/>
       },
       {
-        path: '/AdminPanel',
+        path: '/AdminPanel/ViewAccounts',
         element: <AdminPanel/>
       }
     ]

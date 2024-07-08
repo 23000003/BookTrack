@@ -99,6 +99,13 @@
     flex-wrap: wrap;
   }
 
+  .Accounts-Viewcontainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow-y: auto;
+  }
+
   .Accounts{
     display: flex;
     font-size: 15px;
@@ -108,6 +115,22 @@
     border-left: 1px solid grey;
     border-bottom: 1px solid grey;
   }
+
+  .Accounts1{
+    display: flex;
+    font-size: 15px;
+    align-items: center;
+    padding: 1em 0em 1em 0em;  
+    width: 100%;
+    border-left: 1px solid grey;
+    border-bottom: 1px solid grey;
+  }
+
+  .Accounts1 img{
+    width: 30px;
+    border-radius: 2em;
+  }
+  
   
   .Accounts-notapprove{
     display: flex;
@@ -115,6 +138,20 @@
     margin: 0em 1em 0em 1em;
     width: 100%;
     justify-content: space-between;
+  }
+
+  .Account-ViewLabel{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0em 3em 0em 3em;
+  }
+
+  .ViewUserAccount{
+    display: flex;
+    align-items: center;
   }
 
   .Account-details{
@@ -141,34 +178,34 @@
     box-sizing: border-box;
   }
 
-.approval-attributes {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: calc(100% - 2em); 
-    overflow-y: auto; 
-    font-size: 12px; 
-}
+  .approval-attributes {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: calc(100% - 2em); 
+      overflow-y: auto; 
+      font-size: 12px; 
+  }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+  table {
+      width: 100%;
+      border-collapse: collapse;
+  }
 
-.table-input{
-  background-color: #7f8db0;
-  border: none;
-}
+  .table-input{
+    background-color: #7f8db0;
+    border: none;
+  }
 
-th, td {
-    border: 1px solid #ddd; 
-    padding: 8px; 
-    text-align: left; 
-}
+  th, td {
+      border: 1px solid #ddd; 
+      padding: 8px; 
+      text-align: left; 
+  }
 
-th {
-    background-color: #f2f2f2; 
-}
+  th {
+      background-color: #f2f2f2; 
+  }
   .Accounts img{
     width: 30px;
     border-radius: 2em;

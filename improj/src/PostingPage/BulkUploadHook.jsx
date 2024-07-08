@@ -96,7 +96,7 @@ export default function UploadBulkData() {
     const uploadToSupabase = async (data, type) => {
         
         if(type === 'e-books'){
-
+            
             // Upload Images
             for (const image of images) {
                 const { data, error } = await supabase.storage
