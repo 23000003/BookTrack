@@ -113,7 +113,7 @@ export default function BulkEBookUploadData() {
                         )}
 
                     </div>
-                    <button className="Post-Button" onClick={() => handleUpload("e-books")}>POST</button>
+                    <button className="Post-Button" onClick={() => handleUpload("books")}>POST</button>
                     <div style={{ marginBottom: "10%" }}></div>
                 </div>
             </div>

@@ -48,30 +48,35 @@ export default function UploadBulkData() {
     }, [setNewBook]);
 
     const MyImages = (event) => {
-        const selectedFiles = Array.from(event.target.files); // Convert FileList to array
-        setImages(prevFiles => [...prevFiles, ...selectedFiles]);
+        const selectedFiles = Array.from(event.target.files); //passes the bulk images to selected
+        setImages(prevFiles => [...prevFiles, ...selectedFiles]); 
     };
   
     const MyEbookFiles = (event) =>{
-        const selectedFiles = Array.from(event.target.files); 
+        const selectedFiles = Array.from(event.target.files); //passes the bulk pdf's to selected
         setEbookFiles(prevFiles => [...prevFiles, ...selectedFiles]);
     }
 
     const SelectFiles = (event) => {
-        setFile(event.target.files[0]);
+        setFile(event.target.files[0]); // only for csv file
     };
 
     const handleUpload = async (type) => {
         
         if (!file) {
             alert('Please select a file first!');
+            //will add useRef for design in inputs
             return;
         }
         if(!images){
             alert('Please select your images first');
+            //will add useRef for design in inputs
+            return;
         }
         if(!ebookFiles){
             alert('Please select your ebook Files first');
+            //will add useRef for design in inputs
+            return;
         }
         setUploadLoading(true);
         
@@ -90,6 +95,7 @@ export default function UploadBulkData() {
         }  
         else {
             alert('Your File is Unsupported! Download The Guide');
+            return;
         }
     }
 
@@ -125,6 +131,19 @@ export default function UploadBulkData() {
                 }
             }
 
+        }else if( type === 'books'){
+            for (const image of images) {
+                const { data, error } = await supabase.storage
+                .from('images')
+                .upload(`books/${image.name}`, image);
+
+                if (error) {
+                    console.error('Error uploading image:', error);
+                    alert('Error uploading image already exist: ' + error.message);
+                    setUploadLoading(false);
+                    return;
+                }
+            }
         }
 
         const { data: insertedData, error } = await supabase

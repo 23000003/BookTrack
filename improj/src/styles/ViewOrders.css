@@ -24,6 +24,12 @@
 
 .order-contents{
     height: 100%;
+    padding: 0em 2em 0em 2em;
+}
+
+.order-contents-overflow{
+    height: 100%;
+    overflow-y: auto;
 }
 
 .my-contents{

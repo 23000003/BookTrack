@@ -44,7 +44,7 @@ export default function BulkEBookUploadData() {
                     </button>   
                 </Link>
                 <div className="upload-container-content">
-                    <h2 className='upload-tagline'>WHAT E-BOOKS ARE YOU SELLING?</h2>
+                    <h2 className='upload-tagline'>WHAT E - BOOKS ARE YOU SELLING?</h2>
                     <hr style={{ width: "50%", marginTop: "50px" }} />
 
                     <div className='post-button-choices'>

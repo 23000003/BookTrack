@@ -15,7 +15,7 @@ export default function UploadData(){
         document.body.style.backgroundColor = '#e9e8e8';
         window.scrollTo({top: 0});
         return () => {
-            document.body.style.backgroundColor = ''; // changes back to normal when ur not using the uploaddata component
+            document.body.style.backgroundColor = ''; 
         };
     }, []);
 
@@ -48,7 +48,8 @@ export default function UploadData(){
         setSecondHand,
         setImage,
         UploadBook,
-        image
+        image,
+        uploadLoading
     } = useUploadHook(); //no onChange yet
     
 
@@ -171,7 +172,14 @@ export default function UploadData(){
                         ref={fileInput}    
                     />
                 </div>
-                
+                {uploadLoading && (
+                    <>
+                    <div className='upload-loader'></div>
+                    <div className='loading center-loader'>
+                        <div className='loader'></div>
+                    </div>
+                    </>
+                )}
                 <button className="Post-Button" onClick={() => UploadBook("physical")}>POST</button>
                 <div style={{marginBottom: "10%"}}></div>
             </div>

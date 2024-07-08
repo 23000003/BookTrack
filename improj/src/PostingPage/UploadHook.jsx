@@ -16,14 +16,23 @@ export default function useUploadHook(){
     const [description, setDescription] = useState('');
     const [secondHand, setSecondHand] = useState(false);
     const [image, setImage] = useState(null);
-    
+    const [uploadLoading, setUploadLoading] = useState(false);
+    const [ebookFile, setEbookFile] = useState(null);
+
     const UploadBook = async (type) =>{
+        
+        if(image.file.length === 0){
+            alert('Put Image!');
+            return;
+        }else{
+            const imageURL = `https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/${image.name}`;
+            setUploadLoading(true);
+        }
 
         if(type === 'physical'){
             
             if(title === '' || price === '' || location === '' || pasteLoc === '' ||
-                genre === '' || quantity === '' || author === '' || description === '' ||
-                image.files.length === 0
+                genre === '' || quantity === '' || author === '' || description === ''
             ){
                 alert('Input all fields');
                 return;
@@ -37,7 +46,7 @@ export default function useUploadHook(){
                 account_name: user.account_name,
                 second_hand: secondHand,
                 book_price: price,
-                imagetag: image,
+                imagetag: imageURL,
                 description: description,
                 location: location, // update
                 author: author,
@@ -50,13 +59,22 @@ export default function useUploadHook(){
                 console.log(error)
                 alert("error book insert")
             }else{
-                alert("Upload Book Successfully!")
+                const { data, error } = await supabase.storage
+                .from('images')
+                .upload('books/' + image.name, image);
+
+                if(error){
+                    alert("Error uploading bookimage to storage");
+                    console.error(error);
+                }else{
+                    alert("Upload Book Successfully!");
+                }
             }
         
         }else if(type === 'e-book'){
 
             if(title === '' || price === '' || genre === '' || 
-                author === '' || description === '' || image === null
+                author === '' || description === '' || ebookFile === null
             ){
                 alert('Input all fields');
                 return;
@@ -68,22 +86,40 @@ export default function useUploadHook(){
                 book_genre: genre,
                 account_name: user.account_name,
                 book_price: price,
-                imagetag: image,
+                imagetag: imageURL,
                 description: description,
                 author: author,
                 book_type: 'e-book',
-                file: file // still needs file functionality
+                file: ebookFile.name
             })
 
             if(error){
                 console.log(error)
                 alert("error ebook insert")
             }else{
-                alert("Upload E - Book Successfully!")
+                const { data, error } = await supabase.storage
+                .from('images')
+                .upload('ebooks/' + image.name, image);
+
+                if(error){
+                    alert("Error uploading Ebookimage to storage");
+                    console.error(error);
+                }else{
+                    const { data, error } = await supabase.storage
+                    .from('images')
+                    .upload('ebooks/' + ebookFile.name, ebookFile);
+
+                    if(error){
+                        alert("Error uploading ebookFile to storage");
+                        console.error(error);
+                    }else{
+                        alert("Upload Book Successfully!");
+                    }
+                }
             }
         }
         
-
+        setUploadLoading(false);
     }
     
     return{
@@ -98,6 +134,8 @@ export default function useUploadHook(){
         setSecondHand,
         setImage,
         UploadBook,
-        image
+        image,
+        uploadLoading,
+        setEbookFile
     };
 }

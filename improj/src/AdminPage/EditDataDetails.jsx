@@ -1,10 +1,12 @@
 import { useState } from "react";
 import supabase from "../Supabase/Supabase";
 
+
+
 export default function useEditData(){
 
     const [selectedUser, setSelectedUser] = useState(null);
-    const [editableValues, setEditableValues] = useState({}); 
+    const [editableValues, setEditableValues] = useState({}); //to make an array object to edit the table sa A.PostApproval
     const [userBooksPosted, setUserBooksPosted] = useState([]);
     const [loading1, setLoading1] = useState(true);
 
@@ -41,7 +43,7 @@ export default function useEditData(){
         }
     };
 
-    const handleInputChange = (e, bookId, field) => {
+    const handleInputChange = (e, bookId, field) => { // field specificies unsa na column/attribute
         const newValue = e.target.value;
         setEditableValues(prevValues => ({
             ...prevValues,
@@ -53,7 +55,7 @@ export default function useEditData(){
     };
 
     const handleBlur = async (bookId) => {
-        const updatedValues = editableValues[bookId];
+        const updatedValues = editableValues[bookId]; // specifies kun what row is the selected and updated data
         const { error } = await supabase
             .from('books')
             .update(updatedValues)

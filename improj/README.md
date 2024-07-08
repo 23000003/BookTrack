@@ -9,6 +9,6 @@
 - View Orders and View E - books Backend
 - When buying it automaticall inputs the details
 - Node mailer
-- notification should be change to "type" for ex. bought, posted, declined etc for filter notif alert content.  {/**use type instead: Process, Sold, Posted, Declined, Approve, Bought */}
+- notification should be change to "type" for ex. bought, posted, declined etc for filter notif alert content.  {/**use type instead: Process, Sold, Posted, Declined, Approve, Bought */} use Switch Case
 - favourites tab
 

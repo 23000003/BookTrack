@@ -1,21 +1,25 @@
 import { useEffect } from 'react';
 import '../styles/ViewOrders.css';
 import '../profilePage/profile.css'
-import useFetchEBooks from '../Supabase/FetchEBook';
+import useFetchComponentsHook from '../Supabase/ComponentsHook';
 import supabase from '../Supabase/Supabase';
+import { useLocation } from 'react-router-dom';
 
 
 export default function MyEbooksTab() {
 
+    const location = useLocation();
+    const { eBooks } = useFetchComponentsHook("EBooksTab", location.state.user.account_name);
+
     useEffect(() => {
         document.body.style.backgroundColor = 'rgb(238, 238, 238)';
+        
         return () => {
-        document.body.style.backgroundColor = '';
+            document.body.style.backgroundColor = '';
         };
     }, []);
 
-  const { eBooks } = useFetchEBooks();
-  
+
     const DownloadEbook = async (file) => {
 
         const { data, error } = await supabase.storage
