@@ -7,6 +7,7 @@ export default function BookSellTab(){
 
     const {user} = UserHook();
     const {tabData, loading} = FetchBook('transaction', user.account_name)
+    console.log(user.account_id);
     const [data, setData] = useState([]);
     const [ItemTrigger, setItemTrigger] = useState(false);
     const {ItemNotClaimed, ItemClaimed} = useTransacHook();

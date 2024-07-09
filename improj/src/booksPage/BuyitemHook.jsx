@@ -49,7 +49,7 @@ export default function useBuyItem(){
                 .from('transaction')
                 .insert({
                     book_id: id,
-                    buyer_name: user.account_name,
+                    buyer_name: user.account_id,
                     seller_name: seller,
                     full_name: firstName + ' ' + lastName,
                     location: location,

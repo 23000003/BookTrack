@@ -49,7 +49,7 @@ export default function useTransacHook(){
         const {error:errorHistory} = await supabase.from('history')
         .insert({
             book_title: data.books.book_title,
-            account_name: data.buyer_name,
+            account_name: data.buyer_name.account_name,
             seller_name: data.seller_name,
             book_price: data.price,
             book_quantity: data.quantity,

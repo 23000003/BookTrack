@@ -67,8 +67,8 @@ export default function AdminPanel(){
                             <hr />
                             <h2 onClick={() => navigate('/Admin/PostApproval')}>Post Approval</h2> {/*make a nested route*/}
                         </div>
-                        {/* <AdminPostApproval/> */}
-                            <AdminViewAccount/>
+                        <AdminPostApproval/>
+                            {/* <AdminViewAccount/> */}
                     </div>
                     <div style={{ marginTop: '10%' }}></div>
                 </div>

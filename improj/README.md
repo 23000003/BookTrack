@@ -6,7 +6,7 @@
 
 - Posting Backend still needs single book/ebook upload and bulk book  (DONE)
 
-- View Orders and View E - books Backend (30% DONE) -> has notes in componentsHook
+- View Orders and View E - books Backend (70% DONE) -> has notes in componentsHook
 - When buying it automaticall inputs the details
 - Node mailer
 - notification should be change to "type" for ex. bought, posted, declined etc for filter notif alert content.  {/**use type instead: Process, Sold, Posted, Declined, Approve, Bought */} use Switch Case

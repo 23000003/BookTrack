@@ -4,6 +4,7 @@ import supabase from './Supabase';
 export default function useFetchComponentsHook(tab, user) {
   const [eBooks, setEBooks] = useState([]);
   const [viewOrders, setViewOrders] = useState([]);
+  
   useEffect(() => {
     
     const FetchEBooks = async () => {
@@ -26,7 +27,11 @@ export default function useFetchComponentsHook(tab, user) {
         .select(`
             transac_id,
             seller_name,
-            buyer_name,
+            buyer_name(
+              account_name,
+              email,
+              profile
+            ),
             full_name,
             quantity,
             price,
@@ -45,13 +50,12 @@ export default function useFetchComponentsHook(tab, user) {
                 in_process
             )
         `)
-        .eq('buyer_name', user); // change this to seller_name
+        .eq('seller_name', user); // change this to seller_name
 
       if (error) {
         console.log(error);
-        console.log("LMAO",user);
       } else {
-        
+        console.log("LMAO",user);
         setViewOrders(data);
       }
     }

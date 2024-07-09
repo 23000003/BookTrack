@@ -18,7 +18,7 @@ export default function FetchBook(Tab, name){
                     .select(`
                         transac_id,
                         seller_name,
-                        buyer_name,
+                        buyer_name(account_name, email, profile),
                         full_name,
                         quantity,
                         price,
@@ -28,16 +28,9 @@ export default function FetchBook(Tab, name){
                         book_id,
                         order_type,
                         accept,
-                        books(
-                            id,
-                            book_title,
-                            book_quantity,
-                            book_price,
-                            imagetag,
-                            in_process
-                        )
+                        books(id, book_title, book_quantity, book_price, imagetag, in_process)
                     `)
-                    .eq('buyer_name', name)
+                    .eq('buyer_name.account_name', name)
                 );
             } else if(Tab === 'books_sell'){
                 ({ data, error } = await supabase.from(Tab)
