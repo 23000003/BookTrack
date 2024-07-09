@@ -500,7 +500,7 @@
 }
 
 .book-title p {
-    color: rgb(109, 98, 98);
+    color: grey;
 }
 
 .book-description p:first-child {
@@ -508,7 +508,7 @@
     margin-bottom: 10px;
 }
 
-.book-title span{
+.book-title span:nth-child(1){
     margin-left: 5px; 
     color: blue;
     cursor: pointer;
@@ -819,6 +819,59 @@
     color: #636363;
 }
 
+.bi-message-icon{
+    margin-left: 12px;
+    margin-top: 11px;
+    color: red;
+    cursor: pointer;
+}
+
+.bi-message-icon:hover{
+    color: #c93a52;
+}
+
+.send-a-message-details{
+    background-color: #ffffff;
+    width: 300px;
+    height: 40px;
+    position: absolute;
+    box-shadow: 0px 0px 5px 0px rgba(221, 221, 221, 0.75);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(172, 172, 172, 0.637);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(168, 168, 168, 0.356);
+    border-radius: 1em;
+    border: 1px solid rgb(194, 193, 193);
+    margin: -6px 0px 5px 10px;
+}
+
+.send-a-message-details input{
+    margin: 0.7em 1em 0.5em 1em;
+    padding-bottom: 5px;
+    border: none;
+    width: 225px;
+    outline: none;
+}
+
+.send-a-message-details button{
+    height: 25px;
+}
+
+.send-a-message-details input::placeholder{
+    margin-top:5px
+}
+
+.send-a-message-details input::after{
+    color: #d3302f;
+}
+
+.bi-details{
+    color: red;
+    margin-top: 12px;
+}
+
+.bi-details:hover{
+    color: rgb(155, 43, 43);
+    margin-top: 12px;
+}
 
 .Methods{
     display: flex;

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import supabase from '../Supabase/Supabase';
 import gcash from '../assets/GCash.png'
 import useBuyItem from './BuyitemHook';
+import useBookDetailsHook from './BookDetailsHook';
 
 
 export default function BookDetails() {
@@ -10,21 +11,10 @@ export default function BookDetails() {
     const location = useLocation();
     const [passDets, setPassDets] = useState(location.state.book);
 
-    useEffect(() =>{ 
-        const retrieve = async () =>{
-            const {data, error} = await supabase
-            .from('books')
-            .select()
-            .eq('id', passDets.id)
-            .single()
-
-            setPassDets(data)
-        }
-        retrieve();
-        console.log("HEY", passDets)
-    },[])
-
-
+    console.log(location.state)
+    console.log(passDets);
+    const navigate = useNavigate();
+    
     useEffect(() => {
         const subscription = supabase
             .channel('books')
@@ -45,35 +35,6 @@ export default function BookDetails() {
     }, [setPassDets]);
 
     console.log(passDets);
-
-    const navigate = useNavigate();
-    const [Payment, PaymentState] = useState(false);
-    const [top, setTop] = useState('20%');
-    const [height, setHeight] = useState('200px');
-    const [Choose, SetChoose] = useState(true);
-    const [PaymentMethod, SetPaymentMethod] = useState('');
-    const [quantity, setQuantity] = useState(1);
-    const [totalPrice, setTotalPrice] = useState(passDets.book_price);
-
-    const pickupRef = useRef(null);
-    const deliveryRef = useRef(null);
-    const refLoc = useRef(null);
-
-    const handlePickupChange = () => {
-        if (pickupRef.current.checked) {
-            setIsChecked('pickup')
-            deliveryRef.current.checked = false;
-            refLoc.current.disabled = true;
-        }
-    };
-    
-    const handleDeliveryChange = () => {
-        if (deliveryRef.current.checked) {
-            pickupRef.current.checked = false;
-            setIsChecked('delivery')
-            refLoc.current.disabled = false;
-        }
-    };
     
     const { 
         BuyItemTrigger,
@@ -85,48 +46,47 @@ export default function BookDetails() {
         setLocation 
     } = useBuyItem();
 
+    const {
+        handlePickupChange,
+        handleDeliveryChange,
+        QuantityAdd,
+        QuantityMinus,
+        gcashMethod,
+        CashOnDelivery,
+        paymentTrigger,
+        returnBackDisplay,
+        Payment,
+        top,
+        height,
+        Choose,
+        PaymentMethod,
+        quantity,
+        totalPrice,
+        triggerMessage,
+        setQuantity,
+        setTotalPrice,
+        setTriggerMessage,
+        pickupRef,
+        deliveryRef,
+        refLoc,
+        messageRef,
+        setMessageContent,
+        SendMessageFunc
+    } = useBookDetailsHook(passDets);
 
-    const QuantityAdd = () =>{
-        if(quantity < passDets.book_quantity){
-            setQuantity(quantity => quantity + 1);
-            setTotalPrice(totalPrice => totalPrice + passDets.book_price);
-        }
-    }
+    // const TriggerMessage = (event) => {
+    
+    //     if (messageRef.current && !messageRef.current.contains(event.target) && triggerMessage === true) {
+    //         setTriggerMessage(false);
+    //         document.addEventListener('mousedown', TriggerMessage);
+            
+    //     }else{
+    //         setTriggerMessage(true);
+    //         document.removeEventListener('mousedown', TriggerMessage);
+    //         console.log()
+    //     }
+    // }
 
-    const QuantityMinus = () =>{
-        if(quantity !== 1){
-            setQuantity(quantity => quantity - 1);
-            setTotalPrice(totalPrice => totalPrice - passDets.book_price);
-        }
-    }
-
-    const gcashMethod = () =>{
-        SetPaymentMethod('Gcash');
-        SetChoose(false);
-        setHeight('730px')
-        setTop('33.4%')
-    }
-
-    const CashOnDelivery = () =>{
-        SetPaymentMethod('COD');
-        SetChoose(false);
-        setHeight('370px')
-        setTop('25.4%')
-    }
-
-    const paymentTrigger = () =>{
-        PaymentState(!Payment);
-        document.body.style.overflow = 'hidden';
-    }
-
-    const returnBackDisplay = () =>{
-        PaymentState(false);
-        setTop('20%');
-        setHeight('200px');
-        SetChoose(true);
-        SetPaymentMethod();
-        document.body.style.overflow = 'auto';
-    }
 
     return (
         <>
@@ -137,9 +97,27 @@ export default function BookDetails() {
                 <div className="left-details">
                     <div className="book-title">
                         <h2>{passDets.book_title}</h2>
-                        <p>Posted By: 
-                            <span onClick={() =>{navigate(`/${passDets.account_name}?Profile`, {state: {passDets}})}}>{passDets.account_name}</span>
-                        </p>
+                        <div style={{color: "grey"}}>Posted By: 
+                        <span onClick={() =>{navigate(`/${passDets.account_name}?Profile`, {state: {passDets}})}}>{passDets.account_name}</span>
+                        <svg onClick={() => setTriggerMessage(!triggerMessage)} 
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-dots-fill bi-message-icon" viewBox="0 0 16 16">
+                            <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                        </svg>
+                        {triggerMessage && (
+                            <span className="send-a-message-details" ref={messageRef}>
+                                <div style={{display: "flex"}}>
+                                    <input type="text" 
+                                        placeholder='Send A Message...' 
+                                        onChange={(e) => setMessageContent(e.target.value)}
+                                    />
+                                    <svg xmlns="http://www.w3.org/2000/svg" onClick={() => SendMessageFunc(passDets.account_name)}
+                                        width="16" height="16" fill="currentColor" className="bi bi-send-fill bi-message-icon" viewBox="0 0 16 16">
+                                        <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+                                    </svg>
+                                </div>
+                            </span>
+                        )}
+                        </div>
                         <p>Location: <a href={passDets.location_tag} target="_blank">{passDets.location}</a></p>
                     </div>
                     <div className="left-img">
@@ -299,7 +277,7 @@ export default function BookDetails() {
                         <h3 style={{marginTop: "35px"}}>CASH ON DELIVERY</h3>
                         <div className="cod-text">
                             <div className="amount-paying">
-                                <p className="paying-amount">Amount: ₱{price}.00</p>
+                                <p className="paying-amount">Amount: ₱{totalPrice}.00</p>
                                 <p style={{marginLeft: "15px"}}>+ 50 Delivery Fee</p>
                             </div>
                             <div className="cod-text2">

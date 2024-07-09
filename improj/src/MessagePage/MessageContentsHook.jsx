@@ -5,6 +5,7 @@ import UserHook from "../Supabase/UserSessionData";
 export default function useMessageContents(sender_name){
     const { user } = UserHook();
     const [content, setContent] = useState([]);
+    const [senderPfp, setSenderPfp] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,6 +30,15 @@ export default function useMessageContents(sender_name){
                     if(sender.length === 0 && you.length === 0){
                         console.log('empty')
                     }else{
+
+                        const {data} = await supabase
+                        .from('Accounts')
+                        .select('profile')
+                        .eq('account_name', sender_name)
+                        .single()
+                        
+                        setSenderPfp(data);
+
                         let combinedArray = [...sender, ...you];
                         combinedArray.sort((a, b) => a.messageid - b.messageid);
                         console.log('Fetched data:', sender);
@@ -50,6 +60,6 @@ export default function useMessageContents(sender_name){
     console.log(user.account_name);
     console.log('Content state: 5', content);
 
-    return { content, setContent };
+    return { senderPfp, content, setContent };
 }
 

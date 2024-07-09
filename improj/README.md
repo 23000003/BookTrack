@@ -1,7 +1,7 @@
 # Lacking
 
 - Realtime from User Profile
-- Message icon in book details to navigate to message with the seller account
+- Message icon in book details to navigate to message with the seller account (DONE)
 - Admin Panel Posting Permissions (Dont post yet before admin agreeing) (DONE)
 
 - Posting Backend still needs single book/ebook upload and bulk book  (DONE)

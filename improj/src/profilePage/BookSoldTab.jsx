@@ -4,7 +4,7 @@ import FetchBook from "./profileDataHook";
 export default function BookSoltTab(){
 
     const {user} = UserHook();
-    const {tabData, loading} = FetchBook('Books_Sold', user.account_name)
+    const {tabData, loading} = FetchBook('books_sold', user.account_name)
     console.log("sold", tabData)
     
     return(

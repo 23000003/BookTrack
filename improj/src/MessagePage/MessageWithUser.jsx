@@ -1,14 +1,12 @@
-"use client"
-
 import useMessageContent from './MessageContentsHook';
 import supabase from '../Supabase/Supabase';
 import { useEffect, useRef } from 'react';
 
 export default function MessageUser({ sender_name }) {
     
-    const { content, setContent } = useMessageContent(sender_name);
+    const { senderPfp, content, setContent } = useMessageContent(sender_name);
     const scrollRef = useRef(null);
-
+    console.log("pfp", senderPfp)
     const scrollToBottom = () => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -22,7 +20,7 @@ export default function MessageUser({ sender_name }) {
     useEffect(() => { //realtime update
         const subscription = supabase.channel('messages')
             .on('postgres_changes', {
-                event: '*',
+                event: 'INSERT',
                 schema: 'public',
                 table: 'messages'
             }, (payload) => {
@@ -42,7 +40,7 @@ export default function MessageUser({ sender_name }) {
         <>
             <div className='messaging-identify'>
                 <span className="flex-container vertical-align">
-                    <span className="profile-circle"></span>
+                    <img src={senderPfp.profile} className="profile-circle"></img>
                     {sender_name}
                 </span>
             </div>
@@ -54,16 +52,13 @@ export default function MessageUser({ sender_name }) {
                             {data.sender_name === sender_name ? (
                                 <>
                                     <div>
-                                        <span className='profile-circle'></span>
+                                    <img src={senderPfp.profile} className="profile-circle"></img>
                                     </div>
                                     <span className='sender-content'>{data.content}</span>
                                 </>
                             ) : (
                                 <>
                                     <span className='You-content'>{data.content}</span>
-                                    <div>
-                                        <span className='profile-circle'></span>
-                                    </div>
                                 </>
                             )}
                         </div>

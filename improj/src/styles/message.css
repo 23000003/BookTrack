@@ -60,6 +60,7 @@
 /* Vertically aligns flexbox items to the centre */
 .vertical-align {
     align-items: center;
+    font-weight: 500;
 }
 
 /* For the headers such as "All Messages" and the current chat's account name
@@ -108,12 +109,11 @@ div.headers {
 }
 
 .message-content {
-    flex: 1; /* Takes remaining vertical space */ /* Enables scroll if content overflows */
-    padding: 50px; /* Adjust padding as needed */
+    flex: 1;
+    padding: 50px; 
     flex-direction: column;
     display: flex;
     justify-content: end;
-    
 }
 
 .You, 
@@ -137,20 +137,44 @@ div.headers {
 
 .You-content{
     margin-right: 7px;
-    background-color: bisque;
+    background-color: rgb(243, 75, 75);
+    color: white;
+    box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
 }
 
 .sender-content{
-    background-color: aqua;
+    background-color: rgba(236, 236, 236, 0.555);
+    box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
 }
 
+.message-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 2em;
+    background-color: rgb(243, 75, 75);
+    display: inline-block;
+    margin-right: 10px;
+}
 
 .messaging-identify{
     width: 100%;
     padding: 17px 0px 17px 0px;
-    background-color: #666;
+    background-color: white;    
+    box-shadow: 0px 2px 5px -4px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 2px 5px -4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 5px -4px rgba(0,0,0,0.75);
 }
 
 .messaging-identify span{
     margin-left: 30px;
+}
+
+.bi-cent{
+    margin-top: 8px;
+    margin-left: 7px;
+    color: rgb(255, 255, 255);
 }

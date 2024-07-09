@@ -43,12 +43,11 @@ export default function MenuTab({ menu, setMenu, user, checkUser }) {
                     <hr />
                 </div>
                 <div className="menus-choice">
-                    {/* <Link to="/myprofile" className='span'><span className='span' onClick={handleCloseMenu}>My Account</span></Link>
-                    <Link to="/message" className='span'><span className='span' onClick={handleCloseMenu}>Messages</span></Link>
+                    {/* 
                     <Link to="/viewOrders" className='span'><span className='span' onClick={handleCloseMenu}>View Orders</span></Link>
                     <Link to="/MyEbooks" className='span'><span className='span' onClick={handleCloseMenu}>E - Books</span></Link> */}
-                    <span className='span' onClick={() => { handleCloseMenu(); navigate('/myprofile')}}>My Account</span>
-                    <span className='span' onClick={handleCloseMenu}>Messages</span>
+                    <Link to="/myprofile" className='span'><span className='span' onClick={handleCloseMenu}>My Account</span></Link>
+                    <Link to="/message" className='span'><span className='span' onClick={handleCloseMenu}>Messages</span></Link>
                     <span className='span' onClick={() => { handleCloseMenu(); navigate('/viewOrders', {state: {user}})}}>View Orders</span>
                     <span className='span' onClick={() => { handleCloseMenu(); navigate('/MyEbooks', {state: {user}})}}>E - Books</span>
                     {user.type === 'admin' && <Link to='/AdminPanel/ViewAccounts' className='span'><span className="span" onClick={handleCloseMenu}>Admin</span></Link>}
