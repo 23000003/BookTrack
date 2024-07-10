@@ -47,7 +47,6 @@ export default function MessageTab() {
                                 
                             </li>
                         ))}
-                
                     </ul>
                 </div>
 

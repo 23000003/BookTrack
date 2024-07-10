@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 
 export default function MessageUser({ sender_name }) {
     
-    const { senderPfp, content, setContent } = useMessageContent(sender_name);
+    const { senderPfp, content, setContent, loading } = useMessageContent(sender_name);
     const scrollRef = useRef(null);
     console.log("pfp", senderPfp)
     const scrollToBottom = () => {
@@ -47,22 +47,26 @@ export default function MessageUser({ sender_name }) {
 
             <div className='overflow-scroll' ref={scrollRef}>
                 <div className='message-content'>
-                    {content.map((data, index) => (
-                        <div key={index} className={data.sender_name === sender_name ? 'sender' : 'You'}>
-                            {data.sender_name === sender_name ? (
-                                <>
-                                    <div>
-                                    <img src={senderPfp.profile} className="profile-circle"></img>
-                                    </div>
-                                    <span className='sender-content'>{data.content}</span>
-                                </>
-                            ) : (
-                                <>
-                                    <span className='You-content'>{data.content}</span>
-                                </>
-                            )}
-                        </div>
-                    ))}
+                    {loading ? (
+                        <div className='loader'></div>
+                    ):(
+                        content.map((data, index) => (
+                            <div key={index} className={data.sender_name === sender_name ? 'sender' : 'You'}>
+                                {data.sender_name === sender_name ? (
+                                    <>
+                                        <div>
+                                        <img src={senderPfp.profile} className="profile-circle"></img>
+                                        </div>
+                                        <span className='sender-content'>{data.content}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className='You-content'>{data.content}</span>
+                                    </>
+                                )}
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </>

@@ -5,3 +5,7 @@
 ``npm install create-router-dom``
 
 ``npm install @supabase/auth-helpers-react``
+
+``npm install date-fns``
+
+``yarn add date-fns``

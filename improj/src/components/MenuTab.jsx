@@ -38,7 +38,6 @@ export default function MenuTab({ menu, setMenu, user, checkUser }) {
                         style={{ borderRadius: '2em', width: '35px', marginRight: '5px' }}
                         />
                         <span className="name">{user.account_name}</span>
-                        <i className="fas fa-chevron-down"></i>
                     </div>
                     <hr />
                 </div>

@@ -19,6 +19,7 @@
 .chat {
     border-bottom: 1px solid #ccc;
     padding: 10px;
+    
 }
 
 .chat-header {
@@ -33,21 +34,21 @@
     margin-right: 35px;
     width: 30%;
     background-color: white;
+    box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
 }
 
-/* Remove the list marker and remove the padding caused by it */
 .message-list ul {
     list-style-type: none;
     padding: 30px;
 }
 
-/* Add padding within the list item's area and vertically align items to the centre */
 .message-list li {
     padding: 20px;
     align-items: center;
 }
 
-/* Create a profile picture placeholder, coloured grey */
 .profile-circle {
     width: 30px;
     height: 30px;
@@ -57,14 +58,11 @@
     margin-right: 10px;
 }
 
-/* Vertically aligns flexbox items to the centre */
 .vertical-align {
     align-items: center;
     font-weight: 500;
 }
 
-/* For the headers such as "All Messages" and the current chat's account name
-Requires more specificity because of '.grid-container div' */
 div.headers {
     background-color: #FAFBFF;
     padding: 21px;
@@ -81,8 +79,11 @@ div.headers {
     background-color: white;
     display: flex;
     flex-direction: column;
-    height: 100%; /* Ensure messaging div takes full height */
+    height: 100%; 
     width: 100%;
+    box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 5px -2px rgba(0,0,0,0.75);
 }
 
 .input-message-bar {

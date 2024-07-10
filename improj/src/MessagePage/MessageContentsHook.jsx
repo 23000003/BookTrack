@@ -6,10 +6,12 @@ export default function useMessageContents(sender_name){
     const { user } = UserHook();
     const [content, setContent] = useState([]);
     const [senderPfp, setSenderPfp] = useState({});
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try{
+                setLoading(true);
                 const { data: sender, error: senderError } = await supabase
                     .from('messages')
                     .select()
@@ -52,14 +54,15 @@ export default function useMessageContents(sender_name){
             catch(error){
                 console.error('Error in fetchData:', error.message);
             }
-        };
+            setLoading(false);
+        }
 
         fetchData();
-    }, [user.account_name]);
+    }, [sender_name, user.account_name]);
 
     console.log(user.account_name);
     console.log('Content state: 5', content);
 
-    return { senderPfp, content, setContent };
+    return { senderPfp, content, setContent, loading };
 }
 

@@ -11,4 +11,5 @@
 - Node mailer
 - notification should be change to "type" for ex. bought, posted, declined etc for filter notif alert content.  {/**use type instead: Process, Sold, Posted, Declined, Approve, Bought */} use Switch Case
 - favourites tab
-
+- change the Accounts table to be account_name as primary key 
+- DELETE user, send recovery password 

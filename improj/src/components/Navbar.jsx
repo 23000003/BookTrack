@@ -128,7 +128,6 @@ export default function Navbar() {
                                         style={{ borderRadius: '2em' }}
                                         />
                                         <span className="name">{checkUser ? user.account_name: 'Guest'}</span>
-                                        <i className="fas fa-chevron-down"></i>
                                     </>
                                 )}
                                 
