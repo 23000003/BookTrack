@@ -13,59 +13,35 @@ export default function FetchNotif(){ // Will try to pass this to  UserSessionDa
             //Notif bug found
             try{
                 
-                const {data: buyer, error:buyerError} = await supabase
+                const {data: notifUser, error:notifError} = await supabase
                 .from('notification_contents')
                 .select(`
                     notif_id,
                     book_id,
-                    buyer_name,
-                    seller_name,
+                    account_name,
+                    type,
                     time,
                     books(
                         book_title,
                         imagetag
                     )
                 `)
-                .eq('buyer_name', user.account_name)
+                .eq('account_name', user.account_name)
                 
                 console.log(user.account_name)
 
-                if(buyerError){
+                if(notifError){
                     alert('buyer error');
-                    console.log(buyerError);
-                    return;
+                    console.log(notifError);
+                    throw buyerError
+                }else{
+                    setNotifContent(notifUser)
                 }
-                
-                const {data: seller, error: sellerError} = await supabase
-                .from('notification_contents')
-                .select(`
-                    notif_id,
-                    book_id,
-                    buyer_name,
-                    seller_name,
-                    time,
-                    books(
-                        book_title,
-                        imagetag
-                    )
-                `)
-                .eq('seller_name', user.account_name)
-    
-                if(sellerError){
-                    alert('seller error');
-                    console.log(sellerError);
-                    return;
-                }
-    
-                let combinedArray = [...buyer, ...seller];
-                combinedArray.sort((a, b) => a.buyer - b.seller);
-                setNotifContent(combinedArray);
-                console.log("buyer", buyer)
-                console.log("seller", seller)
-                console.log("combined",combinedArray)
+            
             }
             catch(error){
                 console.error('Error in notif:', error.message);    
+                return
             }
             
         }
@@ -86,10 +62,8 @@ export default function FetchNotif(){ // Will try to pass this to  UserSessionDa
         console.log(user.account_id)
 
         const {error:notif} = await supabase.from('notification_contents')
-        .update({
-            buyer_name: "read"
-        })
-        .eq('buyer_name', user.account_name)
+        .delete()
+        .eq('account_name', user.account_name)
         
         setMapError(false);
         console.log(notif)

@@ -40,7 +40,7 @@ export default function MenuTab({ menu, setMenu, user, checkUser }) {
             >
                 {checkUser ? (
                     favouriteTrigger ? (
-                        <FavouriteTab handleCloseMenu={handleCloseMenu}/>
+                        <FavouriteTab handleCloseMenu={handleCloseMenu} user={user}/>
                     ) : (
                     <>
                         <div className="Menu-bar">

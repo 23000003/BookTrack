@@ -170,18 +170,36 @@ export default function Navbar() {
                                     <hr />
                                     <div className="notif-append">
                                         {/** Appends Notif Contents here */}
-                                        {mapError && Array.isArray(notifContent) && (
+                                        {notifContent.length > 0 ? (
                                             notifContent.map((notif, index) => {
-                                                console.log('Notif:', notif);
+                                                
+                                                let message = '';
+                                                
+                                                switch (notif.type) {
+                                                    case 'Bought':
+                                                        message = 'Someone Bought your Item';
+                                                        break;
+                                                    case 'Transaction':
+                                                        message = 'Item Added to Your Transaction';
+                                                        break;
+                                                    case 'Declined':
+                                                        message = 'Admin Declined Your Post';
+                                                        break;
+                                                    case 'Approved':
+                                                        message = 'Admin Approved Your Post'
+                                                        break;
+                                                    default:
+                                                        message = 'Unknown Notification';
+                                                }
                                                 return (
                                                     <div className="notif-content" key={index}>
                                                         <p>Item #{notif.book_id} : {notif.books.book_title}</p>
-                                                        <p>{notif.buyer_name === user.account_name ? 
-                                                            "Item Added To Your Transaction" : "Someone Bought Your Item"}
-                                                        </p>
+                                                        <p>{message}</p>
                                                     </div>
                                                 );
                                             })
+                                        ) : (
+                                            <p>No Notifications</p>
                                         )}
                                     </div>
                                 </div>

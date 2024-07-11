@@ -69,11 +69,19 @@ export default function useBuyItem(){
                 .from('notification_contents')
                 .insert({
                     book_id: id,
-                    seller_name: seller,
-                    buyer_name: user.account_name
+                    account_name: user.account_name,
+                    type: "Transaction"
                 });
 
-                if(notifError){
+                const {error: notifError1} = await supabase
+                .from('notification_contents')
+                .insert({
+                    book_id: id,
+                    account_name: seller,
+                    type: "Bought"
+                });
+
+                if(notifError || notifError1){
                     alert("error notif insert")
                     console.log(error);
                 }
