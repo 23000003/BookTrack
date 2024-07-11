@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import UserHook from "../Supabase/UserSessionData";
 import supabase from "../Supabase/Supabase";
 
-export default function useBookDetailsHook(passDets){
+export default function useBookDetailsHook(passDets, setIsChecked){
 
     const [Payment, PaymentState] = useState(false);
     const [top, setTop] = useState('20%');

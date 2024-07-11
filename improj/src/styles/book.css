@@ -566,6 +566,13 @@
     margin-left: 10%;
 }
 
+.detail-favourite{
+    margin-left: 10px;
+    color: rgb(255, 0, 0);
+    cursor: pointer;
+}
+
+
 .price-details{
     padding: 5%;
     display: flex;

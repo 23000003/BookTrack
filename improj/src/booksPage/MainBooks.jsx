@@ -38,6 +38,7 @@ export default function LandingBooks(){
                                             className="form-control"
                                             type="text"
                                             id="Location-Input"
+                                            placeholder='Enter A City...'
                                         />
                                     </div>
                                     <div className="col1">
