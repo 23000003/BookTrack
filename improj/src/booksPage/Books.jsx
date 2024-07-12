@@ -5,6 +5,7 @@ import useBookData from './FetchBookData'
 import { useState, useEffect } from 'react';
 import staticbg from './Stylefilter';
 import { useNavigate } from 'react-router-dom';
+import UserHook from '../Supabase/UserSessionData';
 
 export default function DisplayBooks({Genre, filterGenre, setfilterGenre}) {
     const { bookData, loading } = useBookData(); // Using the hook to get bookData and loading state
@@ -13,6 +14,8 @@ export default function DisplayBooks({Genre, filterGenre, setfilterGenre}) {
     const navigate = useNavigate();
 
     const chosenGenre = bookData.filter(genreData => genreData.genre === Genre);
+    
+    const {user} = UserHook();
 
     useEffect(() => {
         setBooksecback(filterGenre ? 'none' : 'block');
@@ -71,7 +74,7 @@ export default function DisplayBooks({Genre, filterGenre, setfilterGenre}) {
                                                                     <span className="Buybutton" 
                                                                         onClick={
                                                                         () => navigate(`/books/${book.book_title}?Details`, 
-                                                                        {state: {book}})
+                                                                        {state: {book, user}})
                                                                     }>
                                                                     Buy</span>
                                                                 </div>
@@ -117,7 +120,7 @@ export default function DisplayBooks({Genre, filterGenre, setfilterGenre}) {
                                                                     <span className="Buybutton" 
                                                                         onClick={
                                                                         () => navigate(`/books/${book.book_title}?Details`, 
-                                                                        {state: {book}})
+                                                                        {state: {book, user}})
                                                                     }>
                                                                     Buy</span>
                                                                 </div>

@@ -1,8 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import UserHook from "../Supabase/UserSessionData";
 import supabase from "../Supabase/Supabase";
 
-export default function useBookDetailsHook(passDets, setIsChecked){
+export default function useBookDetailsHook(passDets, setIsChecked, user){
 
     const [Payment, PaymentState] = useState(false);
     const [top, setTop] = useState('20%');
@@ -13,13 +13,31 @@ export default function useBookDetailsHook(passDets, setIsChecked){
     const [totalPrice, setTotalPrice] = useState(passDets.book_price);
     const [triggerMessage, setTriggerMessage] = useState(false);
     const [messageContent, setMessageContent] = useState('');
-    
+    const [favourites, setFavourites] = useState(false);
+    const [favouriteLoad, setFavourteLoad] = useState(true);
+
     const pickupRef = useRef(null);
     const deliveryRef = useRef(null);
     const refLoc = useRef(null);
     const messageRef = useRef(null)
 
-    const {user} = UserHook();
+    useEffect(() =>{
+        setFavourteLoad(true);
+        const fetch = async () =>{
+            const {data} = await supabase.from('favourites')
+            .select('id')
+            .eq('account_name', user.account_name)
+            .eq('book_id', passDets.id)
+            .single()
+
+            data === null ? setFavourites(false) : setFavourites(true);
+            console.log("LOOOL",data);
+            console.log(favourites)
+            setFavourteLoad(false);
+        }
+        fetch();
+
+    },[])
 
     const handlePickupChange = () => {
         if (pickupRef.current.checked) {
@@ -171,6 +189,9 @@ export default function useBookDetailsHook(passDets, setIsChecked){
         refLoc,
         messageRef,
         setMessageContent,
-        SendMessageFunc
+        SendMessageFunc,
+        favourites,
+        setFavourites,
+        favouriteLoad
     }
 }

@@ -14,3 +14,4 @@
 - city should not be standardized and location and city on post tabs
 - change the Accounts table to be account_name as primary key 
 - DELETE user, send recovery password 
+- Just use location state to identify what location that the book details was triggered and goes back to it

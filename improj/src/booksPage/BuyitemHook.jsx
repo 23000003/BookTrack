@@ -4,7 +4,7 @@ import UserHook from "../Supabase/UserSessionData";
 
 export default function useBuyItem(){
 
-    const {user, _, __} = UserHook();
+    const {user} = UserHook();
 
     const [referenceNo, setReferenceNo] = useState('');
     const [firstName, setFirstname] = useState('');
@@ -101,8 +101,33 @@ export default function useBuyItem(){
             }
             insert();
         }
+    }
 
+    const AddtoFavourites = async(id) =>{
+        const {error} = await supabase.from('favourites')
+        .insert({
+            book_id: id,
+            account_name: user.account_name
+        })
 
+        if(error){
+            console.log(error);
+        }else{
+            alert("added to favourites")
+        }
+    }
+
+    const DeleteFavourites = async(id) =>{
+        const {error} = await supabase.from('favourites')
+        .delete()
+        .eq('book_id', id)
+        .eq('account_name', user.account_name)
+
+        if(error){
+            console.log(error);
+        }else{
+            alert('Deleted from favourites')
+        }
     }
 
     return { 
@@ -112,6 +137,8 @@ export default function useBuyItem(){
         setLastName,
         setIsChecked,
         setContactNo,
-        setLocation 
+        setLocation,
+        AddtoFavourites,
+        DeleteFavourites 
     };
 }

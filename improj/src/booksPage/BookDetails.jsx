@@ -10,31 +10,12 @@ export default function BookDetails() {
 
     const location = useLocation();
     const [passDets, setPassDets] = useState(location.state.book);
-
+    const [user, setUser] = useState(location.state.user);
     console.log(location.state)
     console.log(passDets);
     const navigate = useNavigate();
-    
-    useEffect(() => {
-        const subscription = supabase
-            .channel('books')
-            .on('postgres_changes', {
-                event: '*',
-                schema: 'public',
-                table: 'books'
-            }, (payload) => {
-                console.log(payload);
-                setPassDets(payload.new);
-            })
-            .subscribe();
 
-        return () => {
-            subscription.unsubscribe();
-        };
-
-    }, [setPassDets]);
-
-    console.log(passDets);
+    console.log("passdets",passDets);
     
     const { 
         BuyItemTrigger,
@@ -43,8 +24,10 @@ export default function BookDetails() {
         setLastName,
         setIsChecked,
         setContactNo,
-        setLocation 
-    } = useBuyItem();
+        setLocation,
+        AddtoFavourites,
+        DeleteFavourites 
+    } = useBuyItem(user);
 
     const {
         handlePickupChange,
@@ -71,8 +54,48 @@ export default function BookDetails() {
         refLoc,
         messageRef,
         setMessageContent,
-        SendMessageFunc
-    } = useBookDetailsHook(passDets, setIsChecked);
+        SendMessageFunc,
+        favourites,
+        setFavourites,
+        favouriteLoad
+    } = useBookDetailsHook(passDets, setIsChecked, user);
+
+    useEffect(() => {
+        const subscription = supabase
+            .channel('books')
+            .on('postgres_changes', {
+                event: '*',
+                schema: 'public',
+                table: 'books'
+            }, (payload) => {
+                console.log(payload);
+                setPassDets(payload.new);
+            })
+            .subscribe();
+
+        const subscription1 = supabase
+            .channel('favourites')
+            .on('postgres_changes', {
+                event: '*',
+                schema: 'public',
+                table: 'favourites'
+            }, (payload) => {
+                console.log(payload);
+                if(payload.eventType === 'DELETE'){
+                    setFavourites(false);
+                }else{
+                    setFavourites(true);
+                }
+                
+            })
+            .subscribe();
+
+        return () => {
+            subscription.unsubscribe();
+            subscription1.unsubscribe();
+        };
+
+    }, [setFavourites, setPassDets]);
 
     // const TriggerMessage = (event) => {
     
@@ -96,10 +119,25 @@ export default function BookDetails() {
                 <span className="Back-Button" onClick={() => navigate('/books')}>Back</span>
                 <div className="left-details">
                     <div className="book-title">
-                        <h2>{passDets.book_title}<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
-                            <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.18.18 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.18.18 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.18.18 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.18.18 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.18.18 0 0 0 .134-.098z"/>
-                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
-                        </svg></h2>
+                        <h2>{passDets.book_title}
+                        {favouriteLoad ? (
+                            null
+                        ): (
+                            favourites ? (
+                                // <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                                //     <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.18.18 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.18.18 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.18.18 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.18.18 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.18.18 0 0 0 .134-.098z"/>
+                                //     <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                                // </svg>
+                                <button onClick={() => DeleteFavourites(passDets.id)}>Cancel Favourite</button>
+                            ):(
+                                // <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                                //     <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.18.18 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.18.18 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.18.18 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.18.18 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.18.18 0 0 0 .134-.098z"/>
+                                //     <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                                // </svg>
+                                <button onClick={() => AddtoFavourites(passDets.id)}>Add to favourite</button>
+                            )
+                        )}
+                        </h2>
                         <div style={{color: "grey"}}>Posted By: 
                         <span onClick={() =>{navigate(`/${passDets.account_name}?Profile`, {state: {passDets}})}}>{passDets.account_name}</span>
                         <svg onClick={() => setTriggerMessage(!triggerMessage)} 

@@ -5,6 +5,7 @@ export default function useAdminView(){
 
     const [viewUsers, setViewUsers] = useState([]);
     const [viewUsersSell, setViewUsersSell] = useState([]);
+    const [userBooksData, setUserData] = useState([]);
 
     useEffect(() => {
 
@@ -28,10 +29,20 @@ export default function useAdminView(){
         setViewUsersSell(data);
     }
 
+    const ViewUserItems = async(user) =>{
+        const {data} = await supabase.from('books')
+        .select()
+        .eq('account_name', user)
+
+        setUserData(data);
+        console.log(data);
+    }
 
     return {
         viewUsers,
         viewUsersSell,
-        FetchViewUserSell
+        FetchViewUserSell,
+        ViewUserItems,
+        userBooksData
     }
 }

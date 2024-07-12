@@ -6,7 +6,9 @@ export default function AdminViewAccount(){
     const {
         viewUsers,
         viewUsersSell,
-        FetchViewUserSell
+        FetchViewUserSell,
+        ViewUserItems,
+        userBooksData
     } = useAdminView();
 
     console.log("hey",viewUsers)
@@ -28,11 +30,14 @@ export default function AdminViewAccount(){
                         </div>
                         <p>5</p>
                         <p>5</p>
-                        <button className="View-button">View</button>
+                        <button className="View-button" 
+                            onClick={() => ViewUserItems(user.account_name)}
+                        >View</button>
                     </div>
                 </div>
                 </>
             ))}
+            {/**Fetching done just displaying */}
             <hr/>
         </div>
         </>

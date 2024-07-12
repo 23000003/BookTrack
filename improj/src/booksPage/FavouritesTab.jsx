@@ -1,33 +1,30 @@
 import { useEffect, useState } from 'react'
 import supabase from '../Supabase/Supabase'
+import { useNavigate } from 'react-router-dom';
+
 
 export default function FavouriteTab({handleCloseMenu, user}){
 
-    const [favouriteData, setFavouriteDate] = useState([]);
+    const [favouriteData, setFavouriteData] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() =>{
         const fetch  = async() =>{
             const {data} = await supabase.from('favourites')
             .select(`
                 account_name,
-                books(
-                    id,
-                    book_title,
-                    book_quantity,
-                    book_price,
-                    description,
-                    imagetag,
-                    in_process,
-                    isApprove,
-                    book_type
-                )
+                books( * )
             `)
-            .eq('account_name', user.name);
-
-            setFavouriteDate(data);
+            .eq('account_name', user.account_name);
+            
+            console.log(data)
+            setFavouriteData(data);
         }
         fetch()
+        console.log(user)
     },[])
+
+    console.log("favourite",favouriteData)
 
     return(
         <>
@@ -38,14 +35,17 @@ export default function FavouriteTab({handleCloseMenu, user}){
             <hr />
         </div>
         <div className="menus-choice">
-            {favouriteData > 0 ? (
+            {favouriteData.length > 0 ? (
                 favouriteData.map((data, index) =>(
                     <div className="book-favourites" key={index}>
                         <div className="users-book-favourite">
-                            <img src={data.imagetag} alt="" />
-                            <h4 style={{marginLeft: "10px"}}>{data.book_title}</h4>
+                            <img src={data.books.imagetag} alt="" />
+                            <h4 style={{marginLeft: "10px"}}>{data.books.book_title}</h4>
                         </div>
-                        <button className="favourite-view">View</button>
+                        <button className="favourite-view" 
+                            onClick={() => {navigate(`/books/${data.books.book_title}?Details`, 
+                            {state: {book: data.books, user}}), handleCloseMenu();}
+                        }>View</button>
                     </div>
                 ))
             ) : (
