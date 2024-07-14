@@ -17,6 +17,7 @@ An E-Commerce application specializing in books and e-books, allows you to find 
 8. **favourites**
 9. **messages**
 10. **unread_messages**
+11. **reports**
 
 ## Functionalities:
 1. **C.R.U.D.F.**
