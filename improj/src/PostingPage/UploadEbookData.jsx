@@ -22,8 +22,7 @@ export default function UploadEBookData(){
     const PreviewImage = (e) =>{
         const file = e.target.files[0];
         if (file) {
-          const imagePrev = URL.createObjectURL(file);
-          setImage(imagePrev);
+          setImage(file);
           visible.current.style.visibility = 'hidden';
           cancelVisible.current.style.visibility = 'visible';
         }    
@@ -99,7 +98,8 @@ export default function UploadEBookData(){
                         <option value="3">Self-Help</option>
                         <option value="4">Fiction</option>
                         <option value="5">Science</option>
-                        <option value="6">Romance</option>     
+                        <option value="6">Romance</option> 
+                        <option value="7">Others</option>     
                     </select>
                     <label htmlFor="Author-Input">Author *</label>
                     <input type="text" name="" 
@@ -125,7 +125,7 @@ export default function UploadEBookData(){
                         >X</span>
                     </div>
                     
-                    {image && <img src={image} alt="" id="image-preview"/>}
+                    {image && <img src={URL.createObjectURL(image)} alt="" id="image-preview"/>}
                     
                     <div ref={visible}>
                         <label for="file" className="labelFile">
@@ -156,7 +156,7 @@ export default function UploadEBookData(){
                     </div>
                     </>
                 )}
-                <button className="Post-Button" onClick={() => UploadBook("physical")}>POST</button>
+                <button className="Post-Button" onClick={() => UploadBook("e-book")}>POST</button>
                 <div style={{marginBottom: "10%"}}></div>
             </div>
         </div>

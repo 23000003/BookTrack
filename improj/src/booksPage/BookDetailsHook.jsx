@@ -10,38 +10,48 @@ export default function useBookDetailsHook(passDets, setIsChecked, user){
     const [Choose, SetChoose] = useState(true);
     const [PaymentMethod, SetPaymentMethod] = useState('');
     const [quantity, setQuantity] = useState(1);
-    const [totalPrice, setTotalPrice] = useState(passDets.book_price);
     const [triggerMessage, setTriggerMessage] = useState(false);
     const [messageContent, setMessageContent] = useState('');
     const [favourites, setFavourites] = useState(false);
+    const [totalPrice, setTotalPrice] = useState(0);
     const [favouriteLoad, setFavourteLoad] = useState(true);
+    const [deliveryFee, setDeliveryFee] = useState("none");
 
     const pickupRef = useRef(null);
     const deliveryRef = useRef(null);
     const refLoc = useRef(null);
     const messageRef = useRef(null)
+    
+    useEffect(() => {
+        setTotalPrice(passDets.book_price);
+    }, [passDets]);
 
     useEffect(() =>{
         setFavourteLoad(true);
+
         const fetch = async () =>{
-            const {data} = await supabase.from('favourites')
-            .select('id')
+            const {data, error} = await supabase.from('favourites')
+            .select()
             .eq('account_name', user.account_name)
             .eq('book_id', passDets.id)
             .single()
 
             data === null ? setFavourites(false) : setFavourites(true);
+
+            if(error){
+                console.log(error)
+            }
             console.log("LOOOL",data);
             console.log(favourites)
             setFavourteLoad(false);
         }
         fetch();
-
-    },[])
+    },[user, passDets])
 
     const handlePickupChange = () => {
         if (pickupRef.current.checked) {
             setIsChecked('pickup')
+            setDeliveryFee("none")
             deliveryRef.current.checked = false;
             refLoc.current.disabled = true;
         }
@@ -51,6 +61,7 @@ export default function useBookDetailsHook(passDets, setIsChecked, user){
         if (deliveryRef.current.checked) {
             pickupRef.current.checked = false;
             setIsChecked('delivery')
+            setDeliveryFee("block")
             refLoc.current.disabled = false;
         }
     };
@@ -85,6 +96,7 @@ export default function useBookDetailsHook(passDets, setIsChecked, user){
 
     const paymentTrigger = () =>{
         PaymentState(!Payment);
+        SetPaymentMethod('')
         document.body.style.overflow = 'hidden';
     }
 
@@ -192,6 +204,7 @@ export default function useBookDetailsHook(passDets, setIsChecked, user){
         SendMessageFunc,
         favourites,
         setFavourites,
-        favouriteLoad
+        favouriteLoad,
+        deliveryFee
     }
 }

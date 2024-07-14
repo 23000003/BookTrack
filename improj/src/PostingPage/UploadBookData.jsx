@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import useUploadHook from './UploadHook';
 import ImageStyle from '../components/ImageStyle';
 
-
 export default function UploadData(){
 
     const visible = useRef(null);
@@ -22,8 +21,7 @@ export default function UploadData(){
     const PreviewImage = (e) =>{
         const file = e.target.files[0];
         if (file) {
-          const imagePrev = URL.createObjectURL(file);
-          setImage(imagePrev);
+          setImage(file);
           visible.current.style.visibility = 'hidden';
           cancelVisible.current.style.visibility = 'visible';
         }    
@@ -49,7 +47,8 @@ export default function UploadData(){
         setImage,
         UploadBook,
         image,
-        uploadLoading
+        uploadLoading,
+        setCity
     } = useUploadHook(); //no onChange yet
     
 
@@ -94,14 +93,17 @@ export default function UploadData(){
                         onChange={(e) => setPrice(e.target.value)}
                     />
 
+                    <label htmlFor="City-Input">City * (Cebu, Lapu-Lapu, etc.)</label>
+                    <input type="text" 
+                        id='City-Input'
+                        onChange={(e) => setCity(e.target.value)}
+                    />
+
                     <label htmlFor="Location-Input">Location *</label>
-                    <select name="" id="Location-Input" onChange={(e) => setLocation(e.target.value)}>
-                        <option selected>-</option>
-                        <option value="1">Lapu-Lapu</option>
-                        <option value="2">Cebu</option>
-                        <option value="3">Consolacion</option>
-                        <option value="4">Mandaue</option> 
-                    </select>
+                    <input type="text" 
+                        id='Location-Input'
+                        onChange={(e) => setLocation(e.target.value)}
+                    />
 
                     <label htmlFor="Location-Tag">Paste Location from Google Map *</label>
                     <input type="text" name="" 
@@ -117,7 +119,8 @@ export default function UploadData(){
                         <option value="3">Self-Help</option>
                         <option value="4">Fiction</option>
                         <option value="5">Science</option>
-                        <option value="6">Romance</option>     
+                        <option value="6">Romance</option> 
+                        <option value="7">Others</option>     
                     </select>
 
                     <label htmlFor="Quantity-Input">Quantity *</label>
@@ -156,7 +159,7 @@ export default function UploadData(){
                         >X</span>
                     </div>
                     
-                    {image && <img src={image} alt="" id="image-preview"/>}
+                    {image && <img src={URL.createObjectURL(image)} alt="" id="image-preview"/>}
                     
                     <div ref={visible}>
                         <label for="file" className="labelFile">

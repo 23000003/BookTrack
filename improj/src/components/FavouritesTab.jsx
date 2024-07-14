@@ -42,10 +42,17 @@ export default function FavouriteTab({handleCloseMenu, user}){
                             <img src={data.books.imagetag} alt="" />
                             <h4 style={{marginLeft: "10px"}}>{data.books.book_title}</h4>
                         </div>
-                        <button className="favourite-view" 
-                            onClick={() => {navigate(`/books/${data.books.book_title}?Details`, 
-                            {state: {book: data.books, user}}), handleCloseMenu();}
-                        }>View</button>
+                        {data.books.book_type === 'physical' ? (
+                            <button className="favourite-view" 
+                                onClick={() => {navigate(`/books/${data.books.book_title}?Details`, 
+                                {state: {book: data.books, user}}), handleCloseMenu();}
+                            }>View</button>
+                        ):(
+                            <button className="favourite-view" 
+                                onClick={() => {navigate(`/e-books/${data.books.book_title}?Details`, 
+                                {state: {book: data.books, user}}), handleCloseMenu();}
+                            }>View</button>
+                        )}
                     </div>
                 ))
             ) : (

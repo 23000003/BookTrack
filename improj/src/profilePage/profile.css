@@ -308,7 +308,17 @@
     margin-top: 45px;
 }
 
-.buttonclaim button{
+.disabled{
+    padding: 5px;
+    margin-left: 5px;
+    border: 1px solid #b4b4b4;
+    background-color: #a3a1a1;
+    cursor: no-drop;
+}
+
+.itemnotclaimed,
+.itemclaimed{
+    margin-left: 5px;
     padding: 5px;
     background-color: white;
     border: 1px solid #d3302f;
@@ -316,11 +326,8 @@
     color: #d3302f;;
 }
 
-.itemnotclaimed{
-    margin-left: 5px;
-}
-
-.buttonclaim button:hover{
+.buttonclaim .itemnotclaimed:hover,
+.buttonclaim .itemclaimed:hover{
     background-color: #d3302f;  
     color: white;
 }

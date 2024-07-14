@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UserHook from "../Supabase/UserSessionData";
-
+import {v4 as uuidv4} from 'uuid';
+import supabase from '../Supabase/Supabase';
 
 export default function useUploadHook(){
 
@@ -18,21 +19,65 @@ export default function useUploadHook(){
     const [image, setImage] = useState(null);
     const [uploadLoading, setUploadLoading] = useState(false);
     const [ebookFile, setEbookFile] = useState(null);
+    const [city, setCity] = useState('');
+    const [newBook, setNewBook] = useState([]);
+
+    useEffect(() => { 
+        const subscription = supabase.channel('books')
+            .on('postgres_changes', {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'books'
+            }, (payload) => {
+                console.log(payload.new.id);
+                setNewBook(prevBooks => [...prevBooks, payload.new]);
+                
+                const insert = async () =>{
+                    const {error} = await supabase.from('books_sell')
+                    .insert({
+                        book_id: payload.new.id,
+                        account_name: payload.new.account_name
+                    })
+                    
+                    if(error){
+                        console.log(error);
+                    }
+
+                    const {error: errorAcc} = await supabase.from('Accounts')
+                    .update({
+                        isPosted: true
+                    })
+                    .eq('account_name', payload.new.account_name) 
+                }   
+                insert();
+            })
+            .subscribe();
+
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, [setNewBook]);
+
 
     const UploadBook = async (type) =>{
         
-        if(image.file.length === 0){
+        const uniqueID = uuidv4()
+        const uniqueIDFile = uuidv4()
+        let imageURL;
+
+        if(!image){
             alert('Put Image!');
             return;
         }else{
-            const imageURL = `https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/${image.name}`;
+            imageURL = `https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/${uniqueID}`;
             setUploadLoading(true);
         }
 
         if(type === 'physical'){
-            
+            console.log(uniqueID)
             if(title === '' || price === '' || location === '' || pasteLoc === '' ||
-                genre === '' || quantity === '' || author === '' || description === ''
+                genre === '' || quantity === '' || author === '' || description === '' ||
+                city === ''
             ){
                 alert('Input all fields');
                 return;
@@ -61,7 +106,7 @@ export default function useUploadHook(){
             }else{
                 const { data, error } = await supabase.storage
                 .from('images')
-                .upload('books/' + image.name, image);
+                .upload('books/' + uniqueID, image);
 
                 if(error){
                     alert("Error uploading bookimage to storage");
@@ -90,7 +135,7 @@ export default function useUploadHook(){
                 description: description,
                 author: author,
                 book_type: 'e-book',
-                file: ebookFile.name
+                file: uniqueIDFile
             })
 
             if(error){
@@ -99,7 +144,7 @@ export default function useUploadHook(){
             }else{
                 const { data, error } = await supabase.storage
                 .from('images')
-                .upload('ebooks/' + image.name, image);
+                .upload('ebooks/' + uniqueID, image);
 
                 if(error){
                     alert("Error uploading Ebookimage to storage");
@@ -107,7 +152,7 @@ export default function useUploadHook(){
                 }else{
                     const { data, error } = await supabase.storage
                     .from('images')
-                    .upload('ebooks/' + ebookFile.name, ebookFile);
+                    .upload('ebooks/' + uniqueIDFile, ebookFile);
 
                     if(error){
                         alert("Error uploading ebookFile to storage");
@@ -136,6 +181,7 @@ export default function useUploadHook(){
         UploadBook,
         image,
         uploadLoading,
-        setEbookFile
+        setEbookFile,
+        setCity
     };
 }

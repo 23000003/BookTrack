@@ -6,7 +6,7 @@ import useTransacHook from "./TransacTabHook";
 export default function BookSellTab(){
 
     const {user} = UserHook();
-    const {tabData, loading} = FetchBook('transaction', user.account_name)
+    const {tabData, loading} = FetchBook('transaction', user.account_name, user.account_id)
     console.log(user.account_id);
     const [data, setData] = useState([]);
     const [ItemTrigger, setItemTrigger] = useState(false);
@@ -92,14 +92,25 @@ export default function BookSellTab(){
                                 </label>
                                 </>
                             )}
-                            <label htmlFor="ref" style={{marginTop:"8px"}}>Reference Number:
+                            {data.order_type !== 'COD' && (
+                                <label htmlFor="ref" style={{marginTop:"8px"}}>Reference Number:
                                     <input placeholder={data.ref_no} id="ref" style={{marginLeft: "15px"}} disabled></input>
-                            </label>
+                                </label>
+                            )}
                         </div>
                         <div className="buttonclaim">
                             <button className="itemclaimed" >Edit Details</button>
-                            <button className="itemnotclaimed" style={{marginRight: "5px"}} onClick={() => ItemNotClaimed(data)}>Item Not Claimed</button>            
-                            <button className="itemclaimed" onClick={() => ItemClaimed(data)}>Item Claimed</button>
+                            {data.accept === false ? (
+                                <>
+                                <button className="disabled" disabled>Item Not Claimed</button>            
+                                <button className="disabled" disabled>Item Claimed</button>
+                                </>
+                            ) : (
+                                <>
+                                <button className="itemnotclaimed" onClick={() => ItemNotClaimed(data)}>Item Not Claimed</button>            
+                                <button className="itemclaimed" onClick={() => ItemClaimed(data)}>Item Claimed</button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div> 

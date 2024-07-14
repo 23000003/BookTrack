@@ -8,9 +8,18 @@ export default function ViewOrders() {
     
     const [viewUserInfo, setViewUserInfo] = useState({});
     const [triggerView, setTriggerView] = useState(false);
+    const [approve, setApprove] = useState(false);
     const location = useLocation();
-    const { viewOrders } = useFetchComponentsHook("ViewOrders", location.state.user.account_name);
-    console.log("HEYYY", viewOrders);
+    
+     const { 
+        viewOrders,
+        DeclineOrder,
+        ApproveOrder,
+        NotSent,
+        Sent
+     } = useFetchComponentsHook("ViewOrders", location.state.user.account_name);
+    
+     console.log("HEYYY", viewOrders);
 
     useEffect(() => {
         document.body.style.backgroundColor = 'rgb(238, 238, 238)';
@@ -24,6 +33,7 @@ export default function ViewOrders() {
         if(triggerView === false){
             setViewUserInfo(data);
             setTriggerView(!triggerView);
+            console.log(data)
         }else{
             setViewUserInfo({});
             setTriggerView(!triggerView);
@@ -64,9 +74,12 @@ export default function ViewOrders() {
                 <div className="order-user-name">
                     <img src={nopfp} alt="" />
                     <div>
-                        <h3>{viewUserInfo.buyer_name.account_name}</h3>
+                        <h3>{viewUserInfo.buyer_name.account_name} </h3>
                         <p>Buyer</p>
-                        <button>Send Email</button>
+                        <svg onClick={() => setTriggerMessage(!triggerMessage)} 
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-dots-fill bi-message-icon" viewBox="0 0 16 16">
+                            <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                        </svg>
                     </div>
                 </div>
                 <hr />
@@ -95,12 +108,21 @@ export default function ViewOrders() {
                                 <span>{viewUserInfo.contact_no}</span>
                             </div>
                         </div>
-                        <div className="user-info-column">
-                            <div className="user-column-label">
-                                <span>Reference Number:</span>
-                                <span>{viewUserInfo.ref_no}</span>
+                        {viewUserInfo.order_type !== 'COD' ? (
+                            <div className="user-info-column">
+                                <div className="user-column-label">
+                                    <span>Reference Number:</span>
+                                    <span>{viewUserInfo.ref_no}</span>
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <div className="user-info-column">
+                                <div className="user-column-label">
+                                    <span>Location:</span>
+                                    <span>{viewUserInfo.location}</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="user-info-row">
@@ -117,14 +139,39 @@ export default function ViewOrders() {
                             </div>
                         </div>
                     </div>
+                    <div className="user-info-row">
+                    {viewUserInfo.order_type === 'delivery' && (
+                        <div className="user-info-column">
+                            <div className="user-column-label">
+                                <span>Location:</span>
+                                <span>{viewUserInfo.location}</span>
+                            </div>
+                        </div>
+                    )}
+                        <div className="user-info-column">
+                            <div className="user-column-label">
+                                <span>Order Type:</span>
+                                <span>{viewUserInfo.order_type}</span>
+                            </div>
+                        </div>
+                    </div>
                     {/* price, quantity, ref, buyer name, 
                         buyer full_name, buyer-contact no,
                         buyer email, location, ordertype*/}
                 </div>
                 <hr />
                 <div className="order-user-buttonApp">
-                    <button>Not Sent</button>
-                    <button>Sent</button>
+                    {!approve ? (
+                        <>
+                        <button onClick={() =>DeclineOrder(viewUserInfo)}>Decline Order</button>
+                        <button onClick={() =>ApproveOrder()}>Approve Order</button>
+                        </>
+                    ):(
+                        <>
+                        <button>Not Sent</button>
+                        <button>Sent</button>
+                        </>
+                    )}
                 </div>
             </div>
         )}

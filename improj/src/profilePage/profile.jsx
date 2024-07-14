@@ -6,6 +6,7 @@ import BookSoldTab from "./BookSoldTab.jsx";
 import BookHistory from "./BookHistoryTab.jsx"
 import BookTransact from "./BookTransacTab.jsx"
 import BookSellTab from "./BookSellTab.jsx";
+import useNodeMailerHook from "../NodemailerHook.jsx";
 
 export default function Profile(){
 
@@ -13,7 +14,7 @@ export default function Profile(){
     const [ItemTrigger, setItemTrigger] = useState(false);
     const [transacTrigger, setTransacTrigger] = useState(false);
     const [data, setData] = useState([]);
-
+    const {sendEmail} = useNodeMailerHook()
     const {user, _, userloading} = UserHook();
     
     console.log(userTab)
@@ -83,7 +84,7 @@ export default function Profile(){
                 </div>
             </div>
             <div style={{marginBottom: "150px"}}></div>
-            <a href="Post.html" target="_blank"><button id="PostBox">POST ITEM</button></a>
+            <button id="PostBox" onClick={() => sendEmail("23000003@usc.edu.ph", "Suck my Big ASs Dick", "FUck youn nigga")}>POST ITEM</button>
         </>
     );
 }

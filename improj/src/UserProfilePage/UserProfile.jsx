@@ -1,6 +1,7 @@
 import '../profilePage/profile.css'
 import { useLocation, useNavigate } from "react-router-dom";
 import UserAccountData from "./UserProfileHook.jsx";
+import UserHook from '../Supabase/UserSessionData.jsx';
 
 export default function UserProfile(props){
     
@@ -8,6 +9,7 @@ export default function UserProfile(props){
     const location = useLocation();
     const { passDets } = location.state;
     const {accountData, profile, loading} = UserAccountData(passDets.account_name);
+    const {user} = UserHook();
     console.log("wtf", accountData);
     console.log(profile) 
     console.log("hey", passDets.account_name);
@@ -45,22 +47,45 @@ export default function UserProfile(props){
                             <div>Loading...</div>
                             ) : (
                             accountData.map(book => (
-                                <div key={book.id} className="on-sale">
-                                    <div className="quantity-onsale">Quantity: {book.book_quantity}</div>
-                                    <div className="genre-onsale">{book.book_genre}</div>
-                                    <div className="sell">
-                                        <button className="sell-button" onClick={
-                                            () => navigate(`/books/${book.book_title}?Details`, {state: {book}})}>View Item</button>
+                                book.book_quantity === 0 && book.in_process === 0 ? (
+                                    <div key={book.id} className="on-sale">
+                                        <div className="sold">
+                                            <span>SOLD</span>
+                                        </div>
+                                        <div className="on-sold-image">
+                                            <img src={book.imagetag} alt="Book Image" />
+                                        </div>
+                                        <div className="on-sale-text">
+                                            <hr />
+                                            <span>{book.book_title}</span>
+                                            <span>₱{book.book_price}.00</span>
+                                        </div>
                                     </div>
-                                    <div className="on-sale-image">
-                                        <img src={book.imagetag} alt="Book Image" />
+                                ) : (
+                                    <div key={book.id} className="on-sale">
+                                        <div className="quantity-onsale">{book.book_type === 'e-book' ? "E-book" : `Quantity: ${book.book_quantity}`}</div>
+                                        <div className="genre-onsale">{book.book_genre}</div>
+                                        <div className="sell">
+                                            {book.book_type === 'e-book' ? (
+                                                <button className="sell-button" onClick={
+                                                    () => navigate(`/e-books/${book.book_title}?Details`, {state: {book, user, link:"/userProfile"}})}>View Item
+                                                </button>
+                                            ) : (
+                                                <button className="sell-button" onClick={
+                                                    () => navigate(`/books/${book.book_title}?Details`, {state: {book, user, link:"/userProfile"}})}>View Item
+                                                </button>
+                                            )}
+                                        </div>
+                                        <div className="on-sale-image">
+                                            <img src={book.imagetag} alt="Book Image" />
+                                        </div>
+                                        <div className="on-sale-text">
+                                            <hr />
+                                            <span>{book.book_title}</span>
+                                            <span>₱{book.book_price}.00</span>
+                                        </div>
                                     </div>
-                                    <div className="on-sale-text">
-                                        <hr />
-                                        <span>{book.book_title}</span>
-                                        <span>₱{book.book_price}.00</span>
-                                    </div>
-                                </div>
+                                )
                             ))
                         )}
                     </div>

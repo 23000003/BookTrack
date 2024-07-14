@@ -3,18 +3,35 @@ import { useEffect, useState } from 'react';
 
 async function booksDataFilter(CurrGenre) {
 
-    const { data: booksData, error: booksError } = await supabase
-    .from('books')
-    .select()
-    .eq('book_genre', CurrGenre)
-    .eq('book_type', 'physical')
-    .eq('isApprove', true);
+    if(CurrGenre === "Others"){
+        const { data: booksData, error: booksError } = await supabase
+        .from('books')
+        .select()
+        .neq('book_genre', 'Novel')
+        .neq('book_genre', 'Romance')
+        .neq('book_genre','Fiction')
+        .neq('book_genre', 'Science')
+        .neq('book_genre', 'Self-Help')
+        .neq('book_genre', 'Manga')
+        .eq('book_type', 'physical')
+        .eq('isApprove', true);
 
-    return booksData;
+        return booksData;
+    }else{
+        const { data: booksData, error: booksError } = await supabase
+        .from('books')
+        .select()
+        .eq('book_genre', CurrGenre)
+        .eq('book_type', 'physical')
+        .eq('isApprove', true);
+
+        return booksData;
+    }
+    
 }
 
 export default function useBookData() {
-    const [genres, setGenres] = useState(['Novel', 'Romance', 'Fiction', 'Science', 'Self-Help', 'Manga']);
+    const [genres, setGenres] = useState(['Novel', 'Romance', 'Fiction', 'Science', 'Self-Help', 'Manga', 'Others']);
     const [bookData, setBookData] = useState([]);
     const [loading, setLoading] = useState(true);
 

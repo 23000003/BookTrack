@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import supabase from './Supabase';
 
 export default function useFetchComponentsHook(tab, user) {
-  const [eBooks, setEBooks] = useState([]);
-  const [viewOrders, setViewOrders] = useState([]);
+    const [eBooks, setEBooks] = useState([]);
+    const [viewOrders, setViewOrders] = useState([]);
   
-  useEffect(() => {
+    useEffect(() => {
     
     const FetchEBooks = async () => {
       const { data, error } = await supabase
@@ -14,11 +14,11 @@ export default function useFetchComponentsHook(tab, user) {
         .neq('file', null)
         .eq('account_name', user);
 
-      if (error) {
-        console.log(error);
-      } else {
-        setEBooks(data);
-      }
+        if (error) {
+            console.log(error);
+        } else {
+            setEBooks(data);
+        }
     }
 
     const FetchViewOrders = async () => {
@@ -52,27 +52,76 @@ export default function useFetchComponentsHook(tab, user) {
         `)
         .eq('seller_name', user); // change this to seller_name
 
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("LMAO",user);
-        setViewOrders(data);
-      }
+        if (error) {
+            console.log(error);
+        } else {
+            console.log("LMAO",user);
+            setViewOrders(data);
+        }
     }
 
     switch(tab){
-      case "EBooksTab":
-        FetchEBooks();
-        break;
-      case "ViewOrders":
-        FetchViewOrders();
-        break;
+        case "EBooksTab":
+            FetchEBooks();
+            break;
+        case "ViewOrders":
+            FetchViewOrders();
+            break;
     }
     
   }, []);
 
-  return { 
-    eBooks,
-    viewOrders
-  };
+
+    const DeclineOrder = async (data) =>{
+
+        const {error: processError} = await supabase.from('books')
+        .update({
+            book_quantity: data.books.book_quantity + data.quantity,
+            in_process: data.books.in_process - data.quantity
+        })
+        .eq('id', data.book_id)
+        
+        if(processError){
+            console.log(error)
+        }
+        else{
+            const {error} = await supabase.from('transaction')
+            .delete()
+            .eq('transac_id', data.transac_id)
+    
+            if(error){
+                console.log(error)
+                
+            }else{
+                alert("Decline success")
+            }
+            console.log(data);
+        }
+        
+    }
+
+    const ApproveOrder = async (data) =>{
+        const {error} = await supabase.from('transaction')
+        .update({
+            approve: true
+        })
+        .eq('transac_id', data.transac_id)
+    }
+
+    const NotSent = async (data) =>{
+
+    }
+
+    const Sent = async() =>{
+
+    }
+
+    return { 
+        eBooks,
+        viewOrders,
+        DeclineOrder,
+        ApproveOrder,
+        NotSent,
+        Sent
+    };
 }

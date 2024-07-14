@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import supabase from '../Supabase/Supabase';
 import { useNavigate } from 'react-router-dom';
-import FavouriteTab from '../booksPage/FavouritesTab';
+import FavouriteTab from './FavouritesTab';
 
 export default function MenuTab({ menu, setMenu, user, checkUser }) {
     

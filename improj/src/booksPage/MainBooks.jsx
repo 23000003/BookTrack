@@ -9,10 +9,12 @@ export default function LandingBooks(){
     const [genre, setGenre] = useState('');
     const [filterGenre, setfilterGenre] = useState(true);
     const [searchSuggest, setSearchSuggest] = useState('');
+    const [searchPicked, setSearchPicked] = useState('');
     const navigate = useNavigate();
 
     console.log(searchSuggest);
-    
+    console.log(searchPicked);
+
     return(
         <>
         <div className='container'>
@@ -46,14 +48,12 @@ export default function LandingBooks(){
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="Search-bar-suggest">
-                                <SearchSuggest search={searchSuggest}/>
-                                <div className="LocationSuggest">
-                                    
-                                </div>
-                            </div>
-
+                            <SearchSuggest 
+                                search={searchSuggest}
+                                setSearchSuggest = {setSearchSuggest}
+                                setSearchPicked={setSearchPicked}
+                                type = "physical"
+                            />
                         </div>
                         <div className="image-bar">
                             <div className="image-container">
@@ -95,7 +95,14 @@ export default function LandingBooks(){
                     </div>
                 </div>
             </div>
-            <BooksDisplay Genre={genre} filterGenre={filterGenre} setfilterGenre={setfilterGenre}/>
+            <BooksDisplay 
+                Genre={genre} 
+                filterGenre={filterGenre} 
+                setfilterGenre={setfilterGenre}
+                searchPicked = {searchPicked}
+                setSearchPicked = {setSearchPicked}
+                type = "physical"
+            />
         </div>
         <Link to ='/uploadBooks'><button id="PostBox">POST ITEM</button></Link>
         </>

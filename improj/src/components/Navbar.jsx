@@ -14,18 +14,21 @@ export default function Navbar() {
     const [booksTab, setBooksTab] = useState(true); // true if browse by books false if ebooks
     const [browse, setBrowse] = useState(false);
     const [browseBar, setBrowseBar] = useState(false);
+    const [extendStyle, setExtendStyle] = useState("0px");
 
     const {user, checkUser, userloading, setUser} = UserHook();
     const location = useLocation();
     const guest = checkUser ? user.profile : pfp;
     const navigate = useNavigate();
-    const { notifContent, MarkAsRead, setNotifContent, mapError } = FetchNotif();
+    const { 
+        notifContent, 
+        MarkAsRead, 
+        setNotifContent, 
+        mapError, 
+        setRefetch,
+        readLoading
+    } = FetchNotif();
 
-    const [extendStyle, setExtendStyle] = useState("0px");
-
-    useEffect(() => {
-        setExtendStyle(70 + (70 * user.notification) + "px");
-    }, [user]);
 
     console.log(user.profile);
     console.log(user);
@@ -50,6 +53,8 @@ export default function Navbar() {
     }, [location.pathname])
 
     useEffect(() => {
+        if (!checkUser) return;
+
         const subscription = supabase
             .channel('Accounts')
             .on('postgres_changes', {
@@ -57,8 +62,11 @@ export default function Navbar() {
                 schema: 'public',
                 table: 'Accounts'
             }, (payload) => {
-                console.log(payload);
-                setUser(payload.new);
+                console.log('Accounts payload:', payload);
+                
+                if (payload.new.email === checkUser.email) {
+                    setUser(prevUser => ({ ...prevUser, ...payload.new }));
+                }
             })
             .subscribe();
 
@@ -69,19 +77,21 @@ export default function Navbar() {
                 schema: 'public',
                 table: 'notification_contents'
             }, (payload) => {
-                setNotifContent(payload.new)
+                console.log('Notifications payload:', payload);
+
+                setRefetch(true);
+                
             })
             .subscribe();
-        
-        
+
         return () => {
             subscription.unsubscribe();
             subscription2.unsubscribe();
         };
 
-    }, [setUser, setNotifContent]);
+    }, [setNotifContent, setUser, checkUser]);
 
-    console.log(mapError)
+    checkUser === null ? null :console.log(checkUser.email)
 
     return (
     <>
@@ -160,16 +170,15 @@ export default function Navbar() {
                         )}
 
                         {showNotif && checkUser && (
-                            <div className="notif-bar" style={{height: extendStyle}}>
+                            <div className="notif-bar">
                                 <div className="notif-texts">
                                     <div className="label-notif">
                                         <p>Notifications</p>
                                         <p id="notif-count">{user.notification === 0 ? '' : user.notification}</p>
                                         <p className="read" onClick={() => MarkAsRead()}>Mark as read</p>
                                     </div>
-                                    <hr />
+                                    <hr style={{marginBottom: "30px"}}/>
                                     <div className="notif-append">
-                                        {/** Appends Notif Contents here */}
                                         {notifContent.length > 0 ? (
                                             notifContent.map((notif, index) => {
                                                 
@@ -192,14 +201,18 @@ export default function Navbar() {
                                                         message = 'Unknown Notification';
                                                 }
                                                 return (
-                                                    <div className="notif-content" key={index}>
-                                                        <p>Item #{notif.book_id} : {notif.books.book_title}</p>
-                                                        <p>{message}</p>
+                                                    <div className="notif-bg" key={index}>
+                                                        <div className="notif-content" >
+                                                            <p>Item #{notif.book_id} : {notif.books.book_title}</p>
+                                                            <p>{message}</p>
+                                                        </div>
                                                     </div>
                                                 );
                                             })
                                         ) : (
-                                            <p>No Notifications</p>
+                                            <div className='notif-bg1'>
+                                                <p>No Notifications</p>
+                                            </div>
                                         )}
                                     </div>
                                 </div>

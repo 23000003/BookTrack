@@ -7,6 +7,8 @@ export default function FetchNotif(){ // Will try to pass this to  UserSessionDa
     const { user } = UserHook();
     const [notifContent, setNotifContent] = useState([]);
     const [mapError, setMapError] = useState(true);
+    const [refetch, setRefetch] = useState(false);
+    const [readLoading, setReadLoading] = useState(false);
 
     useEffect(() =>{
         const FetchContent = async () =>{
@@ -36,6 +38,8 @@ export default function FetchNotif(){ // Will try to pass this to  UserSessionDa
                     throw buyerError
                 }else{
                     setNotifContent(notifUser)
+                    setRefetch(false);
+                    console.log("GEIJ", user.notification)
                 }
             
             }
@@ -46,10 +50,11 @@ export default function FetchNotif(){ // Will try to pass this to  UserSessionDa
             
         }
         FetchContent();
-    },[user])
+    },[user, refetch])
     
     const MarkAsRead = async () =>{
-        
+        setReadLoading(true);
+
         const {error} = await supabase.from('Accounts')
         .update({
             notification: 0
@@ -58,6 +63,7 @@ export default function FetchNotif(){ // Will try to pass this to  UserSessionDa
 
         if(error){
             console.log(error)
+            return;
         }
         console.log(user.account_id)
 
@@ -68,8 +74,9 @@ export default function FetchNotif(){ // Will try to pass this to  UserSessionDa
         setMapError(false);
         console.log(notif)
         console.log(user.account_name)
+        setReadLoading(false);
         
     }
 
-    return { notifContent, MarkAsRead, setNotifContent, mapError };
+    return { notifContent, MarkAsRead, setNotifContent, mapError, setRefetch, readLoading};
 }
