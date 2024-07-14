@@ -96,8 +96,7 @@ export default function AdminPostApproval() {
                                     <h4 style={{ marginLeft: "15px" }}>Posted By: {account.account_name}</h4>
                                 </div>
                                 <div>
-                                    <button style={{ marginRight: "20px" }} className="NotApprove">X</button>
-                                    <button className="Approve-button" 
+                                     <button className="Approve-button" 
                                         onClick={() => {
                                             handleApprove(account.account_name, 'physical'), 
                                             setView(!view), 
@@ -124,7 +123,7 @@ export default function AdminPostApproval() {
                 ): (
                     <>
                     <div className="book-listed-by">
-                        <h2>Books Listed by {selectedUser}</h2>
+                        <h2>{typeView ? "Books" : "E - Books"} Listed by {selectedUser}</h2>
                         {typeView ? (
                             <button onClick={() => {handleApprove(selectedUser, 'e-book'), setTypeView(false)}}>E - Books</button>
                         ):(
@@ -243,7 +242,7 @@ export default function AdminPostApproval() {
                                                         onBlur={() => handleBlur(book.id)}
                                                     />
                                                 </td> 
-                                                <td>
+                                                <td> 
                                                     <input
                                                         type="text"
                                                         className="table-input"

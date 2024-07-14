@@ -167,7 +167,7 @@
   .InApproval {
     width: 70%;
     height: 80%;
-    background-color: #7f8db0;
+    background-color: #ffffff;
     position: fixed;
     display: flex;
     top: 50%;
@@ -193,18 +193,18 @@
   }
 
   .table-input{
-    background-color: #7f8db0;
+    background-color: #ffffff;
     border: none;
   }
 
   th, td {
-      border: 1px solid #ddd; 
+      border: 1px solid #ff5f5f;
       padding: 8px; 
       text-align: left; 
   }
 
   th {
-      background-color: #f2f2f2; 
+      background-color: #ff5f5f; 
   }
   .Accounts img{
     width: 30px;
@@ -258,3 +258,14 @@
   .book-listed-by button:hover{
     background-color: #ff5f5f;
   }
+
+  .view-user-data{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    justify-content: space-between;
+  }
+
+  /* .view-user-data button{
+    margin-left: 90%;
+  } */
