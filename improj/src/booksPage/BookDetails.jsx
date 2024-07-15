@@ -227,141 +227,159 @@ export default function BookDetails() {
                 </div>
             )}
     
-            {Payment && (
-                <>
-                    <div className="Buy-Display1" onClick={returnBackDisplay}></div>
-                    <div className="Buy-Display" style={{ height, top }}>
-                        {Choose && (
-                            <div className="Payment-Contents">
-                                <h3>Select Payment Method</h3>
-                                <hr />
-                                <div className="Methods">
-                                    <div className="Gcash" onClick={gcashMethod}>
-                                        <p>Gcash</p>
-                                    </div>
-                                    <div className="COD" onClick={CashOnDelivery}>
-                                        <p>Cash on Delivery</p>
-                                    </div>
-                                </div>
+        {Payment && (
+            <>
+            <div className="Buy-Display1" onClick={() => returnBackDisplay()}></div>
+            <div className="Buy-Display" style={{height: height, top: top}}>
+                
+                {Choose && (
+                    <div className="Payment-Contents">
+                        <h3>Select Payment Method</h3>
+                        <hr/>
+                        <div className="Methods">
+                            <div className="Gcash" onClick={() => gcashMethod()}> {/**onclick="gcashMethod()" */}
+                                <p>Gcash</p>
                             </div>
-                        )}
-    
-                        {PaymentMethod === 'Gcash' && (
-                            <div className="gcash-content">
-                                <h3 style={{ marginTop: "25px" }}>SELLER GCASH DETAILS</h3>
-                                <div>
-                                    <img src={gcash} alt="" style={{ maxWidth: "50%", maxHeight: "50%", objectFit: "cover" }} />
-                                </div>
-                                <p id="phonenumber">099-5281-3643</p>
-                                <div className="amount-paying">
-                                    <p className="paying-amount">Amount: ₱{totalPrice}.00</p>
-                                    <p id="delivery-fee" style={{ marginLeft: "15px", display: deliveryFee }}>+ 50 Delivery Fee</p>
-                                </div>
-                                <div className="choices-type">
-                                    <input
-                                        type="checkbox"
-                                        id="pickup-choice"
-                                        ref={pickupRef}
-                                        defaultChecked
-                                        onChange={handlePickupChange}
-                                    />
-                                    <label htmlFor="pickup-choice">Pick up</label>
-                                    <input
-                                        type="checkbox"
-                                        id="delivery-choice"
-                                        ref={deliveryRef}
-                                        onChange={handleDeliveryChange}
-                                    />
-                                    <label htmlFor="delivery-choice">Deliver it to me</label>
-                                </div>
-                                <div className="input-values">
-                                    <input
-                                        type="text"
-                                        placeholder="Reference Number"
-                                        onChange={(e) => setReferenceNo(e.target.value)}
-                                        value={referenceNo}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="First Name"
-                                        onChange={(e) => setFirstname(e.target.value)}
-                                        value={firstName}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Last Name"
-                                        onChange={(e) => setLastName(e.target.value)}
-                                        value={lastName}
-                                    />
-                                    <input
-                                        type="number"
-                                        placeholder="Contact Number"
-                                        onChange={(e) => setContactNo(e.target.value)}
-                                        value={contactNo}
-                                    />
-                                </div>
-                                <button className="CompleteOrder" onClick={GcashPayment}>
-                                    Confirm Order
-                                </button>
+                            <div className="COD" onClick={() => CashOnDelivery()}> {/**onclick="codMethod()" */}
+                                <p>Cash on Delivery</p>
                             </div>
-                        )}
-    
-                        {PaymentMethod === 'COD' && (
-                            <div className="gcash-content">
-                                <h3>SELLER DETAILS</h3>
-                                <div className="Seller-Details">
-                                    <p>Seller: {passDets.account_name}</p>
-                                    <p>Phone Number: {passDets.contact_no}</p>
-                                </div>
-                                <div className="amount-paying">
-                                    <p className="paying-amount">Amount: ₱{totalPrice}.00</p>
-                                    <p id="delivery-fee" style={{ marginLeft: "15px", display: deliveryFee }}>+ 50 Delivery Fee</p>
-                                </div>
-                                <div className="choices-type">
-                                    <input
-                                        type="checkbox"
-                                        id="pickup-choice"
-                                        ref={pickupRef}
-                                        defaultChecked
-                                        onChange={handlePickupChange}
-                                    />
-                                    <label htmlFor="pickup-choice">Pick up</label>
-                                    <input
-                                        type="checkbox"
-                                        id="delivery-choice"
-                                        ref={deliveryRef}
-                                        onChange={handleDeliveryChange}
-                                    />
-                                    <label htmlFor="delivery-choice">Deliver it to me</label>
-                                </div>
-                                <div className="input-values">
-                                    <input
-                                        type="text"
-                                        placeholder="First Name"
-                                        onChange={(e) => setFirstname(e.target.value)}
-                                        value={firstName}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Last Name"
-                                        onChange={(e) => setLastName(e.target.value)}
-                                        value={lastName}
-                                    />
-                                    <input
-                                        type="number"
-                                        placeholder="Contact Number"
-                                        onChange={(e) => setContactNo(e.target.value)}
-                                        value={contactNo}
-                                    />
-                                </div>
-                                <button className="CompleteOrder" onClick={CODPayment}>
-                                    Confirm Order
-                                </button>
-                            </div>
-                        )}
+                        </div>
                     </div>
-                </>
+                )}
+
+                {PaymentMethod === 'Gcash' && (
+                    <div className="gcash-content">
+                        <h3 style={{marginTop: "25px"}}>SELLER GCASH DETAILS</h3>
+                        <div>
+                            <img src={gcash} alt="" style={{maxWidth: "50%", maxHeight: "50%", objectFit: "cover"}}/>
+                        </div>
+                        <p id="phonenumber">099-5281-3643</p>
+                        <div className="amount-paying">
+                            <p className="paying-amount">Amount: ₱{totalPrice}.00</p>
+                            <p id="delivery-fee" 
+                                style={{marginLeft: "15px", display: deliveryFee}}
+                            >+ 50 Delivery Fee</p>
+                        </div>
+
+                        <div className="choices-type">
+                            <input
+                                type="checkbox"
+                                id="pickup-choice"
+                                ref={pickupRef}
+                                defaultChecked
+                                onChange={handlePickupChange}
+                            />
+                            <label htmlFor="pickup-choice">Pick up</label>
+                            <input
+                                type="checkbox"
+                                id="delivery-choice"
+                                ref={deliveryRef}
+                                style={{ marginLeft: "55px" }}
+                                onChange={handleDeliveryChange}
+                            />
+                            <label htmlFor="delivery-choice">Delivery</label>
+                        </div>
+                        <div className="gcash-text">
+                            <input type="text" 
+                                    placeholder="Input Reference Number" 
+                                    onChange={(e) => setReferenceNo(e.target.value)}
+                            />
+                            <div className="gcash-text2">
+                                <input type="text" 
+                                        style={{marginRight: "5px"}} 
+                                        placeholder="First Name"
+                                        onChange={(e) => setFirstname(e.target.value)}        
+                                />
+                                <input type="text" 
+                                        style={{marginRight: "5px"}} 
+                                        placeholder="Last Name"
+                                        onChange={(e) => setLastName(e.target.value)}
+                                />
+                            </div>
+                                <input type="text" 
+                                        placeholder="Contact Number"
+                                        onChange={(e) => setContactNo(e.target.value)}
+                                />
+                                <input type="text" 
+                                        id="delivery-location" 
+                                        placeholder="Location" 
+                                        onChange={(e) => setLocation(e.target.value)}
+                                        ref={refLoc}
+                                        disabled
+                                />
+                            <div>
+                                <button id="BuyItem1" 
+                                    onClick={() => 
+                                    {BuyItemTrigger(
+                                        quantity, 
+                                        passDets.book_quantity, 
+                                        passDets.id,
+                                        passDets.in_process,
+                                        passDets.account_name,
+                                        totalPrice
+                                    ), 
+                                    setTotalPrice(passDets.book_price),
+                                    setQuantity(1),
+                                    paymentTrigger()
+                                    }}>
+                                    Done
+                                </button> {/**onclick="buyitem() */}
+                            </div>
+                        </div>
+                    </div>
+                )}
+                
+                {PaymentMethod === 'COD' && (
+                    <div className="cod-content">
+                        <h3 style={{marginTop: "35px"}}>CASH ON DELIVERY</h3>
+                        <div className="cod-text">
+                            <div className="amount-paying">
+                                <p className="paying-amount">Amount: ₱{totalPrice}.00</p>
+                                <p style={{marginLeft: "15px"}}>+ 50 Delivery Fee</p>
+                            </div>
+                            <div className="cod-text2">
+                                <input type="text" 
+                                    style={{marginRight: "5px"}} 
+                                    placeholder="First Name"
+                                    onChange={(e) => setFirstname(e.target.value)}
+                                />
+                                <input type="text" 
+                                    style={{marginRight: "5px"}}  
+                                    placeholder="Last Name"
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
+                            </div>
+                                <input type="text" 
+                                    placeholder="Contact Number"
+                                    onChange={(e) => setContactNo(e.target.value)}
+                                />
+                                <input type="text" 
+                                    placeholder="Location"
+                                    onChange={(e) => setLocation(e.target.value)}
+                                />
+                            <div>
+                                <button id="BuyItem2"
+                                    onClick={() =>
+                                        {ViaCashOnDelivery(
+                                            quantity, 
+                                            passDets.book_quantity, 
+                                            passDets.id,
+                                            passDets.in_process,
+                                            passDets.account_name,
+                                            totalPrice
+                                        ),
+                                        setTotalPrice(passDets.book_price),
+                                        setQuantity(1),
+                                        paymentTrigger()
+                                    }}
+                                >Done</button> {/**onclick="buyitem() */}
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+            </>
             )}
         </>
-    );    
+    );        
 }

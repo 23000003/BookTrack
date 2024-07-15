@@ -52,20 +52,21 @@ export default function MyEbooksTab() {
                 </div>
                 <div className="order-contents">
                     {eBooks.map((ebook, index) => (
+                        <>
                         <div key={index} className="on-sale">
-                            <div className="quantity-onsale">Quantity: {ebook.book_quantity}</div>
                             <div className="sell">
-                                <button className="sell-button" onClick={() => DownloadEbook(ebook.file)}>Download</button>
+                                <button className="sell-button" onClick={() => DownloadEbook(ebook.books.file)}>Download</button>
                             </div>
                             <div className="on-sale-image">
-                                <img src={ebook.imagetag} alt="Book Image" />
+                                <img src={ebook.books.imagetag} alt="Book Image" />
                             </div>
                             <div className="on-sale-text">
                                 <hr />
-                                <span>{ebook.book_title}</span>
-                                <span>₱{ebook.book_price}.00</span>
+                                <span>{ebook.books.book_title}</span>
+                                <span>File: {ebook.books.file}</span>
                             </div>
                         </div>
+                        </>
                     ))}
                 </div>
             </div>

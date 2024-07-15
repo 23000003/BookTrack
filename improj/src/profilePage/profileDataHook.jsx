@@ -28,7 +28,7 @@ export default function FetchBook(Tab, name, userID){
                         book_id,
                         order_type,
                         accept,
-                        books(id, book_title, book_quantity, book_price, imagetag, in_process)
+                        books(id, book_title, book_quantity, book_price, imagetag, in_process, book_type, file)
                     `)
                     .eq('buyer_name', userID)
                 );
@@ -46,6 +46,24 @@ export default function FetchBook(Tab, name, userID){
                             in_process,
                             isApprove,
                             book_type
+                        )
+                    `)
+                    .eq('account_name', name)
+                );
+            } else if ( Tab === 'history'){
+                ({ data, error } = await supabase.from(Tab)
+                    .select(`
+                        account_name,
+                        book_price,
+                        books(
+                            id,
+                            book_title,
+                            book_quantity,
+                            book_price,
+                            description,
+                            imagetag,
+                            book_type,
+                            file
                         )
                     `)
                     .eq('account_name', name)

@@ -22,11 +22,11 @@ export default function BookHistory(){
                             <span>COMPLETED</span>
                         </div>
                         <div className="on-sold-image">
-                            <img src={book.imagetag} alt="Book Image" />
+                            <img src={book.books.imagetag} alt="Book Image" />
                         </div>
                         <div className="on-sale-text">
                             <hr />
-                            <span>{book.book_title}</span>
+                            <span>{book.books.book_title}</span>
                             <span>₱{book.book_price}.00</span>
                         </div>
                     </div>

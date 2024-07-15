@@ -50,10 +50,8 @@ export default function useTransacHook(){
         .insert({
             book_title: data.books.book_title,
             account_name: data.buyer_name.account_name,
-            seller_name: data.seller_name,
-            book_price: data.price,
-            book_quantity: data.quantity,
-            imagetag: data.books.imagetag
+            book_id: data.books.id,
+            book_price: data.price
         })
         
         if(errorHistory){

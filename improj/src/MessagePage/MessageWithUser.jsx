@@ -17,7 +17,7 @@ export default function MessageUser({ sender_name }) {
         scrollToBottom();
     }, [content]);
 
-    useEffect(() => { //realtime update
+    useEffect(() => {
         const subscription = supabase.channel('messages')
             .on('postgres_changes', {
                 event: 'INSERT',
@@ -43,6 +43,7 @@ export default function MessageUser({ sender_name }) {
                     <img src={senderPfp.profile} className="profile-circle"></img>
                     {sender_name}
                 </span>
+                <span className='span-report'>Report</span>
             </div>
 
             <div className='overflow-scroll' ref={scrollRef}>

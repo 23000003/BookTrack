@@ -3,13 +3,14 @@ import '../styles/message.css';
 import MessageUser from './MessageWithUser';
 import MessageTabHook from './MessageTabHook';
 import supabase from '../Supabase/Supabase';
+import ConvertDate from '../Supabase/TimeConverter';
 
 export default function MessageTab() {
     const [clickUser, setClickUser] = useState([]);
     const [clickTrigger, setClickTrigger] = useState(false);
     const [enterMessage, setEnterMessage] = useState('');
-    const { messageData, sendMessage } = MessageTabHook();
-    
+    const { messageData, sendMessage, setMessage } = MessageTabHook();
+
     useEffect(() => {
         document.body.style.backgroundColor = "#FFF6F6";
         return () => {
@@ -17,9 +18,51 @@ export default function MessageTab() {
         }
     }, []);
 
+    // useEffect(() => {
+    //     const subscription = supabase.channel('unread_messages')
+    //         .on('postgres_changes', {
+    //             event: 'UPDATE',
+    //             schema: 'public',
+    //             table: 'unread_messages'
+    //         }, (payload) => {
+    //             console.log(payload);
+    //             setMessage((prevContent) => {
+    //                 return prevContent.map(message => 
+    //                     message.id === payload.new.id ? payload.new : message
+    //                 );
+    //             });
+    //         })
+    //         .subscribe();
+    
+    //     return () => {
+    //         subscription.unsubscribe();
+    //     };
+    // }, [setMessage]);
+
+    const truncateText = (text, maxLength) => {
+        if (text.length <= maxLength) {
+            return text;
+        }
+        return text.slice(0, maxLength - 3) + '...';
+    }
+
+    const [overlayNotif, setOverlayNotif] = useState(true);
+
     const clickedUser = (data) => {
         setClickUser(data.sender_name); 
         setClickTrigger(true);
+
+        setOverlayNotif(false);
+        const ReadNotif = async (data) =>{
+            const {data: unread, error: unreadError} = await supabase.from('unread_messages')
+            .update({
+                receiver_notif: 0
+            })
+            .eq('receiver_name', data.receiver_name)
+            .eq('sender_name', data.sender_name);
+            console.log(unread)
+        }
+        ReadNotif(data);
     }
 
     const passMessage = () =>{
@@ -34,17 +77,21 @@ export default function MessageTab() {
                 <div className="message-list">
                     <div className="flex-container spaced-out headers">
                         <span style={{fontWeight: "600", fontSize: "15px", alignContent: "center"}}>All Messages</span>
-                        <span style={{color: "#C7C7C7", fontSize: "15px"}}>2</span>
+                        <span style={{color: "#C7C7C7", fontSize: "15px", marginLeft: "15px"}}>{messageData.length}</span>
                     </div>
                     <ul>
                         {messageData.map((data, index) => (
                             <li className="chat flex-container spaced-out" key={index} onClick={() => clickedUser(data)}>
-                                <span className="profile-circle"></span>
-                                <div style={{display: "flex", flexDirection: 'column', justifyContent: "start"}}>
-                                    <span className="flex-container vertical-align">{data.sender_name}</span>
-                                    <span className="last-messaged">2hrs ago</span>
+                                <div style={{display: "flex", alignItems: "center"}}>
+                                    <img src={data.profile} alt="" />
+                                    <div style={{display: "flex", flexDirection: 'column', justifyContent: "start"}}>
+                                        <span className="flex-container vertical-align">{truncateText(data.sender_name, 15)}</span>
+                                        <span className="last-messaged">{ConvertDate(data.time_sent)}</span>
+                                    </div>
                                 </div>
-                                
+                                {data.receiver_notif !== 0 && overlayNotif &&(
+                                    <span className='notif-num'>{data.receiver_notif}</span>
+                                )}
                             </li>
                         ))}
                     </ul>
@@ -59,8 +106,8 @@ export default function MessageTab() {
                                 <div style={{display: "flex", alignItems: "center"}}>
                                     <input placeholder='Enter Message...' 
                                         onChange={(e) => setEnterMessage(e.target.value)} 
-                                        value={enterMessage}>
-                                    
+                                        value={enterMessage}
+                                        style={{outline: "none"}}>
                                     </input>
                                     
                                     <span className="message-circle" 
@@ -74,7 +121,7 @@ export default function MessageTab() {
                             </div>
                         </>
                     ) : (
-                        <div style={{textAlign: "center"}}>Start Messaging!</div>
+                        <div className='start-message'>Start a Conversation ...</div>
                     )}
                 </div>
             </div>

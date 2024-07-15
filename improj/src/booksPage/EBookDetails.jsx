@@ -97,7 +97,7 @@ export default function EBookDetails() {
                             {state: {passDets: location.state.book}})}}
                     >Back</span>
                 ) : (
-                    <span className="Back-Button" onClick={() => navigate('/books')}>Back</span>
+                    <span className="Back-Button" onClick={() => navigate('/e-books')}>Back</span>
                 )}
                 <div className="left-details">
                     <div className="book-title">

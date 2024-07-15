@@ -247,8 +247,8 @@
 }
 
 .Process-container{
-    width: 600px;
-    height: 390px;
+    width: 700px;
+    height: 490px;
     background-color: rgb(255, 255, 255);
     top: 50%;
     left: 50%;
@@ -259,6 +259,7 @@
     -moz-box-shadow: 2px 5px 14px -4px rgba(0, 0, 0, 0.28);
     z-index: 3;
     display: flex;
+    border-radius: 1em;
 }
 
 .process-image{
@@ -278,16 +279,20 @@
 .process-texts{
     display: flex;
     flex-direction: column;
-    margin-left: 15px;
-    margin-top: 20px;
+    height: 40%;
+}
+
+.process-texts div{
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
     line-height: 25px;
 }
 
 .process-user-details{
     display: flex;
     flex-direction: column;
-    margin-left: 15px;
-    margin-top: 30px;
+    height: 40%;
 }
 
 .process-image2{
@@ -304,8 +309,13 @@
 
 .buttonclaim{
     text-align: end;
-    margin-right: 15px;
-    margin-top: 45px;
+    height: 20%;
+}
+
+.Process-container hr{
+    height: 90%;
+    margin-top: 1%;
+    margin-left: 15px;
 }
 
 .disabled{

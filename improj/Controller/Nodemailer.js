@@ -16,6 +16,8 @@ function sendEmail({ email, subject, message }) {
     return new Promise((resolve, reject) => {
         var transporter = nodemailer.createTransport({
             service: "gmail",
+            port: 465,
+            secure: true,
             auth: {
                 user: "kurtdicdican@gmail.com",
                 pass: "iyfcaqvwruxxasav", 
