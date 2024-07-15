@@ -70,6 +70,8 @@ export default function ViewOrders() {
         </div>
         
         {triggerView && (
+           <>
+            <div className="outside" onClick={() => setTriggerView(!triggerView)}></div>
             <div className="order-user-information">
                 <div className="order-user-name">
                     <img src={nopfp} alt="" />
@@ -174,6 +176,7 @@ export default function ViewOrders() {
                     )}
                 </div>
             </div>
+           </>
         )}
         </>
     );

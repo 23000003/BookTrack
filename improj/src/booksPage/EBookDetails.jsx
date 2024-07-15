@@ -91,7 +91,7 @@ export default function EBookDetails() {
         <div className="BookDetailsContainer" style={{marginTop: "100px"}}>
             <hr style={{ margin: '0px 10%' }} />
             <div className="Book-Details">
-                {location.state.link !== null ? (
+                {location.state.link === '/userProfile' ? (
                     <span className="Back-Button" onClick={() =>
                         {navigate(`/userProfile/${passDets.account_name}?Profile`, 
                             {state: {passDets: location.state.book}})}}

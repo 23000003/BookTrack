@@ -17,8 +17,11 @@ export default function ViewUserData(props){
         <div className="outside" onClick={() => setView(!view)}></div>
             <div className='InApproval'>
                 <div className="book-listed-by">
-                    <h2>Items on Listed by {viewUserData[0].account_name}</h2>
-                    <button>View Reports</button>
+                    <h2>{tableTrigger ? "Items on Listed by" : "Reports on"} {viewUserData[0].account_name}</h2>
+                    <button onClick={() => {
+                        setTableTrigger(!tableTrigger), 
+                        setReportTrigger(!reportTrigger)
+                        }}>{tableTrigger ? "View Reports" : "View Data"}</button>
                     <button onClick={() =>
                         navigate(`/userProfile/${viewUserData[0].account_name}?Profile`, 
                         {state: {passDets: viewUserData[0]}})}
@@ -123,7 +126,9 @@ export default function ViewUserData(props){
                     )}
 
                     {reportTrigger && (
-                        <div></div>
+                        <div className="user-reports-bar">
+
+                        </div>
                     )}
 
                 </div>

@@ -99,7 +99,6 @@ export default function BookSellTab(){
                             )}
                         </div>
                         <div className="buttonclaim">
-                            <button className="itemclaimed" >Edit Details</button>
                             {data.accept === false ? (
                                 <>
                                 <button className="disabled" disabled>Item Not Claimed</button>            

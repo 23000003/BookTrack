@@ -4,7 +4,7 @@ import axios from "axios"
 export default function useNodeMailerHook(){
 
     const sendEmail = (email, subject, message) => {
-        axios.get("http://localhost:5000/", {
+        axios.get("http://localhost:4000/", {
             params: {
                 email,
                 subject,

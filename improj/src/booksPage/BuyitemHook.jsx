@@ -5,8 +5,8 @@ import UserHook from "../Supabase/UserSessionData";
 export default function useBuyItem(){
 
     const {user} = UserHook();
-
-    const [referenceNo, setReferenceNo] = useState('');
+    const k = 1;
+    const [referenceNo , setReferenceNo] = useState('');
     const [firstName, setFirstname] = useState('');
     const [lastName, setLastName] = useState('');
     const [isChecked, setIsChecked] = useState('pickup');
