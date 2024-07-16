@@ -46,7 +46,7 @@ export default function LoginPage(){
             <img src={Background} alt="shelf"/>
             <div className="login-box">
             
-            <form onSubmit={(e) => LoginUser(e)}>
+            <form onSubmit={LoginUser}>
                 <h1>Login</h1>
                 
                 <div className="login-input-box">
@@ -69,7 +69,7 @@ export default function LoginPage(){
 
                 <div className="login-checkbox">
                     <label><input type="checkbox"/>Remember me</label>
-                    <a href="#">Forgot Password?</a>
+                    <Link to='/ForgotPassword'>Forgot Password?</Link>
                 </div>
                 
                 <button type="submit" className="login-button">Login</button>

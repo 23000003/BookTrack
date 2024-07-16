@@ -21,6 +21,8 @@ import MyEbooksTab from './components/MyEbooksTab.jsx';
 import AdminPanel from './AdminPage/AdminLanding.jsx';
 import AdminPostApproval from './AdminPage/AdminPostApproval.jsx';
 import AdminViewAccount from './AdminPage/AdminViewAccounts.jsx';
+import ForgotPassword from './LandingPage/ForgotPassword.jsx';
+import UpdateForgotPassword from './LandingPage/NavigateUpdatePass.jsx';
 
 function Layout() {
     return (
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
         { 
             path: '/CreateAccount', 
             element: <CreateAccount /> 
+        },
+        {
+            path: '/ForgotPassword',
+            element: <ForgotPassword/>
         },
         { 
             path: '/userProfile/:userName',
@@ -103,6 +109,10 @@ const router = createBrowserRouter([
         {
             path: '/MyEbooks', 
             element: <MyEbooksTab /> 
+        },
+        {
+            path: '/ForgotPassword/Update',
+            element: <UpdateForgotPassword/>
         },
         {
             path: '/AdminPanel',
