@@ -70,7 +70,7 @@ export default function DisplayBooks({Genre, filterGenre, setfilterGenre, search
                                         <hr></hr>
                                         <div className="bg">
                                             <div className="first">
-                                            {book.second_hand === true && ( <div className="sec-hand">2nd Hand</div> )}
+                                            {filterSearch.second_hand === true && ( <div className="sec-hand">2nd Hand</div> )}
                                                 {filterSearch.in_process === 0 && filterSearch.book_quantity === 0 ? (
                                                 <>
                                                     <span className="out-of-stock1"></span> 

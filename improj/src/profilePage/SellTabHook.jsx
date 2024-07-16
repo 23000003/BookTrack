@@ -25,7 +25,7 @@ export default function useSellHook(ExitViewItem){
             book_price: itemPrice === '' ? data.books.book_price : itemPrice,
             book_quantity: itemQuantity === '' ? data.books.book_quantity : itemQuantity,
             description: itemDescription === '' ? data.books.description : itemDescription
-        }).eq('id', data.books_id);
+        }).eq('id', data.books.id);
 
         if(errorUpdate){
             alert("error updating books")

@@ -8,6 +8,9 @@
     top: 52%;
     left: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
 }
 
 .flex-orders{
@@ -17,15 +20,14 @@
     padding: 1.5em;
 }
 
-.view-order-label hr{
-    margin-top: 20px;
-    width: 99.8%;
-}
-
 .order-contents{
     height: 100%;
     overflow: auto;
     margin: 0;
+}
+
+.tab-order-picked{
+    margin-top: 50px;
 }
 
 .buttonclaim h3{
@@ -38,7 +40,6 @@
 
 .order-contents-overflow{
     height: 100%;
-    overflow-y: auto;
 }
 
 .my-contents{
@@ -46,7 +47,7 @@
     border-left: 1px solid rgb(150, 148, 148);
     border-bottom: 1px solid rgb(150, 148, 148);
     height: 50px;
-    width: 99.9%;
+    width: 99.8%;
 }
 
 .user-div-content{
@@ -169,3 +170,21 @@
     font-size: 15px;
 }
 
+.order-tabs{
+    display: flex;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    padding: 1em 1em 1em 2em;
+    margin: -1.5em;
+}
+
+.order-tabs h3:nth-child(1){
+    margin-right: 30px;
+}
+
+.order-tabs h3:nth-child(3){
+    margin-left: 30px;
+}

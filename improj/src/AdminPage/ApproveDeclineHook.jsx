@@ -7,7 +7,7 @@ export default function useApproveDecline(){
     const [loadingAD, setLoadingAD] = useState(false);
     const { handleApprove } = useEditData();
 
-    const UpdateUser = async (user) =>{
+    const UpdateUser = async (user) =>{ // make functionality if wala na then click to false
         const {error} = await supabase.from('Accounts')
         .update({
             isPosted: false
@@ -32,7 +32,6 @@ export default function useApproveDecline(){
             alert("error approve")
             setLoadingAD(false);
         }else{
-            UpdateUser(user);
             setLoadingAD(false);
             alert("Approved Successful")
         }
@@ -211,7 +210,6 @@ export default function useApproveDecline(){
             if (booksDeleteError) {
                 throw booksDeleteError;
             }
-            UpdateUser(user);
             setLoadingAD(false);
             alert("Books and related entries successfully deleted");
         } 

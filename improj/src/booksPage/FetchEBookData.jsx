@@ -3,17 +3,36 @@ import { useEffect, useState } from 'react';
 
 async function EbooksDataFilter(CurrGenre) {
 
-    const { data: booksData, error: booksError } = await supabase
-    .from('books')
-    .select()
-    .eq('book_genre', CurrGenre)
-    .eq('book_type', 'e-book');
+    if(CurrGenre === "Others"){
+
+        const { data: booksData, error: booksError } = await supabase
+        .from('books')
+        .select()
+        .neq('book_genre', 'Novel')
+        .neq('book_genre', 'Romance')
+        .neq('book_genre','Fiction')
+        .neq('book_genre', 'Science')
+        .neq('book_genre', 'Self-Help')
+        .neq('book_genre', 'Manga')
+        .eq('book_type', 'e-book')
+        .eq('isApprove', true);
+
+        return booksData;
+    }
+    else{
+        const { data: booksData, error: booksError } = await supabase
+        .from('books')
+        .select()
+        .eq('book_genre', CurrGenre)
+        .eq('book_type', 'e-book');
+
+        return booksData;
+    }
     
-    return booksData;
 }
 
 export default function useEBookData() {
-    const [genres, setGenres] = useState(['Novel', 'Romance', 'Fiction', 'Science', 'Self-Help', 'Manga']);
+    const [genres, setGenres] = useState(['Novel', 'Romance', 'Fiction', 'Science', 'Self-Help', 'Manga', 'Others']);
     const [ebookData, setEBookData] = useState([]);
     const [loading, setLoading] = useState(true);
 

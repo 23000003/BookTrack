@@ -22,10 +22,13 @@ export default function MyEbooksTab() {
 
     const DownloadEbook = async (file) => {
 
+        console.log(file)
+
         const { data, error } = await supabase.storage
             .from('images')
             .download('ebooks/' + file);
-    
+        
+            console.log(data)
         if (error) {
             console.log('Error getting public URL:', error);
         } else {

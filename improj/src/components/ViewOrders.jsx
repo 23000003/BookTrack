@@ -53,7 +53,14 @@ export default function ViewOrders() {
         <div className="view-orders">
             <div className="flex-orders">
                 <div className="view-order-label">
-                    <h3>Your Orders {viewOrders.length}</h3>
+                    <div className="order-tabs">
+                        <h3>Orders</h3>
+                        <hr />
+                        <h3>Order History</h3>
+                    </div>
+                </div>
+                <div className="tab-order-picked">
+                    <h3 style={{marginBottom: "20px"}}>Your Orders {viewOrders.length}</h3>
                     <hr />
                 </div>
                 <div className="order-contents-overflow">

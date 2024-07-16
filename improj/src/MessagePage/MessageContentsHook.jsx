@@ -63,6 +63,6 @@ export default function useMessageContents(sender_name){
     console.log(user.account_name);
     console.log('Content state: 5', content);
 
-    return { senderPfp, content, setContent, loading };
+    return { senderPfp, content, setContent, loading, user };
 }
 
