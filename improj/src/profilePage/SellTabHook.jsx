@@ -55,7 +55,7 @@ export default function useSellHook(ExitViewItem){
 
     const ItemSold = async (data) =>{
 
-        const {error: soldError} = await supabase.from('Books_Sold')
+        const {error: soldError} = await supabase.from('books_sold')
         .insert({
             id: data.book_id,
             book_title: data.books.book_title,
@@ -70,7 +70,7 @@ export default function useSellHook(ExitViewItem){
             console.log(soldError)
         }
         else{
-            const {error:sellError} = await supabase.from('Books_Sell')
+            const {error:sellError} = await supabase.from('books_sell')
             .delete()
             .eq('book_id', data.book_id)
 

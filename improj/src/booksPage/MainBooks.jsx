@@ -23,7 +23,8 @@ export default function LandingBooks(){
                     <div className="background-search2">
                         <div className="search-bar">
                             <h3 style={{display: "flex"}}>Search Your Favourite Book!</h3>
-                            <div className="form">
+                            
+                            <div className="form" style={{zIndex: "5"}}>
                                 <div className="row">
                                     <div className="col">
                                         <input
@@ -48,6 +49,7 @@ export default function LandingBooks(){
                                     </div>
                                 </div>
                             </div>
+                            
                             <SearchSuggest 
                                 search={searchSuggest}
                                 setSearchSuggest = {setSearchSuggest}

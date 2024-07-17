@@ -355,7 +355,7 @@
 }
 
 .Sell-container{
-    width: 500px;
+    width: 700px;
     height: 400px;
     background-color: rgb(255, 255, 255);
     top: 50%;
@@ -370,14 +370,47 @@
 }
 
 .sell-image{
-    width: 30%;
+    width: 40%;
     height: 100%;
     display: flex;
-    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sell-image2{
+    display: flex;
+    justify-content: center;
+}
+
+.sell-image button{
+    margin-top: 30px;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.sell-image button:hover{
+    background-color: rgb(0, 0, 0);
+    color: white;
+}
+
+.sell-image2 img {
+    max-width: 80%;
+    max-height: 100%;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    transition: transform 0.3s ease; /* Smooth scaling effect */
+}
+
+.sell-image2 img:hover {
+    transform: scale(1.1); /* Grow by 10% when hovered */
 }
 
 .sell-details{
-    width: 70%;
+    width: 60%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -401,23 +434,11 @@
     height: 50px;
 }
 
-.sell-image2{
-    display: flex;
-    margin-left: 15px;
-    justify-content: center;
-}
-
-.sell-image2 img{
-    margin-bottom: 90px;
-    max-width: 80%;
-    max-height: 50%;
-    object-fit: cover;
-}
 
 .buttonsold{
     text-align: end;
     margin-top: 345px;
-    margin-left: 45px;
+    margin-left: 105px;
     position: absolute;
 }
 

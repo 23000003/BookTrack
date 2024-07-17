@@ -82,12 +82,13 @@ export default function BookSellTab(){
             
             {ItemTrigger && (
                 <>
-                <div className="exposure1" onClick={() => ExitViewItem()}></div>
+                <div className="exposure" onClick={() => ExitViewItem()}></div>
                 <div className="Sell-container">
                     <div className="sell-image">
                         <div className="sell-image2">
                             <img src={data.books.imagetag}/>
                         </div>
+                        <button>Edit Image</button>
                     </div>
                     <div className="sell-details">
                         <h3>Item Details:</h3>
