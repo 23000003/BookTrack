@@ -252,7 +252,7 @@ export default function ViewOrders() {
                             <>
                             {viewUserInfo.order_type === 'pickup' ? (
                                 <>
-                                <button>Not Claimed</button>
+                                <button>Order Canceled</button>
                                 <button>Buyer Claimed</button>
                                 </>
                             ):(
@@ -266,7 +266,7 @@ export default function ViewOrders() {
                     ) : (
                         <>
                         <button>Don't Release</button>
-                        <button>Release</button>
+                        <button >Release</button>
                         </>
                     )}
                 </div>

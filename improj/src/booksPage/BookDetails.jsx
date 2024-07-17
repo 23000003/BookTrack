@@ -141,7 +141,7 @@ export default function BookDetails() {
                                         null
                                     ) : (
                                         favourites ? (
-                                            <button onClick={() => DeleteFavourites(passDets.id)}>Cancel Favourite</button>
+                                            <button onClick={() => DeleteFavourites(passDets.id)}>Remove Favourite</button>
                                         ) : (
                                             <button onClick={() => AddtoFavourites(passDets.id)}>Add to favourite</button>
                                         )

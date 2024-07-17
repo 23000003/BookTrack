@@ -10,3 +10,8 @@
 - responsiveness, viewHistory, process of buying (COD and delivery)
 - reporting
 - UI
+
+- take out Item Not claimed
+- releases and dont release ebook
+- handle approve
+- book title of ebooks view orders

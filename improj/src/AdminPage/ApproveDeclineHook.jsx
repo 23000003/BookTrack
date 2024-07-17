@@ -21,7 +21,7 @@ export default function useApproveDecline(){
 
         const {error} = await supabase.from('books')
         .update({
-            isApproved: true
+            isApprove: true
         })
         .eq('account_name', user)
         .eq('isApprove', false)
