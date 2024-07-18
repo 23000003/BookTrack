@@ -60,10 +60,13 @@ export default function ViewOrders() {
                     </div>
                 </div>
                 <div className="tab-order-picked">
-                    <h3 style={{marginBottom: "20px"}}>Your Orders {viewOrders.length}</h3>
-                    <hr />
+                    <div style={{display: "flex"}}>
+                        <h3 style={{marginBottom: "20px"}}>Your Orders </h3>
+                        <h4 style={{marginLeft: "8px", color: "grey"}}>{viewOrders.length}</h4>
+                    </div>
+                    <hr style={{width: "99%"}}/>
                 </div>
-                <div className="order-contents-overflow">
+                {/* <div className="order-contents-overflow">
                     <div className="order-contents">
                         {viewOrders && viewOrders.length > 0 ? (
                             viewOrders.map((order, index) => (
@@ -86,7 +89,34 @@ export default function ViewOrders() {
                             <div>No Orders Yet...</div> // Style this
                         )}
                     </div>
+                </div> */}
+
+                <div className="order-contents-overflow">
+                    <div className="order-contents">
+                        {viewOrders && viewOrders.length > 0 ? (
+                            viewOrders.map((order, index) => (
+                                <>
+                                <div key={index} className="my-contents">
+                                    <div className="user-content">
+                                        <div className="user-div-content">
+                                            <img src={order.buyer_name.profile} alt="" />
+                                            <h3>{order.buyer_name.account_name}</h3>
+                                        </div>
+                                        <h3>Bought Item #{order.book_id}</h3>
+                                        <h3>Ordered: {ConvertDate(order.date_ordered)} ago</h3>
+                                        <button onClick={() => ViewOrder(order)}>View Details</button>
+                                    </div>
+                                </div>
+                                
+                                </>
+                            ))
+                        ) : (
+                            <div>No History Orders Yet...</div> // Style this
+                        )}
+                    </div>
                 </div>
+
+
             </div>
         </div>
         

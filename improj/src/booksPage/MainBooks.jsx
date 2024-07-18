@@ -9,7 +9,10 @@ export default function LandingBooks(){
     const [genre, setGenre] = useState('');
     const [filterGenre, setfilterGenre] = useState(true);
     const [searchSuggest, setSearchSuggest] = useState('');
+    const [citySuggest, setCitySuggest] = useState('');
     const [searchPicked, setSearchPicked] = useState('');
+    const [searchTrigger, setSearchTrigger] = useState(false);
+    const [citySearchTrigger, setCityTrigger] = useState(false);
     const navigate = useNavigate();
 
     console.log(searchSuggest);
@@ -34,6 +37,7 @@ export default function LandingBooks(){
                                             onChange={(e) => setSearchSuggest(e.target.value)}
                                             value={searchSuggest}
                                             placeholder="Enter book title..."
+                                            onBlur={() => setSearchTrigger(false)}
                                         />
                                     </div>
                                     <div className="col">
@@ -42,6 +46,9 @@ export default function LandingBooks(){
                                             type="text"
                                             id="Location-Input"
                                             placeholder='Enter A City...'
+                                            value={citySuggest}
+                                            onChange={(e) => setCitySuggest(e.target.value)}
+                                            // onBlur={() => setCityTrigger(false)}
                                         />
                                     </div>
                                     <div className="col1">
@@ -53,7 +60,13 @@ export default function LandingBooks(){
                             <SearchSuggest 
                                 search={searchSuggest}
                                 setSearchSuggest = {setSearchSuggest}
+                                citySuggest = {citySuggest}
+                                setCitySuggest = {setCitySuggest}
                                 setSearchPicked={setSearchPicked}
+                                searchTrigger = {searchTrigger}
+                                setSearchTrigger = {setSearchTrigger}
+                                citySearchTrigger = {citySearchTrigger}
+                                setCityTrigger = {setCityTrigger}
                                 type = "physical"
                             />
                         </div>

@@ -22,7 +22,6 @@
 
 .order-contents{
     height: 100%;
-    overflow: auto;
     margin: 0;
 }
 
@@ -40,6 +39,7 @@
 
 .order-contents-overflow{
     height: 100%;
+    overflow-y: auto;
 }
 
 .my-contents{
@@ -47,7 +47,7 @@
     border-left: 1px solid rgb(150, 148, 148);
     border-bottom: 1px solid rgb(150, 148, 148);
     height: 50px;
-    width: 99.8%;
+    width: 99%;
 }
 
 .user-div-content{
@@ -173,12 +173,11 @@
 .order-tabs{
     display: flex;
     width: 100%;
-    background-color: white;
-    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
-    -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
-    padding: 1em 1em 1em 2em;
-    margin: -1.5em;
+    background-color: #d32f2fc4;
+    padding: 1em 1.5em 1em 2.4em;
+    margin: -1.9em;
+    font-size: 13px;
+    color: white;
 }
 
 .order-tabs h3:nth-child(1){

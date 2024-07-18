@@ -2,7 +2,8 @@ import UserHook from "../Supabase/UserSessionData";
 import useSellHook from "./SellTabHook";
 import FetchBook from "./profileDataHook";
 import { useState, useRef } from "react";
-
+import '../styles/responsive.css'
+import emptydata from '../assets/EmptyData.jpg'
 
 export default function BookSellTab(){
 
@@ -56,27 +57,58 @@ export default function BookSellTab(){
     return(
         <div className="ItemSale">
             {loading ? (
-                <div className='loading'>  
-                        <div className='loader'></div>
+                <div className="grid-row grid-4-4">
+                    <div className="cards">
+                        <div className="card_image loading1"></div>
+                        <div className="card_title loading1"></div>
+                        <div className="card_description loading1"></div>
                     </div>
+                    <div className="cards">
+                        <div className="card_image loading1"></div>
+                        <div className="card_title loading1"></div>
+                        <div className="card_description loading1"></div>
+                    </div>
+                    <div className="cards">
+                        <div className="card_image loading1"></div>
+                        <div className="card_title loading1"></div>
+                        <div className="card_description loading1"></div>
+                    </div>
+                    <div className="cards">
+                        <div className="card_image loading1"></div>
+                        <div className="card_title loading1"></div>
+                        <div className="card_description loading1"></div>
+                    </div>
+                    <div className="cards">
+                        <div className="card_image loading1"></div>
+                        <div className="card_title loading1"></div>
+                        <div className="card_description loading1"></div>
+                    </div>
+                </div>    
                 ) : (
-                tabData.map((book, index) =>(
-                    <div key={index} className="on-sale">
-                        <div className="quantity-onsale">{book.books.book_type === "e-book" ? "E - Book" : `Quantity: ${book.books.book_quantity}`}</div>
-                        {!book.books.isApprove && <div className="genre-onsale">In Approval</div>}
-                        <div className="sell">
-                            <button className="sell-button" onClick={() => ViewItem(book)}>View Item</button>
+                tabData.length > 0 ? (
+                    tabData.map((book, index) =>(
+                        <div key={index} className="on-sale">
+                            <div className="quantity-onsale">{book.books.book_type === "e-book" ? "E - Book" : `Quantity: ${book.books.book_quantity}`}</div>
+                            {!book.books.isApprove && <div className="genre-onsale">In Approval</div>}
+                            <div className="sell">
+                                <button className="sell-button" onClick={() => ViewItem(book)}>View Item</button>
+                            </div>
+                            <div className="on-sale-image">
+                                <img src={book.books.imagetag} alt="Book Image" />
+                            </div>
+                            <div className="on-sale-text">
+                                <hr />
+                                <span>{book.books.book_title}</span>
+                                <span>₱{book.books.book_price}.00</span>
+                            </div>
                         </div>
-                        <div className="on-sale-image">
-                            <img src={book.books.imagetag} alt="Book Image" />
-                        </div>
-                        <div className="on-sale-text">
-                            <hr />
-                            <span>{book.books.book_title}</span>
-                            <span>₱{book.books.book_price}.00</span>
-                        </div>
+                    ))
+                ) : (
+                    <div className="empty-data">
+                        <img src={emptydata} />
+                        <h2>Post a book now ...</h2>
                     </div>
-                ))
+                )
             )}
             
             

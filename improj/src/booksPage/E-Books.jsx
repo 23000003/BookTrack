@@ -172,6 +172,7 @@ export default function Books(){
     const [filterGenre, setfilterGenre] = useState(true);
     const [searchSuggest, setSearchSuggest] = useState('');
     const [searchPicked, setSearchPicked] = useState('');
+    const [searchTrigger, setSearchTrigger] = useState(false);
 
     console.log(searchSuggest);
     
@@ -193,6 +194,7 @@ export default function Books(){
                                             onChange={(e) => setSearchSuggest(e.target.value)}
                                             value={searchSuggest}
                                             placeholder="Enter book title..."
+                                            onBlur={() => setSearchTrigger(false)}
                                         />
                                     </div>
                                     <div className="col">
@@ -211,6 +213,8 @@ export default function Books(){
                                 search={searchSuggest}
                                 setSearchSuggest = {setSearchSuggest}
                                 setSearchPicked={setSearchPicked}
+                                searchTrigger = {searchTrigger}
+                                setSearchTrigger = {setSearchTrigger}
                                 type = "e-book"
                             />
                         </div>

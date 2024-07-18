@@ -7,8 +7,10 @@ export default function usefetchMessageTab(){
 
     const [messageData, setMessage] = useState([]);
     const {user, _, __} = UserHook();
+    const [loading, setloading] = useState(false);
 
     useEffect(() => {
+        setloading(true);
         const fetchMessages = async () => {
             let temp = [];
             const { data: unreadMessages, error } = await supabase
@@ -19,7 +21,7 @@ export default function usefetchMessageTab(){
     
             if (error) {
                 console.log("No messages");
-                return;
+                
             } else {
                 for (const message of unreadMessages) {
                     const { data: profileData } = await supabase
@@ -34,9 +36,13 @@ export default function usefetchMessageTab(){
                 setMessage(temp);
                 console.log(messageData)
             }
+            if(temp.length > 0){
+                setloading(false);
+            }
         };
         
         fetchMessages();
+        
     }, [user]);
 
 
@@ -68,5 +74,6 @@ export default function usefetchMessageTab(){
         }
     }
 
-    return { messageData, sendMessage, setMessage };
+
+    return { messageData, sendMessage, setMessage, loading };
 }

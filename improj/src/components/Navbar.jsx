@@ -150,7 +150,8 @@ export default function Navbar() {
                                     {navigate('/e-books'), 
                                     setBooksTab(false), 
                                     setBrowse(!browse)}
-                                }>
+                                }
+                                >
                                 Browse by E-Books
                                 </span>
                             </div>
@@ -175,7 +176,7 @@ export default function Navbar() {
                                     <div className="label-notif">
                                         <p>Notifications</p>
                                         <p id="notif-count">{user.notification === 0 ? '' : user.notification}</p>
-                                        <p className="read" onClick={() => MarkAsRead()}>Mark as read</p>
+                                        {user.notification !== 0 && (<p className="read" onClick={() => MarkAsRead()}>Mark as read</p>)}
                                     </div>
                                     <hr style={{marginBottom: "30px"}}/>
                                     <div className="notif-append">

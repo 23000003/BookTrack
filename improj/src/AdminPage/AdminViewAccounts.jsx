@@ -8,6 +8,7 @@ export default function AdminViewAccount(){
     const [typeView, setTypeView] = useState(true); 
     const [viewUserData, setViewUserData] = useState({})
     const [view, setView] = useState(false);
+    const [viewUserName, setViewUsername] = useState('')
 
     const {
         viewUsers,
@@ -41,12 +42,14 @@ export default function AdminViewAccount(){
                                 onClick={() => {
                                     setViewUserData(user.books), 
                                     setTypeView(true),
-                                    setView(!view)
+                                    setView(!view),
+                                    setViewUsername(user.user.account_name)
                                 }}
                             >View</button>
                         </div>
                     </div>
                 </div>
+                
                 </>
             ))}
             {/**Fetching done just displaying */}
@@ -57,7 +60,9 @@ export default function AdminViewAccount(){
                     viewUserData = {viewUserData}
                     view = {view}
                     setView = {setView}
+                    user = {viewUserName}
                 />
+                
                 </>
             )}
         </div>

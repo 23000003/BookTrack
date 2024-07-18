@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import supabase from '../Supabase/Supabase';
 import useEditData from "./EditDataDetails";
 import useApproveDecline from "./ApproveDeclineHook";
+import norequest from "../assets/no_request.png"
 
 export default function AdminPostApproval() {
     const [approveData, setApproveData] = useState([]);
@@ -14,7 +15,8 @@ export default function AdminPostApproval() {
         Approve, 
         Decline, 
         loadingAD,
-        SingleDecline
+        SingleDecline,
+        UpdateUser
     } = useApproveDecline();
 
     const {
@@ -81,14 +83,15 @@ export default function AdminPostApproval() {
             <h2 style={{ marginLeft: '25%' }}>Sort By: </h2>
             <h2 style={{ marginLeft: '6px' }}>Bulk Post</h2>
         </div>    
-        <div className="Accounts-container">
+        <div className="Accounts-container" style={{ height: approveData.length > 0 ? '' : '100%' }}>
             {loading ? (
-                <div className='loading'>
-                    <div className='loader'></div>
+                <div className='admin-loader'>
+                    <div class="messageloader"></div>
                 </div>
             ) : (
                 approveData.length > 0 ? (
-                    approveData.map((account, index) => (
+                    <>
+                    {approveData.map((account, index) => (
                         <div className="Accounts" key={index}>
                             <div className="Accounts-notapprove">
                                 <div className='Account-details'>
@@ -96,7 +99,8 @@ export default function AdminPostApproval() {
                                     <h4 style={{ marginLeft: "15px" }}>Posted By: {account.account_name}</h4>
                                 </div>
                                 <div>
-                                     <button className="Approve-button" 
+                                    <button onClick={() => UpdateUser(account.account_name)}>Remove</button>
+                                    <button className="Approve-button" 
                                         onClick={() => {
                                             handleApprove(account.account_name, 'physical'), 
                                             setView(!view), 
@@ -105,12 +109,18 @@ export default function AdminPostApproval() {
                                 </div>
                             </div>
                         </div>
-                    ))
+                    ))}
+                    
+                    <hr />
+                    </>
                 ) : (
-                    <p>No accounts available for approval.</p>
+                    <div className="no-approval-post">
+                        <img src={norequest} style={{height: "59px"}}/>
+                        <p>No accounts available for approval.</p>
+                    </div>
                 )
             )}
-            <hr />
+            
         </div>
         {view && (
             <>

@@ -220,5 +220,5 @@ export default function useApproveDecline(){
         }
     }
 
-    return { Approve, Decline, loadingAD, SingleDecline};
+    return { Approve, Decline, loadingAD, SingleDecline, UpdateUser};
 }

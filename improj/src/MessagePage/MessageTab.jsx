@@ -9,7 +9,7 @@ export default function MessageTab() {
     const [clickUser, setClickUser] = useState([]);
     const [clickTrigger, setClickTrigger] = useState(false);
     const [enterMessage, setEnterMessage] = useState('');
-    const { messageData, sendMessage, setMessage } = MessageTabHook();
+    const { messageData, sendMessage, setMessage, loading } = MessageTabHook();
 
     useEffect(() => {
         document.body.style.backgroundColor = "#FFF6F6";
@@ -80,20 +80,28 @@ export default function MessageTab() {
                         <span style={{color: "#C7C7C7", fontSize: "15px", marginLeft: "15px"}}>{messageData.length}</span>
                     </div>
                     <ul>
-                        {messageData.map((data, index) => (
-                            <li className="chat flex-container spaced-out" key={index} onClick={() => clickedUser(data)}>
-                                <div style={{display: "flex", alignItems: "center"}}>
-                                    <img src={data.profile} alt="" />
-                                    <div style={{display: "flex", flexDirection: 'column', justifyContent: "start"}}>
-                                        <span className="flex-container vertical-align">{truncateText(data.sender_name, 15)}</span>
-                                        <span className="last-messaged">{ConvertDate(data.time_sent)}</span>
-                                    </div>
-                                </div>
-                                {data.receiver_notif !== 0 && overlayNotif &&(
-                                    <span className='notif-num'>{data.receiver_notif}</span>
-                                )}
-                            </li>
-                        ))}
+                        {loading ? (
+                            <div class="messageloader"></div>
+                        ):(
+                            messageData.length > 0 ? (
+                                messageData.map((data, index) => (
+                                    <li className="chat flex-container spaced-out" key={index} onClick={() => clickedUser(data)}>
+                                        <div style={{display: "flex", alignItems: "center"}}>
+                                            <img src={data.profile} alt="" />
+                                            <div style={{display: "flex", flexDirection: 'column', justifyContent: "start"}}>
+                                                <span className="flex-container vertical-align">{truncateText(data.sender_name, 15)}</span>
+                                                <span className="last-messaged">{ConvertDate(data.time_sent)}</span>
+                                            </div>
+                                        </div>
+                                        {data.receiver_notif !== 0 && overlayNotif &&(
+                                            <span className='notif-num'>{data.receiver_notif}</span>
+                                        )}
+                                    </li>
+                                ))
+                            ):(
+                                <div className='no-messages'>No Messages!</div>
+                            )
+                        )}
                     </ul>
                 </div>
 
@@ -104,6 +112,7 @@ export default function MessageTab() {
                             <div className='input-message-bar'>
                                 <hr />
                                 <div style={{display: "flex", alignItems: "center"}}>
+                                    <input type="file" />
                                     <input placeholder='Enter Message...' 
                                         onChange={(e) => setEnterMessage(e.target.value)} 
                                         value={enterMessage}

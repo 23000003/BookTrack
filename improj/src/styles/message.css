@@ -53,6 +53,12 @@
     padding: 30px;
 }
 
+.no-messages{
+    text-align: center;
+    font-size: 18px;
+    color: grey;
+}
+
 .message-list li {
     padding: 20px;
     align-items: center;
@@ -179,6 +185,20 @@ div.headers {
     margin-right: 10px;
 }
 
+.messageloader {
+    margin-left: 45%;
+    width: 15px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+    0%  {box-shadow: 20px 0 #8d8d8d, -20px 0 #0002;background: #969696 }
+    33% {box-shadow: 20px 0 #808080, -20px 0 #0002;background: rgba(145, 143, 143, 0.133)}
+    66% {box-shadow: 20px 0 rgba(148, 148, 148, 0.133),-20px 0 #838383; background: rgba(128, 128, 128, 0.133)}
+    100%{box-shadow: 20px 0 rgba(104, 104, 104, 0.133),-20px 0 #7e7e7e; background: #7e7d7d }
+}
+
 .messaging-identify{
     width: 100%;
     padding: 15px 0px 17px 0px;
@@ -226,4 +246,117 @@ div.headers {
     height: 100%;
     font-size: 25px;
     color: grey;
+}
+
+.report{
+    display: flex;
+    border-radius: 1em;
+    flex-direction: column;
+}
+
+.report hr{
+    width: 90%;
+    margin-left: 5%
+}
+
+.report-1st{
+    height: 13%;
+    padding: 0em 1em 0em 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.report-2nd{
+    display: flex;
+    flex-direction: column;
+    padding: 2em 2.5em 0em 2em;
+    font-size: 12px;
+}
+
+.report-2nd input{
+    width: 100%;
+    padding: 0.5em; /* Added padding for better UX */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+.report-2nd input:nth-child(2){
+    height: 30px;
+}
+
+.report-2nd h3:nth-child(3){
+    margin-top: 25px;
+}
+
+.report-2nd textarea:nth-child(4){
+    margin-top: 5px;
+    height: 150px;
+    resize: none;
+}
+
+.report-2nd button{
+    align-items: center;
+    margin: auto;
+    margin-top: 12px;
+    padding: 0.5em;
+    cursor: pointer;
+    color: #d3302f;
+    background-color: white;
+    border: 1px solid #d3302f;
+}
+
+.report-2nd button:hover{
+    background-color: #d3302f;  
+    color: white;
+}
+
+.confirmation{
+    position: fixed;
+    width: 300px;
+    height: 150px;
+    background-color: rgb(255, 255, 255);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1em;
+    z-index: 5;
+}
+
+.confirmation h3{
+    text-align: center;
+    margin-top: 30px;
+}
+
+.confirmation-buttons{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.confirmation-buttons button{
+    padding: 1em 2em 1em 2em;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-weight: 500;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.confirmation-buttons button:nth-child(1){
+    background-color: red;
+}
+.confirmation-buttons button:nth-child(2){
+    background-color: rgb(9, 255, 9);
+}
+
+.confirmation-buttons button:nth-child(1):hover{
+    background-color: rgb(133, 33, 33);
+}
+.confirmation-buttons button:nth-child(2):hover{
+    background-color: rgb(29, 126, 29);
+}
+
+.expoconfir{
+    z-index: 3;
 }

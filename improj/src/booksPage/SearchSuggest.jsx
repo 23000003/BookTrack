@@ -6,15 +6,40 @@ async function fetchBookTitles(type){
     const {data} = await supabase.from('books')
     .select('book_title')
     .eq('book_type', type)
+    .eq('isApprove', true)
 
     return data;
 }
 
-export default function SearchSuggest({search, setSearchPicked, setSearchSuggest, type}){
+async function fetchCities(type){
+
+    const {data} = await supabase.from('books')
+    .select('city')
+    .eq('book_type', type)
+    .eq('isApprove', true)
+
+    return data
+}
+
+export default function SearchSuggest(props){
 
     const [bookTitle, setbookTitle] = useState([]);
+    const [cityFound, setCityFound] = useState([]);
     const [foundSuggest, setFoundSuggest] = useState([]);
-    const [searchTrigger, setSearchTrigger] = useState(false);
+    const [foundCitySuggest, setCityFoundSuggest] = useState([])
+
+    const {
+        search, 
+        setSearchPicked, 
+        setSearchSuggest,
+        type,
+        searchTrigger,
+        setSearchTrigger,
+        citySuggest,
+        setCitySuggest,
+        setCityTrigger,
+        citySearchTrigger
+    } = props
 
     console.log(search);
 
@@ -23,6 +48,9 @@ export default function SearchSuggest({search, setSearchPicked, setSearchSuggest
             try {
                 const temp = await fetchBookTitles(type);
                 setbookTitle(temp);
+                const temp1 = await fetchCities(type);
+                setCityFound(temp1)
+                console.log("FOUND CITY",temp1);
             } catch (error) {
                 console.error('Error fetching book titles:', error);
             }
@@ -41,6 +69,30 @@ export default function SearchSuggest({search, setSearchPicked, setSearchSuggest
             setFoundSuggest(filteredTitles);
         }
     }, [search, bookTitle]);
+
+    useEffect(() => {
+        if (citySuggest === '') {
+            setCityTrigger(false);
+        } else {
+            
+            const uniqueCities = new Set();
+    
+            cityFound.forEach(book => {
+                if (book.city.toLowerCase().includes(citySuggest.toLowerCase())) {
+                    uniqueCities.add(book.city); 
+                }
+            });
+    
+            const filteredCity = Array.from(uniqueCities);
+            console.log(filteredCity)
+            setCityTrigger(true);
+            setCityFoundSuggest(filteredCity);
+            console.log(foundCitySuggest)
+            console.log(citySearchTrigger)
+            console.log(foundCitySuggest.length)
+        }
+    }, [citySuggest, cityFound]);
+    
 
 
     return(
@@ -62,8 +114,24 @@ export default function SearchSuggest({search, setSearchPicked, setSearchSuggest
                     ))
                 )}      
             </div>
-            <div class="LocationSuggest">
-                                
+
+            <div class="LocationSuggest"
+                style={{height: `31 * ${foundCitySuggest.length}px`, 
+                backgroundColor: "white",
+                boxShadow: "0px 10px 25px -10px rgba(0,0,0,0.54)"
+            }}>
+                {citySearchTrigger && (
+                    foundCitySuggest.map((title, index) => (
+                        <p key={index}
+                            onClick={() => {
+                                // setSearchPicked(title.city), 
+                                setCityTrigger(false),
+                                setCitySuggest('')
+                            }}
+                        >{title}</p>
+                    ))
+                )}
+                {/* <p>HEY</p>     */}
             </div> 
         </div>
     );
