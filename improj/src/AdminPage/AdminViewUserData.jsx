@@ -9,8 +9,8 @@ export default function ViewUserData(props){
     const [tableTrigger, setTableTrigger] = useState(true);
     const [reportTrigger, setReportTrigger] = useState(false);
     const [displayTrigger, setDisplayTrigger] = useState(false);
-
-    const [reportData, setReportData] = useState([])
+    const [viewUserReport, setViewUserReport] = useState('');
+    // const [reportData, setReportData] = useState([])
     const navigate = useNavigate();
 
     return(
@@ -137,6 +137,12 @@ export default function ViewUserData(props){
                                 <h3>Ordered: ago</h3>
                                 <button>View Report</button>
                             </div>
+                        </div>
+                    )}
+
+                    {viewUserReport !== '' && (
+                        <div className="view-user-report">
+                            
                         </div>
                     )}
 
