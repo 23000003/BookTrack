@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
+import nopfp from '../assets/nopfp.png'
 
 export default function ViewUserData(props){
    
@@ -127,7 +128,15 @@ export default function ViewUserData(props){
 
                     {reportTrigger && (
                         <div className="user-reports-bar">
-
+                            <div className="user-content">
+                                <div className="user-div-content">
+                                    <img src={nopfp} alt="" />
+                                    <h3>Account Name</h3>
+                                </div>
+                                <h3>Report Number #</h3>
+                                <h3>Ordered: ago</h3>
+                                <button>View Report</button>
+                            </div>
                         </div>
                     )}
 
