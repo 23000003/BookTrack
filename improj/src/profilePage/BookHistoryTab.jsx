@@ -48,7 +48,7 @@ export default function BookHistory(){
                     tabData.map((book, index) =>(
                         <div key={index} className="on-sale">
                             <div className="sold">
-                                <span>{book.isFailed ? "FAILED" : "SUCCESS"}</span>
+                                <span style={{backgroundColor: book.isFailed ? "red" : "green"}}>{book.isFailed ? "FAILED" : "SUCCESS"}</span>
                             </div>
                             <div className="on-sold-image">
                                 <img src={book.books.imagetag} alt="Book Image" />

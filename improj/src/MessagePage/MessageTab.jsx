@@ -88,7 +88,7 @@ export default function MessageTab() {
                                     <li className="chat flex-container spaced-out" key={index} onClick={() => clickedUser(data)}>
                                         <div style={{display: "flex", alignItems: "center"}}>
                                             <img src={data.profile} alt="" />
-                                            <div style={{display: "flex", flexDirection: 'column', justifyContent: "start"}}>
+                                            <div className='message-ahh'>
                                                 <span className="flex-container vertical-align">{truncateText(data.sender_name, 15)}</span>
                                                 <span className="last-messaged">{ConvertDate(data.time_sent)}</span>
                                             </div>
