@@ -80,7 +80,7 @@ export default function ViewOrders() {
                 </div>
                 <div className="tab-order-picked">
                     <div style={{display: "flex"}}>
-                        <h3 style={{marginBottom: "20px"}}>Your Orders </h3>
+                        <h3 style={{marginBottom: "20px"}}>{switchTab ? "Your Orders" : "Your History Orders"}</h3>
                         <h4 style={{marginLeft: "8px", color: "grey"}}>{switchTab ? viewOrders.length : history.length}</h4>
                     </div>
                     <hr style={{width: "99%"}}/>
