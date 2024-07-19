@@ -1,16 +1,17 @@
-import UserHook from "../Supabase/UserSessionData";
 import useSellHook from "./SellTabHook";
 import FetchBook from "./profileDataHook";
 import { useState, useRef } from "react";
 import '../styles/responsive.css'
 import emptydata from '../assets/EmptyData.jpg'
+import UserHook from "../Supabase/UserSessionData";
 
 export default function BookSellTab(){
 
     const {user} = UserHook();
+
     const [data, setData] = useState([]);
     const [ItemTrigger, setItemTrigger] = useState(false);
-    
+    const [ confirmationButton,setConfirmButton] = useState(false);
 
     const ViewItem = (data) =>{
         setItemTrigger(true);
@@ -120,7 +121,7 @@ export default function BookSellTab(){
                         <div className="sell-image2">
                             <img src={data.books.imagetag}/>
                         </div>
-                        <button>Edit Image</button>
+                        
                     </div>
                     <div className="sell-details">
                         <h3>Item Details:</h3>
@@ -182,11 +183,27 @@ export default function BookSellTab(){
                             >Edit Item</button> 
                             
                             <button id="itemsold" onClick={() =>
-                                ItemSold(data)
+                                setConfirmButton(true)
                             }>Mark As Sold</button>
 
                         </div>
                     </div>
+                    {confirmationButton && (
+                    <>
+                        <div className="exposure expoconfir"></div>
+                        <div className="confirmation">
+                            <h3>Confirm Mark as Sold?</h3>
+                            <div className="confirmation-buttons">
+                                <button onClick={() => {setConfirmButton(false)}}>
+                                    Decline
+                                </button>
+                                <button onClick={() => ItemSold(data)}>
+                                    Confirm
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                    )}
                 </div>
                 </>
             )}

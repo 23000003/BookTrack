@@ -26,6 +26,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 150px;
 }
 /* Content content */
 /* UPPER content */
@@ -54,7 +55,10 @@
     cursor: pointer;
     border: none;
     color: white;
+    font-size: 14px;
+    letter-spacing: 1px;
     font-weight: 600;
+    text-transform: uppercase;
 }
 
 .title {
@@ -63,6 +67,7 @@
     font-size: 4em;
     font-weight: bold;
     color: white;
+    text-align: center;
 }
 .upper img {
     width: 100%;
@@ -85,21 +90,24 @@
     margin-bottom: 300px;
     color: #5E2323;
 }
+
+
 .box {
     width: 300px;
     height: 250px;
-    padding: 20px;
-    margin: 100px; 
     display: flex;
     justify-content: center;
     position: relative;
+    margin-top: 60px;
 }
 .box .cphrase {
     position: absolute;
     padding-top: 70px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
     color: #5E2323;
+    width: 100%;
+    text-align: center;
 }
 .box .sente {
     padding-top: 100px;
@@ -109,6 +117,11 @@
     color: #5E2323;
     text-align: center;
 }
+
+.sente{
+    margin-top: 20px;
+}
+
 .circle {
     width: 50px;
     height: 50px;
@@ -160,6 +173,12 @@
     height: 50px;
     margin: 30px 0;
 }
+
+
+.login-container .login-input-box input::placeholder {
+    color: rgba(141, 126, 126, 0.562);
+}
+
 .login-input-box input {
     width: 100%;
     height: 100%;
@@ -168,7 +187,7 @@
     outline: none;
     border-radius: 20px;
     font-size: 16px;
-    color:#555555;
+    color:#000000;
     background-color: rgb(209, 209, 209);
     padding: 20px 45px 20px 20px;
 }

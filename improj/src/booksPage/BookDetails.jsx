@@ -4,13 +4,17 @@ import supabase from '../Supabase/Supabase';
 import gcash from '../assets/GCash.png'
 import useBuyItem from './BuyitemHook';
 import useBookDetailsHook from './BookDetailsHook';
+import UserHook from '../Supabase/UserSessionData';
 
 
 export default function BookDetails() {
 
+    const {user} = UserHook();
+
     const location = useLocation();
     const [passDets, setPassDets] = useState({});
     const [loading, setLoading] = useState(true);
+    const [sellerContact, setSellerContact] = useState('');
 
     useEffect(() =>{
         setLoading(true)
@@ -22,12 +26,20 @@ export default function BookDetails() {
 
             setPassDets(data);
             console.log("Refetch", data)
+
+            const {data:phone} = await supabase.from('Accounts')
+            .select('contact')
+            .eq('account_name', location.state.book.account_name)
+            .single()
+            
+            console.log(phone);
+            setSellerContact(phone);
             setLoading(false)
         }
         reFetch();
     },[])
 
-    const [user, setUser] = useState(location.state.user);
+    const [seller, setSeller] = useState(location.state.user);
     console.log(location.state)
     const navigate = useNavigate();
 
@@ -42,8 +54,9 @@ export default function BookDetails() {
         setLocation,
         AddtoFavourites,
         DeleteFavourites,
-        ViaCashOnDelivery 
-    } = useBuyItem(user);
+        ViaCashOnDelivery,
+        uploadLoading 
+    } = useBuyItem(seller);
 
     const {
         handlePickupChange,
@@ -75,7 +88,7 @@ export default function BookDetails() {
         setFavourites,
         favouriteLoad,
         deliveryFee
-    } = useBookDetailsHook(passDets, setIsChecked, user);
+    } = useBookDetailsHook(passDets, setIsChecked, seller);
 
     useEffect(() => {
         const subscription = supabase
@@ -115,13 +128,16 @@ export default function BookDetails() {
     }, [setFavourites, setPassDets]);
 
     // ADD LOADING FUNCTIONALITY HERE
-
+    console.log(user)
     return (
         <>
             {loading ? (
-                <div className='loading'>  
+               <>
+                <div className='upload-loader'></div>
+                <div className='loading center-loader'>
                     <div className='loader'></div>
                 </div>
+                </> 
             ) : (
                 <div className="BookDetailsContainer" style={{ marginTop: "100px" }}>
                     <hr style={{ margin: '0px 10%' }} />
@@ -137,23 +153,30 @@ export default function BookDetails() {
                         <div className="left-details">
                             <div className="book-title">
                                 <h2>{passDets.book_title}
-                                    {favouriteLoad ? (
+                                    {favouriteLoad && user.length !== 0 ? (
                                         null
                                     ) : (
-                                        favourites ? (
-                                            <button onClick={() => DeleteFavourites(passDets.id)}>Remove Favourite</button>
+                                        user.length !== 0 && (favourites ? (
+                                            <button className='remove-favourite' onClick={() => DeleteFavourites(passDets.id)}>Remove Favourite</button>
                                         ) : (
-                                            <button onClick={() => AddtoFavourites(passDets.id)}>Add to favourite</button>
-                                        )
+                                            <button className='add-favourite' onClick={() => AddtoFavourites(passDets.id)}>Add to favourite</button>
+                                        ))
                                     )}
                                 </h2>
                                 <div style={{ color: "grey" }}>
                                     Posted By:
-                                    <span onClick={() => navigate(`/userProfile/${passDets.account_name}?Profile`, {state: {passDets}})}>{passDets.account_name}</span>
-                                    <svg onClick={() => setTriggerMessage(!triggerMessage)}
-                                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-dots-fill bi-message-icon" viewBox="0 0 16 16">
-                                        <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                                    </svg>
+                                    {passDets.account_name === user.account_name ? (
+                                        <span>You</span>
+                                    ):(
+                                       <>
+                                        <span onClick={() => navigate(`/userProfile/${passDets.account_name}?Profile`, {state: {passDets}})}>{passDets.account_name}</span>
+                                        <svg onClick={() => setTriggerMessage(!triggerMessage)}
+                                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-dots-fill bi-message-icon" viewBox="0 0 16 16">
+                                            <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                                        </svg>
+                                       </>
+                                    )}
+                                    
                                     {triggerMessage && (
                                         <span className="send-a-message-details" ref={messageRef}>
                                             <div style={{ display: "flex" }}>
@@ -189,18 +212,28 @@ export default function BookDetails() {
                                         )}
                                     </span>
                                     <h2 className='priceh2'>₱{totalPrice}.00</h2>
-                                    <div className="Qty">
-                                        <p className='Quantity-1'>Qty: {passDets.book_quantity}</p>
-                                        <button className="qty" style={{ borderRight: '0px', cursor: 'pointer' }} onClick={QuantityMinus}>-</button>
-                                        <span className='quantityidentifier'>{quantity}</span>
-                                        <button className="qty" style={{ borderLeft: '0px', cursor: 'pointer' }} onClick={QuantityAdd}>+</button>
-                                        <br />
-                                        {passDets.book_quantity === 0 ? (
-                                            <button className="Buy" style={{ cursor: "no-drop" }}>Item In Process</button>
-                                        ) : (
-                                            <button className="Buy Buy-hover" onClick={paymentTrigger}>Buy Book</button>
-                                        )}
-                                    </div>
+                                    {user.length === 0 ? (
+                                        <div className="guestuser">
+                                            YOUR A GUEST
+                                        </div>
+                                    ):(
+                                         <div className="Qty">
+                                            <p className='Quantity-1'>Qty: {passDets.book_quantity}</p>
+                                            <button className="qty" style={{ borderRight: '0px', cursor: 'pointer' }} onClick={QuantityMinus}>-</button>
+                                            <span className='quantityidentifier'>{quantity}</span>
+                                            <button className="qty" style={{ borderLeft: '0px', cursor: 'pointer' }} onClick={QuantityAdd}>+</button>
+                                            <br />
+                                            {passDets.account_name === user.account_name ? (
+                                                <button className="Buy" style={{ cursor: "no-drop" }}>Your Item</button>
+                                            ):(
+                                                passDets.book_quantity === 0 ? (
+                                                    <button className="Buy" style={{ cursor: "no-drop" }}>Item In Process</button>
+                                                ) : (
+                                                    <button className="Buy Buy-hover" onClick={paymentTrigger}>Buy Book</button>
+                                                )
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                                 <hr style={{ marginTop: '25px' }} />
                                 <div className="payment-details">
@@ -253,7 +286,7 @@ export default function BookDetails() {
                         <div>
                             <img src={gcash} alt="" style={{maxWidth: "50%", maxHeight: "50%", objectFit: "cover"}}/>
                         </div>
-                        <p id="phonenumber">099-5281-3643</p>
+                        <p id="phonenumber">{sellerContact.contact}</p>
                         <div className="amount-paying">
                             <p className="paying-amount">Amount: ₱{totalPrice}.00</p>
                             <p id="delivery-fee" 
@@ -376,6 +409,15 @@ export default function BookDetails() {
                             </div>
                         </div>
                     </div>
+                )}
+
+                {uploadLoading && (
+                    <>
+                    <div className='upload-loader'></div>
+                    <div className='loading center-loader'>
+                        <div className='loader'></div>
+                    </div>
+                    </>
                 )}
             </div>
             </>

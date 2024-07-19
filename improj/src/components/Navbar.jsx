@@ -103,8 +103,10 @@ export default function Navbar() {
                             <img src="https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/BookTrack__4_.png?t=2024-05-29T13%3A51%3A43.693Z" alt="" className="Booktrack" />
                         </Link>
                     </div>
-                    <div>
-                        <span>Home</span>
+                    <div className='GONE'>
+                        <Link to='/'>
+                            <span>Home</span>
+                        </Link>
                     </div>
                     {browseBar ? (
                         <div className='Browse1' onClick={() => setBrowse(!browse)}>
@@ -192,11 +194,26 @@ export default function Navbar() {
                                                     case 'Transaction':
                                                         message = 'Item Added to Your Transaction';
                                                         break;
-                                                    case 'Declined':
+                                                    case 'AdminDeclined':
                                                         message = 'Admin Declined Your Post';
                                                         break;
-                                                    case 'Approved':
+                                                    case 'AdminApproved':
                                                         message = 'Admin Approved Your Post'
+                                                        break;
+                                                    case 'Release':
+                                                        message = 'E - Book Received'
+                                                        break;
+                                                    case 'Approve':
+                                                        message = 'Seller Approved Your Item'
+                                                        break;
+                                                    case 'Decline':
+                                                        message = 'Seller Declined Your Item'
+                                                        break;
+                                                    case 'Dont-Release':
+                                                        message = 'E - Book was Declined'
+                                                        break;
+                                                    case 'Order-Canceled':
+                                                        message = 'Order Has Been Cancelled'
                                                         break;
                                                     default:
                                                         message = 'Unknown Notification';
@@ -204,7 +221,7 @@ export default function Navbar() {
                                                 return (
                                                     <div className="notif-bg" key={index}>
                                                         <div className="notif-content" >
-                                                            <p>Item #{notif.book_id} : {notif.books.book_title}</p>
+                                                            <p>{notif.book_id !== null ? (`Item #${notif.book_id} : ${notif.books.book_title}`) : "# Post Approval" }</p>
                                                             <p>{message}</p>
                                                         </div>
                                                     </div>

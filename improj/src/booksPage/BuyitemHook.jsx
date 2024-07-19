@@ -5,13 +5,13 @@ import UserHook from "../Supabase/UserSessionData";
 export default function useBuyItem(){
 
     const {user} = UserHook();
-    const k = 1;
     const [referenceNo , setReferenceNo] = useState('');
     const [firstName, setFirstname] = useState('');
     const [lastName, setLastName] = useState('');
     const [isChecked, setIsChecked] = useState('pickup');
     const [contactNo, setContactNo] = useState('');
     const [location, setLocation] = useState('');
+    const [uploadLoading, setLoading] = useState(false);
 
     const BuyItemTrigger = (quantity, current, id, in_process, seller, totalPrice) => {
         if(referenceNo === '' ||
@@ -23,7 +23,7 @@ export default function useBuyItem(){
             alert("dont leave a space empty")
             return;
         }else{
-
+            setLoading(true)
             const update = async () =>{
                 const {error:bookError} = await supabase
                 .from('books')
@@ -36,6 +36,7 @@ export default function useBuyItem(){
                 if(bookError){
                     console.log(bookError);
                     alert('Error buying (book error)')
+                    setLoading(false)
                     return;
                 }
             }
@@ -62,6 +63,7 @@ export default function useBuyItem(){
                 if(transacError){
                     alert('error inserting to transac');
                     console.log(transacError);
+                    setLoading(false)
                 }else{
                     TriggerAddNotif(id,seller);
                 }
@@ -69,6 +71,7 @@ export default function useBuyItem(){
                 
             }
             insert();
+            
         }
     }
 
@@ -82,6 +85,7 @@ export default function useBuyItem(){
             return;
         }
         else{
+            setLoading(true)
             const update = async () =>{
                 const {error:bookError} = await supabase
                 .from('books')
@@ -94,6 +98,7 @@ export default function useBuyItem(){
                 if(bookError){
                     console.log(bookError);
                     alert('Error buying (book error)')
+                    setLoading(false)
                     return;
                 }
             }
@@ -118,11 +123,13 @@ export default function useBuyItem(){
                 if(transacError){
                     alert('error inserting to transac');
                     console.log(transacError);
+                    setLoading(false)
                 }else{
                     TriggerAddNotif(id,seller);
                 }
             }
             insert();
+            
         }
     }
 
@@ -146,6 +153,8 @@ export default function useBuyItem(){
         if(notifError || notifError1){
             alert("error notif insert")
             console.log(error);
+            setLoading(false)
+            return
         }
 
         const {data: You} = await supabase
@@ -164,7 +173,7 @@ export default function useBuyItem(){
         if(accError){
             alert("error notif insert")
             console.log(accError);
-            
+            setLoading(false)
         }
         else{
             const {data ,error: accError1} = await supabase
@@ -175,6 +184,7 @@ export default function useBuyItem(){
 
             if(accError1){
                 console.log(accError1)
+                setLoading(false)
             }else{
                 const {error: accError2} = await supabase
                 .from('Accounts')
@@ -185,8 +195,11 @@ export default function useBuyItem(){
 
                 if(accError2){
                     console.log(accError2)
+                    setLoading(false)
                 }else{
                     alert("bought successful")
+                    setLoading(false)
+                    window.location.reload()
                 }
             }
         }
@@ -230,6 +243,7 @@ export default function useBuyItem(){
             return;
         }
         else{
+            setLoading(true)
             const {error: transacError} = await supabase
             .from('transaction')
             .insert({
@@ -245,6 +259,8 @@ export default function useBuyItem(){
             if(transacError){
                 alert('error inserting to transac');
                 console.log(transacError);
+                setLoading(false)
+                return
             }
             
             const {error: notifError} = await supabase
@@ -267,6 +283,8 @@ export default function useBuyItem(){
                 alert("error notif insert")
                 console.log(notifError);
                 console.log(notifError1)
+                setLoading(false)
+                return
             }
     
             const {error: accError} = await supabase
@@ -279,7 +297,8 @@ export default function useBuyItem(){
             if(accError){
                 alert("error notif insert")
                 console.log(accError);
-                
+                setLoading(false)
+                return
             }
             else{
                 const {data ,error: accError1} = await supabase
@@ -290,6 +309,8 @@ export default function useBuyItem(){
 
                 if(accError1){
                     console.log(accError1)
+                    setLoading(false)
+                    return
                 }
                 else{
                     const {error: accError2} = await supabase
@@ -301,8 +322,11 @@ export default function useBuyItem(){
 
                     if(accError2){
                         console.log(accError2)
+                        setLoading(false)
                     }else{
+                        setLoading(false)
                         alert("bought successful")
+                        window.location.reload()
                     }
                 }
             }
@@ -321,6 +345,7 @@ export default function useBuyItem(){
         AddtoFavourites,
         DeleteFavourites,
         BuyEbookTrigger,
-        ViaCashOnDelivery 
+        ViaCashOnDelivery,
+        uploadLoading 
     };
 }

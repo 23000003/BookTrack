@@ -11,7 +11,7 @@ export default function useFetchComponentsHook(tab, user) {
             const { data, error } = await supabase
             .from('history')
             .select(`
-                account_name,
+                buyer_name(*),
                 book_price,
                 books (
                     id,
@@ -25,7 +25,7 @@ export default function useFetchComponentsHook(tab, user) {
                 )
             `)
             .eq('type', 'e-book')
-            .eq('account_name', user);
+            .eq('buyer_name', user);
 
 
             if (error) {
@@ -37,15 +37,17 @@ export default function useFetchComponentsHook(tab, user) {
         }
 
         const FetchViewOrders = async () => {
+        
         const { data, error } = await supabase
             .from('transaction')
             .select(`
                 transac_id,
                 seller_name,
                 buyer_name(
-                account_name,
-                email,
-                profile
+                    account_name,
+                    account_id,
+                    email,
+                    profile
                 ),
                 full_name,
                 quantity,
@@ -67,7 +69,8 @@ export default function useFetchComponentsHook(tab, user) {
                     book_type
                 )
             `)
-            .eq('seller_name', user); // change this to seller_name
+            .eq('seller_name', user)
+            .order('date_ordered', { ascending: true }); 
 
             if (error) {
                 console.log(error);
@@ -89,7 +92,7 @@ export default function useFetchComponentsHook(tab, user) {
   }, []);
 
 
-    const DeclineOrder = async (data) =>{
+    const DeclineOrder = async (data, type) =>{
 
         const {error: processError} = await supabase.from('books')
         .update({
@@ -102,6 +105,15 @@ export default function useFetchComponentsHook(tab, user) {
             console.log(error)
         }
         else{
+            const { error: errorHistory } = await supabase.from('history')
+            .insert({
+                book_id: data.books.id,
+                buyer_name: data.buyer_name.account_id,
+                seller_name: (type === 'Decline' ? '' : user),
+                book_price: data.price,
+                isFailed: true
+            });
+        
             const {error} = await supabase.from('transaction')
             .delete()
             .eq('transac_id', data.transac_id)
@@ -110,34 +122,35 @@ export default function useFetchComponentsHook(tab, user) {
                 console.log(error)
                 
             }else{
-                alert("Decline success")
+                UpdateNotification(
+                    data.books.id,
+                    data.buyer_name.account_name,
+                    type
+                )
             }
             console.log(data);
         }
         
     }
 
-    const ApproveOrder = async (id) =>{
+    const ApproveOrder = async (data) =>{
         const {error} = await supabase.from('transaction')
         .update({
             accept: true
         })
-        .eq('transac_id', id)
+        .eq('transac_id', data.transac_id)
 
         if(error){
             console.log(error)
         }else{
-            alert("Approve Success");
+            UpdateNotification(
+                data.books.id,
+                data.buyer_name.account_name,
+                "Approve"
+            )
         }
     }
 
-    const NotSent = async (data) =>{
-
-    }
-
-    const Sent = async() =>{
-
-    }
 
     const [messageContent, setMessageContent] = useState('');
     const [triggerMessage, setTriggerMessage] = useState(false);
@@ -209,18 +222,122 @@ export default function useFetchComponentsHook(tab, user) {
             }
         }
     }
+    
+    const UpdateNotification = async(id, sendTo, type) => {
+        const {error: notifError} = await supabase
+        .from('notification_contents')
+        .insert({
+            book_id: id,
+            account_name: sendTo,
+            type: type
+        });
+
+        if(notifError){
+            console.log(notifError)
+            return;
+        }
+
+        const {data} = await supabase.from('Accounts')
+        .select('notification')
+        .eq('account_name', sendTo)
+        .single()
+
+        const {error: updateNotif} = await supabase.from('Accounts')
+        .update({
+            notification: data.notification + 1,
+        }).eq('account_name', sendTo);
+        
+        if(updateNotif){
+            console.log(updateNotif)
+        }else{
+            alert(type)
+            window.location.reload();
+        }
+    }
+
+    const CancelOrder = async (data) =>{
+        
+    }
+
+    const Release = async(data) =>{
+        
+        const {error:errorHistory} = await supabase.from('history')
+        .insert({
+            book_id: data.books.id,
+            buyer_name: data.buyer_name.account_id,
+            seller_name: user,
+            book_price: data.price,
+            type: "e-book",
+            isFailed: false
+        })
+        
+        if(errorHistory){
+            console.log(errorHistory)
+            return;
+        }
+
+        const {error: deleteTransac} = await supabase.from('transaction')
+        .delete()
+        .eq('transac_id', data.transac_id)
+
+        UpdateNotification(
+            data.books.id,
+            data.buyer_name.account_name,
+            "Release"
+        )
+        alert(data)
+        
+    }
+
+    const DontRelease = async (data) =>{
+        const {error: deleteTransac} = await supabase.from('transaction')
+        .delete()
+        .eq('transac_id', data.transac_id)
+
+        UpdateNotification(
+            data.books.id,
+            data.buyer_name.account_name,
+            "Dont-Release"
+        )
+    }
+
+    const ConfirmButtonFunc = (data, type) => {
+        switch(type){
+            case 'Dont-Release':
+                DontRelease(data);
+                break;
+            case 'Release':
+                Release(data);
+                break;
+            case 'Order-Canceled':
+                DeclineOrder(data, "Order-Canceled")
+                break;
+            case 'Approve':
+                ApproveOrder(data)
+                break;
+            case 'Decline':
+                DeclineOrder(data, "Decline")
+                break;
+            default:
+                alert("Invalid Type")
+                break;
+        }
+    }
 
     return { 
         eBooks,
         viewOrders,
         DeclineOrder,
         ApproveOrder,
-        NotSent,
-        Sent,
+        CancelOrder,
+        Release,
         setMessageContent,
         triggerMessage,
         setTriggerMessage,
         messageRef,
-        SendMessageFunc
+        SendMessageFunc,
+        DontRelease,
+        UpdateNotification,
+        ConfirmButtonFunc
     };
 }

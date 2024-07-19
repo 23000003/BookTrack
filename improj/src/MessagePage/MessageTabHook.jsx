@@ -36,9 +36,7 @@ export default function usefetchMessageTab(){
                 setMessage(temp);
                 console.log(messageData)
             }
-            if(temp.length > 0){
-                setloading(false);
-            }
+            setloading(false);
         };
         
         fetchMessages();

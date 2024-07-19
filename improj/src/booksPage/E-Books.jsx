@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import UserHook from '../Supabase/UserSessionData';
 
-function DisplayBooks({Genre, filterGenre, setfilterGenre, searchPicked}) {
+function DisplayBooks({Genre, filterGenre, setfilterGenre, searchPicked, user}) {
 
     const { ebookData, loading } = useEBookData(); 
     const { passDets, bookDets, DisplayDets } = BookHook();
@@ -21,7 +21,6 @@ function DisplayBooks({Genre, filterGenre, setfilterGenre, searchPicked}) {
 
     const chosenGenre = ebookData.filter(genreData => genreData.genre === Genre);
 
-    const {user} = UserHook();
 
     useEffect(() => {
         setBooksecback(filterGenre ? 'none' : 'block');
@@ -67,9 +66,7 @@ function DisplayBooks({Genre, filterGenre, setfilterGenre, searchPicked}) {
                         <div className="BookArea">
                             <div className="Books-Column">
                                 {loading ? (
-                                    <div className='loading'> 
-                                        <div className='loader'></div>
-                                    </div>
+                                    <div class="messageloader"></div>
                                 ) : (
                                     filterSearch !== '' ? (
                                         <>
@@ -171,8 +168,11 @@ export default function Books(){
     const [genre, setGenre] = useState('');
     const [filterGenre, setfilterGenre] = useState(true);
     const [searchSuggest, setSearchSuggest] = useState('');
+    const [citySuggest, setCitySuggest] = useState('');
     const [searchPicked, setSearchPicked] = useState('');
     const [searchTrigger, setSearchTrigger] = useState(false);
+    const [citySearchTrigger, setCityTrigger] = useState(false);
+    const {user} = UserHook();
 
     console.log(searchSuggest);
     
@@ -183,38 +183,37 @@ export default function Books(){
                 <div className="background-search">
                     <div className="background-search2">
                         <div className="search-bar">
-                            <h3 style={{display: "flex"}}>Search Your Favourite Book!</h3>
+                            <h3 style={{display: "flex"}}>Search Your Favourite E - Book!</h3>
                             <div className="form">
                                 <div className="row">
-                                    <div className="col">
+                                    <div className="col" style={{width: "100%"}}>
                                         <input
                                             className="form-control"
+                                            style={{width: "95%"}}
                                             type="text"
                                             id="Book-Input"
                                             onChange={(e) => setSearchSuggest(e.target.value)}
                                             value={searchSuggest}
                                             placeholder="Enter book title..."
-                                            onBlur={() => setSearchTrigger(false)}
                                         />
                                     </div>
-                                    <div className="col">
-                                        <input
-                                            className="form-control"
-                                            type="text"
-                                            id="Location-Input"
-                                        />
-                                    </div>
+                                    
                                     <div className="col1">
                                         <button className="btn" >SEARCH</button> {/*onclick="Search()"*/}
                                     </div>
                                 </div>
                             </div>
+
                             <SearchSuggest 
                                 search={searchSuggest}
                                 setSearchSuggest = {setSearchSuggest}
+                                citySuggest = {citySuggest}
+                                setCitySuggest = {setCitySuggest}
                                 setSearchPicked={setSearchPicked}
                                 searchTrigger = {searchTrigger}
                                 setSearchTrigger = {setSearchTrigger}
+                                citySearchTrigger = {citySearchTrigger}
+                                setCityTrigger = {setCityTrigger}
                                 type = "e-book"
                             />
                         </div>
@@ -255,12 +254,22 @@ export default function Books(){
                             <img src="https://justbooks.in/assets/images/categ-info/comics.svg" style={{height: "50px"}} id="Manga" className="images"/>
                             <label>Manga</label>
                         </div>
+                        <div className="label Manga Others" onClick={() => {setGenre('Others'), setfilterGenre(false)}}> 
+                            <img src="https://justbooks.in/assets/images/categ-info/technical.svg" style={{height: "50px"}} id="Manga" className="images"/>
+                            <label>Others</label>
+                        </div>
                     </div>
                 </div>
             </div>
-            <DisplayBooks Genre={genre} filterGenre={filterGenre} setfilterGenre={setfilterGenre} searchPicked={searchPicked}/>
+            <DisplayBooks 
+                Genre={genre} 
+                filterGenre={filterGenre} 
+                setfilterGenre={setfilterGenre} 
+                searchPicked={searchPicked}
+                user={user}
+            />
         </div>
-        <Link to ='/uploadEbooks'><button id="PostBox">POST ITEM</button></Link>
+        {user.length !== 0 && (<Link to ='/uploadEbooks'><button id="PostBox">POST ITEM</button></Link>)}
         </>
     );
 }

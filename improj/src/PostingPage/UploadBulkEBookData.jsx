@@ -5,6 +5,7 @@ import UploadBulkData from './BulkUploadHook';
 import ImageStyle from '../components/ImageStyle';
 
 export default function BulkEBookUploadData() {
+
     const { 
         SelectFiles, 
         handleUpload, 
@@ -12,7 +13,8 @@ export default function BulkEBookUploadData() {
         images,
         MyEbookFiles,
         ebookFiles,
-        uploadLoading
+        uploadLoading,
+        fileName
      } = UploadBulkData();
 
     useEffect(() => {
@@ -66,8 +68,8 @@ export default function BulkEBookUploadData() {
                         </div>
                         <div style={{ marginTop: "20px" }}>
                             <h3>imgtag: (NOTE: Please make your image name Unique, use UID generator)</h3>
-                            <p>https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/e-books/"Your Image Name" + png</p>
-                            <p>ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/e-books/Ikigai.png</p>
+                            <p>https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/ebooks/"Your Image Name" + png</p>
+                            <p>ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/ebooks/Ikigai.png</p>
                         </div>
                         <div style={{ marginTop: "20px" }}>
                             <h3>File:</h3>
@@ -77,26 +79,28 @@ export default function BulkEBookUploadData() {
                     </div>
 
                     <div className="image-upload">
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <h2>Upload CSV</h2>
-                            <span id="Cancel-Image">X</span>
-                        </div>
-
+                        
+                        <h2>Upload CSV</h2>
+                        <label for="file-input3" class="custom-file-upload" style={{marginTop: "20px"}}>
+                                Choose CSV
+                        </label>
                         <input 
+                            id='file-input3'
                             name="text" 
                             type="file"
                             onChange={SelectFiles}
                             accept='.csv'
-                        />
 
-                        <h2>Upload Images</h2>
-                        <input 
-                            name="text" 
-                            type="file"
-                            onChange={MyImages}
-                            multiple
                         />
+                        {fileName !== '' && (
+                            <p>{fileName}</p>
+                        )}
 
+                        <h2 style={{marginTop: "60px"}}>Upload Images</h2>
+                        <label for="file-input" class="custom-file-upload" style={{marginTop: "20px"}}>
+                                Choose Image
+                        </label>
+                        <input id="file-input" type="file" onChange={MyImages} multiple/>
                         <div>
                             {images.length > 0 && images.map((file, index) => (
                                 <div key={index}>
@@ -105,9 +109,11 @@ export default function BulkEBookUploadData() {
                             ))}
                         </div>
 
-                        <h2>Upload E-Book Files</h2>
-                        <input 
-                            name="text" 
+                        <h2 style={{marginTop: "60px"}}>Upload E-Book Files</h2>
+                        <label for="file-input2" class="custom-file-upload" style={{marginTop: "20px"}}>
+                                Choose Files
+                        </label>
+                        <input id="file-input2" name="text" 
                             type="file"
                             onChange={MyEbookFiles}
                             multiple

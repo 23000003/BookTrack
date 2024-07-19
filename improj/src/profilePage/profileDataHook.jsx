@@ -18,7 +18,7 @@ export default function FetchBook(Tab, name, userID){
                     .select(`
                         transac_id,
                         seller_name,
-                        buyer_name(account_name, email, profile),
+                        buyer_name(*),
                         full_name,
                         quantity,
                         price,
@@ -28,7 +28,7 @@ export default function FetchBook(Tab, name, userID){
                         book_id,
                         order_type,
                         accept,
-                        books(id, book_title, book_quantity, book_price, imagetag, in_process, book_type, file)
+                        books(*)
                     `)
                     .eq('buyer_name', userID)
                 );
@@ -53,8 +53,9 @@ export default function FetchBook(Tab, name, userID){
             } else if ( Tab === 'history'){
                 ({ data, error } = await supabase.from(Tab)
                     .select(`
-                        account_name,
+                        buyer_name(*),
                         book_price,
+                        isFailed,
                         books(
                             id,
                             book_title,
@@ -66,7 +67,7 @@ export default function FetchBook(Tab, name, userID){
                             file
                         )
                     `)
-                    .eq('account_name', name)
+                    .eq('buyer_name', userID)
                 );
             } 
             else {
@@ -81,11 +82,15 @@ export default function FetchBook(Tab, name, userID){
             } else {
                 if(data.length !== 0){
                     setTabData(data);
-                    setLoading(false);
                 }
+                setLoading(false);
             }
-        }        
-        fetch();
+        }
+        if(name !== undefined){
+            fetch();
+        }
+        console.log("NAMEEE",name)      
+        
     }, [Tab, name]);
     
     return {tabData, loading};

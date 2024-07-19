@@ -4,25 +4,35 @@ import { useLocation } from "react-router-dom";
 import useFetchComponentsHook from "../Supabase/ComponentsHook";
 import nopfp from '../assets/nopfp.png'
 import ConvertDate from "../Supabase/TimeConverter";
+import supabase from "../Supabase/Supabase";
+import emptydata from '../assets/EmptyData.jpg'
 
 export default function ViewOrders() {
     
     const [viewUserInfo, setViewUserInfo] = useState({});
     const [triggerView, setTriggerView] = useState(false);
     const [approve, setApprove] = useState(false);
+    const [history, setHistory] = useState([]);
+    const [switchTab, setSwitchTab] = useState(true) // true if view orders false if view histopry
+    const [confirmationButton, setConfirmButton] = useState(false)
+    const [confirmType, setConfirmType] = useState('')
     const location = useLocation();
     
     const { 
+        eBooks,
         viewOrders,
         DeclineOrder,
         ApproveOrder,
-        NotSent,
-        Sent,
+        CancelOrder,
+        Release,
         setMessageContent,
         triggerMessage,
         setTriggerMessage,
         messageRef,
-        SendMessageFunc
+        SendMessageFunc,
+        DontRelease,
+        UpdateNotification,
+        ConfirmButtonFunc
     } = useFetchComponentsHook("ViewOrders", location.state.user.account_name);
     
      console.log("HEYYY", viewOrders);
@@ -30,10 +40,20 @@ export default function ViewOrders() {
     useEffect(() => {
         document.body.style.backgroundColor = 'rgb(238, 238, 238)';
 
+        const FetchHistory = async() =>{
+            const {data, error} = await supabase.from('history')
+            .select(`*, buyer_name(*)`)
+            .eq('seller_name', location.state.user.account_name)
+            .order('date_ordered', { ascending: false});
+
+            console.log("HISTORYY",data)
+            setHistory(data);
+        }
+        FetchHistory();
         return () => {
             document.body.style.backgroundColor = '';
         };
-    }, []);
+    }, [location]);
     
     const ViewOrder = (data) =>{
         if(triggerView === false){
@@ -47,75 +67,82 @@ export default function ViewOrders() {
         
     }
 
-
     return (
         <>
         <div className="view-orders">
             <div className="flex-orders">
                 <div className="view-order-label">
                     <div className="order-tabs">
-                        <h3>Orders</h3>
+                        <h3 onClick={() => setSwitchTab(true)}>Orders</h3>
                         <hr />
-                        <h3>Order History</h3>
+                        <h3 onClick={() => setSwitchTab(false)}>Order History</h3>
                     </div>
                 </div>
                 <div className="tab-order-picked">
                     <div style={{display: "flex"}}>
                         <h3 style={{marginBottom: "20px"}}>Your Orders </h3>
-                        <h4 style={{marginLeft: "8px", color: "grey"}}>{viewOrders.length}</h4>
+                        <h4 style={{marginLeft: "8px", color: "grey"}}>{switchTab ? viewOrders.length : history.length}</h4>
                     </div>
                     <hr style={{width: "99%"}}/>
                 </div>
-                {/* <div className="order-contents-overflow">
-                    <div className="order-contents">
-                        {viewOrders && viewOrders.length > 0 ? (
-                            viewOrders.map((order, index) => (
-                                <>
-                                <div key={index} className="my-contents">
-                                    <div className="user-content">
-                                        <div className="user-div-content">
-                                            <img src={order.buyer_name.profile} alt="" />
-                                            <h3>{order.buyer_name.account_name}</h3>
+                
+                {switchTab ? (
+                    <div className="order-contents-overflow">
+                        <div className="order-contents1">
+                            {viewOrders && viewOrders.length > 0 ? (
+                                viewOrders.map((order, index) => (
+                                    <>
+                                    <div key={index} className="my-contents">
+                                        <div className="user-content">
+                                            <div className="user-div-content">
+                                                <img src={order.buyer_name.profile} alt="" />
+                                                <h3>{order.buyer_name.account_name}</h3>
+                                            </div>
+                                            <h3>Bought Item #{order.book_id}</h3>
+                                            <h3>Ordered: {ConvertDate(order.date_ordered)} ago</h3>
+                                            <button onClick={() => ViewOrder(order)}>View Details</button>
                                         </div>
-                                        <h3>Bought Item #{order.book_id}</h3>
-                                        <h3>Ordered: {ConvertDate(order.date_ordered)} ago</h3>
-                                        <button onClick={() => ViewOrder(order)}>View Details</button>
                                     </div>
-                                </div>
-                                
-                                </>
-                            ))
-                        ) : (
-                            <div>No Orders Yet...</div> // Style this
-                        )}
+                                    
+                                    </>
+                                ))
+                            ) : (
+                                <div className="order-empty">
+                                    <img src={emptydata} alt="" />
+                                    <span>No Orders Yet ...</span>
+                                </div> // Style this
+                            )}
+                        </div>
                     </div>
-                </div> */}
-
-                <div className="order-contents-overflow">
-                    <div className="order-contents">
-                        {viewOrders && viewOrders.length > 0 ? (
-                            viewOrders.map((order, index) => (
-                                <>
-                                <div key={index} className="my-contents">
-                                    <div className="user-content">
-                                        <div className="user-div-content">
-                                            <img src={order.buyer_name.profile} alt="" />
-                                            <h3>{order.buyer_name.account_name}</h3>
+                ) : (
+                    <div className="order-contents-overflow">
+                        <div className="order-contents1">
+                            {history.length > 0 ? (
+                                history.map((order, index) => (
+                                    <>
+                                    <div key={index} className="my-contents">
+                                        <div className="user-content">
+                                            <div className="user-div-content">
+                                                <img src={order.buyer_name.profile} alt="" />
+                                                <h3>{order.buyer_name.account_name}</h3>
+                                            </div>
+                                            <h3>Bought Item #{order.book_id}</h3>
+                                            <h3> Closed: {ConvertDate(order.date_ordered)} ago</h3>
+                                            <span className={order.isFailed ? "Failed" : "Success"}>{order.isFailed ? "Failed" : "Success"}</span>
                                         </div>
-                                        <h3>Bought Item #{order.book_id}</h3>
-                                        <h3>Ordered: {ConvertDate(order.date_ordered)} ago</h3>
-                                        <button onClick={() => ViewOrder(order)}>View Details</button>
                                     </div>
-                                </div>
-                                
-                                </>
-                            ))
-                        ) : (
-                            <div>No History Orders Yet...</div> // Style this
-                        )}
+                                    
+                                    </>
+                                ))
+                            ) : (
+                                <div className="order-empty">
+                                    <img src={emptydata} alt="" />
+                                    <span>No History Orders Yet ...</span>
+                                </div> // Style this
+                            )}
+                        </div>
                     </div>
-                </div>
-
+                )}
 
             </div>
         </div>
@@ -221,7 +248,7 @@ export default function ViewOrders() {
                             <div className="user-info-column">
                                 <div className="user-column-label">
                                     <span>Order Type:</span>
-                                    <span>{viewUserInfo.order_type}</span>
+                                    <h3 className="order-type">{viewUserInfo.order_type}</h3>
                                 </div>
                             </div>
                         </div>
@@ -275,31 +302,36 @@ export default function ViewOrders() {
                     {viewUserInfo.books.book_type === 'physical' ? (
                         !viewUserInfo.accept ? (
                             <>
-                            <button onClick={() =>DeclineOrder(viewUserInfo)}>Decline Order</button>
-                            <button onClick={() =>ApproveOrder(viewUserInfo.transac_id)}>Approve Order</button>
+                            <button onClick={() =>{setConfirmButton(true),setConfirmType("Decline")}}>Decline Order</button>
+                            <button onClick={() =>{setConfirmButton(true), setConfirmType('Approve')}}>Approve Order</button>
                             </>
                         ):(
-                            <>
-                            {viewUserInfo.order_type === 'pickup' ? (
-                                <>
-                                <button>Order Canceled</button>
-                                <button>Buyer Claimed</button>
-                                </>
-                            ):(
-                                <>
-                                <button>Not Sent</button>
-                                <button>Sent</button>
-                                </>
-                            )}
-                            </>
+                            <button onClick={() =>{setConfirmButton(true),setConfirmType("Order-Canceled")}}>Order Canceled</button>
                         )
                     ) : (
                         <>
-                        <button>Don't Release</button>
-                        <button >Release</button>
+                        <button onClick={() => {setConfirmButton(true), setConfirmType('Dont-Release')}}>Don't Release</button>
+                        <button onClick={() => {setConfirmButton(true), setConfirmType('Release')}}>Release</button>
                         </>
                     )}
                 </div>
+                          
+                {confirmationButton && (
+                <>
+                    <div className="exposure expoconfir"></div>
+                    <div className="confirmation">
+                        <h3>Confirm {confirmType}?</h3>
+                        <div className="confirmation-buttons">
+                            <button onClick={() => {setConfirmButton(false), setConfirmType('')}}>
+                                Decline
+                            </button>
+                            <button onClick={() => ConfirmButtonFunc(viewUserInfo, confirmType)}>
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </>
+                )}
             </div>
            </>
         )}

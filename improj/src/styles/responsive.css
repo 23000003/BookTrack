@@ -81,3 +81,16 @@
 
 /* LOADING ANIMATIONS */
 
+@media screen and (max-width: 990px){
+    .user-content h3:nth-child(3){
+        display: none;
+    }
+
+    .GONE{
+        visibility: hidden;
+    }
+
+    .navbar_left div:nth-child(3){
+        margin-left: 200px;
+    }
+}

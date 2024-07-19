@@ -24,7 +24,7 @@ export default function AdminViewAccount(){
     return(
         <>
         <div className="account-data">
-            <h2 style={{marginLeft: "5%"}}>Accounts</h2>
+            <h2 style={{marginLeft: "20px"}}>Accounts</h2>
             <h2 style={{marginLeft: '27%'}}>No. of Books on Sale</h2>
         </div>
         <div className="Accounts-Viewcontainer" key={true}>

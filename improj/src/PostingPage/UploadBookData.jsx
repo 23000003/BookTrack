@@ -147,33 +147,25 @@ export default function UploadData(){
                     <input type="checkbox" id="Second-Hand" 
                         onChange={() => setSecondHand(true)}
                     />
-                    <label for="">Click if Second Hand</label>
+                    <label for="" style={{marginLeft: "10px"}}>Click if Second Hand</label>
                 </div>
         
                 <div className="image-upload">
-                    <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                        <h2>Upload Image</h2>
-                        <span id="Cancel-Image" 
-                            ref={cancelVisible}
-                            onClick={() => CancelImage()}
-                        >X</span>
-                    </div>
                     
-                    {image && <img src={URL.createObjectURL(image)} alt="" id="image-preview"/>}
-                    
-                    <div ref={visible}>
-                        <label for="file" className="labelFile">
-                            <ImageStyle />
-                            <p>Select a PNG File</p>
-                        </label>
-                    </div>
-                    
+                    <h2>Upload Image</h2>
+                    <label for="file-input100" class="custom-file-upload" style={{marginTop: "15px"}}>
+                            Choose Image
+                    </label>
                     <input className="input" name="text" 
-                        id="file" 
+                        id="file-input100" 
                         type="file"
-                        onChange={PreviewImage}
-                        ref={fileInput}    
+                        onChange={(e) => setImage(e.target.files[0])}  
                     />
+
+                    {image !== null && (
+                        <p>{image.name}</p>
+                    )}
+
                 </div>
                 {uploadLoading && (
                     <>

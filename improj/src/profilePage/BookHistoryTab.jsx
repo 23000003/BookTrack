@@ -1,13 +1,16 @@
 import UserHook from "../Supabase/UserSessionData";
 import FetchBook from "./profileDataHook";
 import emptydata from '../assets/EmptyData.jpg'
+import { useLocation } from "react-router-dom";
 
 export default function BookHistory(){
 
-    const {user} = UserHook();
-    const {tabData, loading} = FetchBook('history', user.account_name)
-    console.log("history", tabData)
+    const location = useLocation()
+    const user = location.state.user;
 
+    const {tabData, loading} = FetchBook('history', user.account_name, user.account_id)
+    console.log("history", tabData)
+    console.log(user)
 
     return(
         <>
@@ -45,7 +48,7 @@ export default function BookHistory(){
                     tabData.map((book, index) =>(
                         <div key={index} className="on-sale">
                             <div className="sold">
-                                <span>COMPLETED</span>
+                                <span>{book.isFailed ? "FAILED" : "SUCCESS"}</span>
                             </div>
                             <div className="on-sold-image">
                                 <img src={book.books.imagetag} alt="Book Image" />

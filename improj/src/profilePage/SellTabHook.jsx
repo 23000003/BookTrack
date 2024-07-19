@@ -57,14 +57,13 @@ export default function useSellHook(ExitViewItem){
 
         const {error: soldError} = await supabase.from('books_sold')
         .insert({
-            id: data.book_id,
             book_title: data.books.book_title,
-            account_name: data.books.account_name,
+            account_name: data.account_name,
             book_price: data.books.book_price,
             imagetag: data.books.imagetag
         })
 
-
+        
         if(soldError){
             alert("Error inserting")
             console.log(soldError)
@@ -72,7 +71,7 @@ export default function useSellHook(ExitViewItem){
         else{
             const {error:sellError} = await supabase.from('books_sell')
             .delete()
-            .eq('book_id', data.book_id)
+            .eq('book_id', data.books.id)
 
             if(sellError){
                 alert("Error deleting from sell")
@@ -80,14 +79,14 @@ export default function useSellHook(ExitViewItem){
             }else{
                 const {error:bookError} = await supabase.from('books')
                 .delete()
-                .eq('id', data.book_id)
+                .eq('id', data.books_id)
                 
                 if(bookError){
                     alert("Error deleting from books")
                     console.log(bookError)
                 }else{
                     alert("tranfer successful!");
-                    ExitViewItem();
+                    window.location.reload()
                 }
             }
         }

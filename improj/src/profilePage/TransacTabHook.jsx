@@ -1,20 +1,5 @@
 import supabase from "../Supabase/Supabase";
 
-// async function FetchBook(id){
-
-//     const {data, error} = await supabase.from('books')
-//     .select()
-//     .eq('id', id)
-//     .single()
-
-//     if(error){
-//         console.log(error);
-//     }else{
-//         return data;
-//     }
-
-// }
-
 
 export default function useTransacHook(){
 
@@ -45,13 +30,14 @@ export default function useTransacHook(){
     }
 
     const ItemClaimed = async (data) => {
-
+       
         const {error:errorHistory} = await supabase.from('history')
         .insert({
-            book_title: data.books.book_title,
-            account_name: data.buyer_name.account_name,
             book_id: data.books.id,
-            book_price: data.price
+            buyer_name: data.buyer_name.account_id,
+            seller_name: data.books.account_name,
+            book_price: data.price,
+            isFailed: false
         })
         
         if(errorHistory){
@@ -81,6 +67,7 @@ export default function useTransacHook(){
                 alert("error deleting")
             }else{
                 alert("ItemClaimed Successful")
+                window.location.reload();
             }
         }
         

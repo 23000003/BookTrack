@@ -23,6 +23,31 @@
 .order-contents{
     height: 100%;
     margin: 0;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.order-contents1{
+    height: 100%;
+    margin: 0;
+    overflow: auto;
+}
+
+.order-empty{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 160px;
+}
+
+.order-empty img{
+    width: 180px;
+}
+
+.order-empty span{
+    color: grey;
+    font-weight: 600;
 }
 
 .tab-order-picked{
@@ -40,6 +65,39 @@
 .order-contents-overflow{
     height: 100%;
     overflow-y: auto;
+}
+
+.Failed{
+    background-color: rgb(255, 0, 13);
+    padding: 0.2em;
+    color: rgb(247, 247, 247);
+    border: 1px solid black;
+}
+
+.Success{
+    background-color: rgb(88, 255, 88);
+    padding: 0.2em;
+    color: rgb(247, 247, 247);
+    border: 1px solid black;
+}
+
+.no-favourite{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-favourite img{
+    width: 100px;
+    margin-left: 20px;
+    margin-top: 200px;
+}
+
+.no-favourite span{
+    margin-top: 20px;
+    font-size: 19px;
+    color: grey;
 }
 
 .my-contents{
@@ -100,14 +158,46 @@
     align-items: center;
 }
 
+.guest-login{
+    padding: 0.8em 1.5em 0.8em 1.5em;
+    font-weight: 500;
+}
+
+.user-content button,
+.guest-login{
+    background-color: #dd3c49;
+    color: white;
+    cursor: pointer;
+    border: 1px solid #dd3c49;
+}
+
+.user-content button:hover,
+.guest-login:hover{
+    background-color: #ffffff;
+    color: #dd3c49;
+    border: 1px solid #dd3c49;
+}
+
 .itemIdentify{
-    margin-left: 150px;
+    margin-left: 370px;
     border-radius: 1em;
     border: 1px solid rgb(204, 65, 65);
     padding: 0.5em 1em 0.7em 1em;
     background-color: #ee4545; 
     color: white;
     font-weight: 500;
+    position: absolute;
+}
+
+.order-type{
+    background-color: #dd3c49;
+    margin-right: auto;
+    color: rgb(241, 241, 241);
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .order-user-name img{
@@ -130,6 +220,18 @@
     border: 1px solid black;
     padding: 1em 0em 1em 0em;
     width: 230px;
+}
+
+.view-notif{
+    position: absolute;
+    margin-top: 140px;
+    margin-left: 100px;
+}
+
+.view-notif2{
+    position: absolute;
+    margin-top: 250px;
+    margin-left: 100px;
 }
 
 .user-column-label{
@@ -186,4 +288,23 @@
 
 .order-tabs h3:nth-child(3){
     margin-left: 30px;
+}
+
+.noebooks{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+}
+
+.noebooks img{
+    width: 160px;
+    opacity: 50%;
+}
+
+.noebooks h3{
+    color: grey;
+    margin-top: 15px;
 }

@@ -38,7 +38,8 @@ export default function SearchSuggest(props){
         citySuggest,
         setCitySuggest,
         setCityTrigger,
-        citySearchTrigger
+        citySearchTrigger,
+        setCityPicked
     } = props
 
     console.log(search);
@@ -61,6 +62,7 @@ export default function SearchSuggest(props){
     useEffect(() => {
         if(search === ''){
             setSearchTrigger(false)
+            setFoundSuggest('')
         }else{
             const filteredTitles = bookTitle.filter(book =>
                 book.book_title.toLowerCase().includes(search.toLowerCase())
@@ -73,6 +75,7 @@ export default function SearchSuggest(props){
     useEffect(() => {
         if (citySuggest === '') {
             setCityTrigger(false);
+            setCityFoundSuggest('')
         } else {
             
             const uniqueCities = new Set();
@@ -93,45 +96,48 @@ export default function SearchSuggest(props){
         }
     }, [citySuggest, cityFound]);
     
-
+    console.log("LEN",foundSuggest.length)
 
     return(
         <div className="Search-bar-suggest">
+            {/* Applied correct calculation for height based on foundSuggest length, resetting to 0 if empty */}
             <div className="searchSuggest" 
-                style={{height: `31 * ${foundSuggest}px`, 
-                backgroundColor: "white",
-                boxShadow: "0px 10px 25px -10px rgba(0,0,0,0.54)"
-            }}>
+                style={{
+                    height: foundSuggest.length > 0 ? `${31 * foundSuggest.length}px` : '0px', 
+                    backgroundColor: "white",
+                    boxShadow: "0px 10px 25px -10px rgba(0,0,0,0.54)"
+                }}>
                 {searchTrigger && (
                     foundSuggest.map((title, index) => (
                         <p key={index}
                             onClick={() => {
-                                setSearchPicked(title.book_title), 
-                                setSearchTrigger(false),
-                                setSearchSuggest('')
+                                setSearchPicked(title.book_title); 
+                                setSearchTrigger(false);
+                                setSearchSuggest('');
                             }}
                         >{title.book_title}</p>
                     ))
                 )}      
             </div>
 
-            <div class="LocationSuggest"
-                style={{height: `31 * ${foundCitySuggest.length}px`, 
-                backgroundColor: "white",
-                boxShadow: "0px 10px 25px -10px rgba(0,0,0,0.54)"
-            }}>
+            {/* Applied correct calculation for height based on foundCitySuggest length, resetting to 0 if empty */}
+            <div className="LocationSuggest"
+                style={{
+                    height: foundCitySuggest.length > 0 ? `${31 * foundCitySuggest.length}px` : '0px', 
+                    backgroundColor: "white",
+                    boxShadow: "0px 10px 25px -10px rgba(0,0,0,0.54)"
+                }}>
                 {citySearchTrigger && (
                     foundCitySuggest.map((title, index) => (
                         <p key={index}
                             onClick={() => {
-                                // setSearchPicked(title.city), 
-                                setCityTrigger(false),
-                                setCitySuggest('')
+                                setCityPicked(title)
+                                setCityTrigger(false);
+                                setCitySuggest('');
                             }}
                         >{title}</p>
                     ))
                 )}
-                {/* <p>HEY</p>     */}
             </div> 
         </div>
     );

@@ -9,7 +9,8 @@ export default function AdminPostApproval() {
     const [loading, setLoading] = useState(true);
     const [view, setView] = useState(false);
     const [typeView, setTypeView] = useState(true); //if true, shows books, if false shows ebooks
-
+    const [confirmationButton, setConfirmButton] = useState(false);
+    const [confirmType, setConfirmType] = useState('');
 
     const { 
         Approve, 
@@ -98,8 +99,8 @@ export default function AdminPostApproval() {
                                     <img src={account.profile} alt="Profile" />
                                     <h4 style={{ marginLeft: "15px" }}>Posted By: {account.account_name}</h4>
                                 </div>
-                                <div>
-                                    <button onClick={() => UpdateUser(account.account_name)}>Remove</button>
+                                <div className="approve-div-button">
+                                    <button onClick={() => {setConfirmButton(true), setConfirmType(account.account_name)}}>Remove</button>
                                     <button className="Approve-button" 
                                         onClick={() => {
                                             handleApprove(account.account_name, 'physical'), 
@@ -263,7 +264,9 @@ export default function AdminPostApproval() {
                                                 </td>
                                                 </>
                                             )}
-                                            <button onClick={() => 
+                                            <button 
+                                            className="Decline-Row"
+                                            onClick={() => 
                                                 SingleDecline(book.id, 
                                                         book.imagetag, 
                                                         book.file, 
@@ -292,6 +295,23 @@ export default function AdminPostApproval() {
             </div>
             </>
         )}
+
+            {confirmationButton && (
+            <>
+                <div className="exposure expoconfir"></div>
+                <div className="confirmation">
+                    <h3>Confirm Remove?</h3>
+                    <div className="confirmation-buttons">
+                        <button onClick={() => {setConfirmButton(false), setConfirmType('')}}>
+                            Decline
+                        </button>
+                        <button onClick={() => UpdateUser(confirmType)}>
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </>
+            )}
         </>
     );
 }

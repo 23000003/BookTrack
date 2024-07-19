@@ -60,12 +60,6 @@ export default function LoginPage(){
                     <input type="password" onChange={(e) => setPassword(e.target.value)}/>
                     <i className='bx bxs-lock-alt' ></i>
                 </div>
-                
-                <div className="login-input-box">
-                    <p>Username</p>
-                    <input type="text" onChange={(e) => setAccountName(e.target.value)}/>
-                    <i className='bx bxs-user' ></i>
-                </div>
 
                 <div className="login-checkbox">
                     <label><input type="checkbox"/>Remember me</label>

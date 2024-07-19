@@ -13,6 +13,7 @@ export default function ViewUserData(props){
     const [displayReport, setDisplayReport] = useState(false);
     const [viewContentReport, setViewContentReport] = useState({});
     const [reportData, setReportData] = useState([])
+
     const navigate = useNavigate();
 
     console.log(viewUserData)
@@ -141,7 +142,7 @@ export default function ViewUserData(props){
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="7">No books available for this user.</td>
+                                    <td colSpan="8">No books available for this user.</td>
                                 </tr>
                             )}
                         </tbody>

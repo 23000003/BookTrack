@@ -69,8 +69,11 @@ export default function useUploadHook(){
             alert('Put Image!');
             return;
         }else{
-            imageURL = `https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/${uniqueID}`;
-            setUploadLoading(true);
+            if(type === 'physical'){
+                imageURL = `https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/${uniqueID}`;
+            }else{
+                imageURL = `https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/ebooks/${uniqueID}`;
+            }
         }
 
         if(type === 'physical'){
@@ -82,7 +85,7 @@ export default function useUploadHook(){
                 alert('Input all fields');
                 return;
             }
-            
+            setUploadLoading(true);
             const {error} = await supabase.from('books')
             .insert({
                 book_title: title,
@@ -113,6 +116,7 @@ export default function useUploadHook(){
                     console.error(error);
                 }else{
                     alert("Upload Book Successfully!");
+                    window.location.reload();
                 }
             }
         
@@ -124,7 +128,7 @@ export default function useUploadHook(){
                 alert('Input all fields');
                 return;
             }
-
+            setUploadLoading(true);
             const {error} = await supabase.from('books')
             .insert({
                 book_title: title,
@@ -159,6 +163,7 @@ export default function useUploadHook(){
                         console.error(error);
                     }else{
                         alert("Upload Book Successfully!");
+                        window.location.reload();
                     }
                 }
             }
@@ -182,6 +187,7 @@ export default function useUploadHook(){
         image,
         uploadLoading,
         setEbookFile,
+        ebookFile,
         setCity
     };
 }

@@ -27,10 +27,6 @@ export default function UserProfile(props){
                         <img className="pfpimg" src={profile.profile}/>
                         <div className="username user-label">
                             <p>{passDets.account_name}</p>
-                            <p>|</p>
-                            <a href="https://www.facebook.com/kentward.maratas.7" target="_blank">
-                                <img src="https://freepnglogo.com/images/all_img/1713419166FB_Logo_PNG.png" alt="" style={{marginTop: "5px"}}/>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -92,7 +88,6 @@ export default function UserProfile(props){
                 </div>
             </div>
             <div style={{marginBottom: "150px"}}></div>
-            <a href="Post.html" target="_blank"><button id="PostBox">POST ITEM</button></a>
         </>
     );
 }

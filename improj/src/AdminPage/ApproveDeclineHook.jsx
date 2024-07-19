@@ -7,12 +7,14 @@ export default function useApproveDecline(){
     const [loadingAD, setLoadingAD] = useState(false);
     const { handleApprove } = useEditData();
 
-    const UpdateUser = async (user) =>{ // make functionality if wala na then click to false
+    const UpdateUser = async (user) =>{ 
         const {error} = await supabase.from('Accounts')
         .update({
             isPosted: false
         })
         .eq('account_name', user)
+
+        window.location.reload();
     }
 
     const Approve = async (user, type) =>{
@@ -33,6 +35,7 @@ export default function useApproveDecline(){
             setLoadingAD(false);
         }else{
             setLoadingAD(false);
+            UpdateNotification(null, user, "AdminApproved")
             alert("Approved Successful")
         }
 
@@ -106,6 +109,7 @@ export default function useApproveDecline(){
                 return;
             }
         }
+        // UpdateNotification(null, user, "AdminDeclined")
         alert('Delete Successful')
         setLoadingAD(false);
     }
@@ -211,6 +215,7 @@ export default function useApproveDecline(){
                 throw booksDeleteError;
             }
             setLoadingAD(false);
+            UpdateNotification(null, user, "AdminDeclined")
             alert("Books and related entries successfully deleted");
         } 
         catch (error) {
@@ -219,6 +224,39 @@ export default function useApproveDecline(){
             setLoadingAD(false);
         }
     }
+
+    const UpdateNotification = async(id, sendTo, type) => {
+        const {error: notifError} = await supabase
+        .from('notification_contents')
+        .insert({
+            book_id: null,
+            account_name: sendTo,
+            type: type
+        });
+
+        if(notifError){
+            console.log(notifError)
+            return;
+        }
+
+        const {data} = await supabase.from('Accounts')
+        .select('notification')
+        .eq('account_name', sendTo)
+        .single()
+
+        const {error: updateNotif} = await supabase.from('Accounts')
+        .update({
+            notification: data.notification + 1,
+        }).eq('account_name', sendTo);
+        
+        if(updateNotif){
+            console.log(updateNotif)
+        }else{
+            alert(type)
+            window.location.reload();
+        }
+    }
+
 
     return { Approve, Decline, loadingAD, SingleDecline, UpdateUser};
 }

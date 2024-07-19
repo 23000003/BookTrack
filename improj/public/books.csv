@@ -1,1 +1,9 @@
-book_title,book_genre,book_quantity,account_name,second_hand,book_price,imagetag,description,location,author,location_tag,city,in_process,book_type
+book_title,book_genre,book_quantity,account_name,second_hand,book_price,imagetag,description,location,author,location_tag,city,book_type
+Test Data 1,Fiction,4,Kenny Maratas,0,667,https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/232313131.png,"imgtag: (NOTE: Please make your image name Unique, use UID generator)
+https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/""Your Image Name"" + png
+
+ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/Ikigai.png",Talamban Dapit,No One,"https://www.google.com/maps/@10.3679488,123.9054192,15z?entry=ttu",Cebu,physical
+Test Data 2,Others,5,Kenny Maratas,1,764,https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/star.png,"imgtag: (NOTE: Please make your image name Unique, use UID generator)
+https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/""Your Image Name"" + png
+
+ex. https://wfiljmekszmbpzaqaxys.supabase.co/storage/v1/object/public/images/books/Ikigai.png",Eskina Talamban,Me Joe,"https://www.google.com/maps/place/Yuki+Eatery/@10.3695319,123.9195491,16z/data=!4m6!3m5!1s0x33a9a32fdf8fe6f1:0x8b80b39a13c51cb7!8m2!3d10.3713482!4d123.9241381!16s%2Fg%2F11y6830n1s?entry=ttu",Oslob,physical

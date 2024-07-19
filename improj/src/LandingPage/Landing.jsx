@@ -40,21 +40,21 @@ export default function LandingPage(){
                     <i className='bx bx-map-alt' ></i>
                 </div>
                 <p className="cphrase">Find the nearest source</p>
-                <p className="sente">Lorem ipsum dolor sit amet dipisicingam, am dimiliquora. Saepe, quidem deleniti.</p>
+                <p className="sente">Discover local bookstores and book sellers that have the books you’re looking for. Save time and ensure you get your hands on the books quickly and easily.</p>
             </div>
             <div className="box box2">
                 <div className="circle" id="circle2">
                     <i className='bx bx-credit-card'></i>
                 </div>
                 <p className="cphrase">Save your time</p>
-                <p className="sente">Lorem ipsum dolor sit amet dipisicingam, am dimiliquora. Saepe, quidem deleniti.</p>
+                <p className="sente">With our streamlined search and recommendation system, find the books you want without endless browsing. Our smart filters and personalized suggestions help you get exactly what you need.</p>
             </div>
             <div className="box box3" >
                 <div className="circle" id="circle3">
                     <i className='bx bx-heart' ></i>
                 </div>
                 <p className="cphrase">Post your Book</p>
-                <p className="sente">Lorem ipsum dolor sit amet dipisicingam, am dimiliquora. Saepe, quidem deleniti.</p>
+                <p className="sente">Share your book collection with others. Whether you’re looking to sell, lend, or simply showcase your favorite reads, our platform makes it easy to connect with fellow book enthusiasts.</p>
             </div>
         </div>
     </div>

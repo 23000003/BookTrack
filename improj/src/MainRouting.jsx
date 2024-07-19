@@ -23,6 +23,10 @@ import AdminPostApproval from './AdminPage/AdminPostApproval.jsx';
 import AdminViewAccount from './AdminPage/AdminViewAccounts.jsx';
 import ForgotPassword from './LandingPage/ForgotPassword.jsx';
 import UpdateForgotPassword from './LandingPage/NavigateUpdatePass.jsx';
+import BookSellTab from "./profilePage/BookSellTab.jsx";
+import BookSoldTab from "./profilePage/BookSoldTab.jsx";
+import BookTransact from "./profilePage/BookTransacTab.jsx"
+import BookHistory from './profilePage/BookHistoryTab.jsx';
 
 function Layout() {
     return (
@@ -75,10 +79,6 @@ const router = createBrowserRouter([
             element: <LandingEBooks /> 
         },
         { 
-            path: '/myprofile', 
-            element: <Profile /> 
-        },
-        { 
             path: '/uploadBooks', 
             element: <UploadBookData /> 
         },
@@ -111,7 +111,7 @@ const router = createBrowserRouter([
             element: <MyEbooksTab /> 
         },
         {
-            path: '/ForgotPassword/Update',
+            path: '/ChangePass/Update',
             element: <UpdateForgotPassword/>
         },
         {
@@ -127,7 +127,29 @@ const router = createBrowserRouter([
                 element: <AdminPostApproval /> 
             }
             ]
-        }
+        },
+        { 
+            path: '/myprofile', 
+            element: <Profile />,
+            children: [
+            {
+                path: 'SellTab',
+                element: <BookSellTab/>
+            },
+            {
+                path: 'SoldTab',
+                element: <BookSoldTab/>
+            },
+            {
+                path: 'HistoryTab',
+                element: <BookHistory/>
+            },
+            {
+                path: 'TransactionTab',
+                element: <BookTransact/>
+            }
+            ]
+        },
         ]
     }
 ]);

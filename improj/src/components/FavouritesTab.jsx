@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import supabase from '../Supabase/Supabase'
 import { useNavigate } from 'react-router-dom';
-
+import noreq from '../assets/no_request.png'
 
 export default function FavouriteTab({handleCloseMenu, user}){
 
@@ -57,7 +57,8 @@ export default function FavouriteTab({handleCloseMenu, user}){
                 ))
             ) : (
                 <div className="no-favourite">
-                    <span>No Favourites</span>
+                    <img src={noreq} alt="" />
+                    <span>No Favourites :(</span>
                 </div>
             )}
         </div>

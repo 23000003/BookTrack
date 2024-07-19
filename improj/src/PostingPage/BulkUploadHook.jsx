@@ -10,6 +10,7 @@ export default function UploadBulkData() {
     const [images, setImages] = useState([]);
     const [ebookFiles, setEbookFiles] = useState([]);
     const [uploadLoading, setUploadLoading] = useState(false);
+    const [fileName, setFilename] = useState('');
 
     useEffect(() => { 
         const subscription = supabase.channel('books')
@@ -59,23 +60,22 @@ export default function UploadBulkData() {
 
     const SelectFiles = (event) => {
         setFile(event.target.files[0]); // only for csv file
+        setFilename(event.target.files[0].name)
+        console.log(event.target.files[0].name)
     };
 
     const handleUpload = async (type) => {
         
         if (!file) {
             alert('Please select a file first!');
-            //will add useRef for design in inputs
             return;
         }
         if(!images){
             alert('Please select your images first');
-            //will add useRef for design in inputs
             return;
         }
         if(!ebookFiles){
             alert('Please select your ebook Files first');
-            //will add useRef for design in inputs
             return;
         }
         setUploadLoading(true);
@@ -156,6 +156,7 @@ export default function UploadBulkData() {
         } else {
             setUploadLoading(false);
             alert('Data uploaded successfully!');
+            window.location.reload();
             console.log('Uploaded data:', insertedData);
         }
     };
@@ -168,7 +169,8 @@ export default function UploadBulkData() {
         images,
         MyEbookFiles,
         ebookFiles,
-        uploadLoading
+        uploadLoading,
+        fileName
     };
  
 }

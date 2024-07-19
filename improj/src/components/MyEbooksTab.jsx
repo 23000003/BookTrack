@@ -4,12 +4,12 @@ import '../profilePage/profile.css'
 import useFetchComponentsHook from '../Supabase/ComponentsHook';
 import supabase from '../Supabase/Supabase';
 import { useLocation } from 'react-router-dom';
-
+import ebookEmpty from '../assets/ebookEmpty.png'
 
 export default function MyEbooksTab() {
 
     const location = useLocation();
-    const { eBooks } = useFetchComponentsHook("EBooksTab", location.state.user.account_name);
+    const { eBooks } = useFetchComponentsHook("EBooksTab", location.state.user.account_id);
 
     useEffect(() => {
         document.body.style.backgroundColor = 'rgb(238, 238, 238)';
@@ -54,23 +54,31 @@ export default function MyEbooksTab() {
                 <hr />
                 </div>
                 <div className="order-contents">
-                    {eBooks.map((ebook, index) => (
-                        <>
-                        <div key={index} className="on-sale">
-                            <div className="sell">
-                                <button className="sell-button" onClick={() => DownloadEbook(ebook.books.file)}>Download</button>
+                    {eBooks.length > 0 ? (
+                        eBooks.map((ebook, index) => (
+                            <>
+                            <div key={index} className="on-sale">
+                                <div className="sell">
+                                    <button className="sell-button" onClick={() => DownloadEbook(ebook.books.file)}>Download</button>
+                                </div>
+                                <div className="on-sale-image">
+                                    <img src={ebook.books.imagetag} alt="Book Image" />
+                                </div>
+                                <div className="on-sale-text">
+                                    <hr />
+                                    <span>{ebook.books.book_title}</span>
+                                    <span>File: {ebook.books.file}</span>
+                                </div>
                             </div>
-                            <div className="on-sale-image">
-                                <img src={ebook.books.imagetag} alt="Book Image" />
-                            </div>
-                            <div className="on-sale-text">
-                                <hr />
-                                <span>{ebook.books.book_title}</span>
-                                <span>File: {ebook.books.file}</span>
-                            </div>
+                            
+                            </>
+                        ))
+                    ):(
+                        <div className="noebooks">
+                            <img src={ebookEmpty} alt="" />
+                            <h3>No E - Books Bought :(</h3>
                         </div>
-                        </>
-                    ))}
+                    )}
                 </div>
             </div>
         </div>

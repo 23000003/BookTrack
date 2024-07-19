@@ -7,19 +7,22 @@ import staticbg from './Stylefilter';
 import { useNavigate } from 'react-router-dom';
 import UserHook from '../Supabase/UserSessionData';
 
-export default function DisplayBooks({Genre, filterGenre, setfilterGenre, searchPicked}) {
+export default function DisplayBooks({Genre, filterGenre, setfilterGenre, searchPicked, cityPicked}) {
 
     const { bookData, loading } = useBookData();
     const { passDets, bookDets, DisplayDets } = BookHook();
     const [booksecback, setBooksecback] = useState('');
     const [filterSearch, setFilterSearch] = useState('')
     const [filterSearchGenre, setFilterSearchGenre] = useState('');
-
+    const [filterCity, setFilterCity] = useState(false);
+    const [cityGroup, setCityGroup] = useState('');
     const navigate = useNavigate();
 
     const chosenGenre = bookData.filter(genreData => genreData.genre === Genre);
 
     const {user} = UserHook();
+
+    console.log(cityPicked)
 
     useEffect(() => {
         setBooksecback(filterGenre ? 'none' : 'block');
@@ -46,13 +49,35 @@ export default function DisplayBooks({Genre, filterGenre, setfilterGenre, search
 
     }, [searchPicked])
 
+
+    useEffect(() => {
+
+        if(cityPicked !== '') {
+            const cityBooks = [];
+            for (let i = 0; i < bookData.length; i++) {
+                const filteredBooks = bookData[i].data.filter(book => book.city === cityPicked);
+                if (filteredBooks.length > 0) {
+                    cityBooks.push({
+                        genre: bookData[i].genre,
+                        data: filteredBooks
+                    });
+                }
+            }
+            setFilterSearchGenre(cityBooks);
+            setFilterCity(true);
+            setBooksecback('block');
+            console.log("City Filtered Books:", cityBooks)
+        }
+
+    }, [cityPicked])
+
     console.log(bookData)
     return (
         <>
             {!bookDets ? (
                 <div id="BookSection">
                     <button id="Booksec-back" style={{display: booksecback}} 
-                        onClick={() => {setfilterGenre(true), setFilterSearch(''), setBooksecback('none')}}>X Exit</button>
+                        onClick={() => {setfilterGenre(true), setFilterSearch(''), setBooksecback('none'), setFilterCity(false)}}>X Exit</button>
                     <div className="LabelArea">
                         <span>Books</span>
                     </div>
@@ -60,148 +85,195 @@ export default function DisplayBooks({Genre, filterGenre, setfilterGenre, search
                         <div className="BookArea">
                             <div className="Books-Column">
                                 {loading ? (
-                                    <div className='loading'> 
-                                        <div className='loader'></div>
-                                    </div>
+                                    <div class="messageloader"></div>
                                 ) : (
-                                    filterSearch !== '' ? (
-                                        <>
-                                        <h2>{filterSearchGenre.genre}</h2>
-                                        <hr></hr>
-                                        <div className="bg">
-                                            <div className="first">
-                                            {filterSearch.second_hand === true && ( <div className="sec-hand">2nd Hand</div> )}
-                                                {filterSearch.in_process === 0 && filterSearch.book_quantity === 0 ? (
-                                                <>
-                                                    <span className="out-of-stock1"></span> 
-                                                    <span className="out-of-stock">OUT OF STOCK</span>
-                                                    <img src={filterSearch.imagetag} alt="" />
-                                                    <div className="text">
-                                                        <div className="titlediv">
-                                                            <label>{filterSearch.book_title}</label>
-                                                        </div>
-                                                        <div className="price">
-                                                            <p>P{filterSearch.book_price}</p>
-                                                        </div>
-                                                    </div>
-                                                </>
-                                                ) : (
-                                                    <>
-                                                    <img src={filterSearch.imagetag} alt="" />
-                                                    <div className="text">
-                                                        <div className="titlediv">
-                                                            <label>{filterSearch.book_title}</label>
-                                                        </div>
-                                                        <div className="price">
-                                                            <p>P{filterSearch.book_price}</p>
-                                                        </div>
-                                                        <span className="Buybutton" 
-                                                            onClick={
-                                                            () => navigate(`${filterSearch.book_title}?Details`, 
-                                                            {state: {book: filterSearch, user}})
-                                                        }>
-                                                        Buy</span>
-                                                    </div>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </div>
-                                        </>
-                                    ) : (
-                                        filterGenre ? (
-                                            bookData.map((genreData, idx) => (
-                                                <div key={idx}>
-                                                    <h2>{genreData.genre}</h2>
-                                                    <hr></hr>
-                                                    <div className="bg">
-                                                        {genreData.data.map((book, index) => (
-                                                            <div className="first" key={index}>
-                                                                {book.second_hand === true && ( <div className="sec-hand">2nd Hand</div> )}
-                                                                {book.in_process === 0 && book.book_quantity === 0 ? (
-                                                                <>
-                                                                    <span className="out-of-stock1"></span> 
-                                                                    <span className="out-of-stock">OUT OF STOCK</span>
-                                                                    <img src={book.imagetag} alt="" />
-                                                                    <div className="text">
-                                                                        <div className="titlediv">
-                                                                            <label>{book.book_title}</label>
-                                                                        </div>
-                                                                        <div className="price">
-                                                                            <p>P{book.book_price}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </>
-                                                                ) : (
-                                                                    <>
-                                                                    <img src={book.imagetag} alt="" />
-                                                                    <div className="text">
-                                                                        <div className="titlediv">
-                                                                            <label>{book.book_title}</label>
-                                                                        </div>
-                                                                        <div className="price">
-                                                                            <p>P{book.book_price}</p>
-                                                                        </div>
-                                                                        <span className="Buybutton" 
-                                                                            onClick={
-                                                                            () => navigate(`${book.book_title}?Details`, 
-                                                                            {state: {book, user}})
-                                                                        }>
-                                                                        Buy</span>
-                                                                    </div>
-                                                                    </>
-                                                                )}
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ):(
-                                            chosenGenre.map((genreData, idx) => (
-                                                <div key={idx}>
-                                                    <h2>{genreData.genre}</h2>
-                                                    <hr></hr>
-                                                    <div className="bg">
-                                                        {genreData.data.map((book, index) => (
-                                                            <div className="first" key={index}>
+                                    filterCity ? (
+                                        filterSearchGenre.map((genreData, idx) => (
+                                            <div key={idx}>
+                                                <h2>{genreData.genre}</h2>
+                                                <hr></hr>
+                                                <div className="bg">
+                                                    {genreData.data.map((book, index) => (
+                                                        <div className="first" key={index}>
                                                             {book.second_hand === true && ( <div className="sec-hand">2nd Hand</div> )}
-                                                                {book.in_process === 0 && book.book_quantity === 0 ? (
+                                                            {book.in_process === 0 && book.book_quantity === 0 ? (
+                                                            <>
+                                                                <span className="out-of-stock1"></span> 
+                                                                <span className="out-of-stock">OUT OF STOCK</span>
+                                                                <img src={book.imagetag} alt="" />
+                                                                <div className="text">
+                                                                    <div className="titlediv">
+                                                                        <label>{book.book_title}</label>
+                                                                    </div>
+                                                                    <div className="price">
+                                                                        <p>P{book.book_price}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                            ) : (
                                                                 <>
-                                                                    <span className="out-of-stock1"></span> 
-                                                                    <span className="out-of-stock">OUT OF STOCK</span>
-                                                                    <img src={book.imagetag} alt="" />
-                                                                    <div className="text">
-                                                                        <div className="titlediv">
-                                                                            <label>{book.book_title}</label>
-                                                                        </div>
-                                                                        <div className="price">
-                                                                            <p>P{book.book_price}</p>
-                                                                        </div>
+                                                                <img src={book.imagetag} alt="" />
+                                                                <div className="text">
+                                                                    <div className="titlediv">
+                                                                        <label>{book.book_title}</label>
                                                                     </div>
+                                                                    <div className="price">
+                                                                        <p>P{book.book_price}</p>
+                                                                    </div>
+                                                                    <span className="Buybutton" 
+                                                                        onClick={
+                                                                        () => navigate(`${book.book_title}?Details`, 
+                                                                        {state: {book, user}})
+                                                                    }>
+                                                                    Buy</span>
+                                                                </div>
                                                                 </>
-                                                                ) : (
-                                                                    <>
-                                                                    <img src={book.imagetag} alt="" />
-                                                                    <div className="text">
-                                                                        <div className="titlediv">
-                                                                            <label>{book.book_title}</label>
-                                                                        </div>
-                                                                        <div className="price">
-                                                                            <p>P{book.book_price}</p>
-                                                                        </div>
-                                                                        <span className="Buybutton" 
-                                                                            onClick={
-                                                                            () => navigate(`${book.book_title}?Details`, 
-                                                                            {state: {book, user}})
-                                                                        }>
-                                                                        Buy</span>
-                                                                    </div>
-                                                                    </>
-                                                                )}
-                                                            </div>
-                                                        ))}
-                                                    </div>
+                                                            )}
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                            ))
+                                            </div>
+                                        ))
+                                    ) : (
+                                        filterSearch !== '' ? (
+                                            <>
+                                            <h2>{filterSearchGenre.genre}</h2>
+                                            <hr></hr>
+                                            <div className="bg">
+                                                <div className="first">
+                                                {filterSearch.second_hand === true && ( <div className="sec-hand">2nd Hand</div> )}
+                                                    {filterSearch.in_process === 0 && filterSearch.book_quantity === 0 ? (
+                                                    <>
+                                                        <span className="out-of-stock1"></span> 
+                                                        <span className="out-of-stock">OUT OF STOCK</span>
+                                                        <img src={filterSearch.imagetag} alt="" />
+                                                        <div className="text">
+                                                            <div className="titlediv">
+                                                                <label>{filterSearch.book_title}</label>
+                                                            </div>
+                                                            <div className="price">
+                                                                <p>P{filterSearch.book_price}</p>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                    ) : (
+                                                        <>
+                                                        <img src={filterSearch.imagetag} alt="" />
+                                                        <div className="text">
+                                                            <div className="titlediv">
+                                                                <label>{filterSearch.book_title}</label>
+                                                            </div>
+                                                            <div className="price">
+                                                                <p>P{filterSearch.book_price}</p>
+                                                            </div>
+                                                            <span className="Buybutton" 
+                                                                onClick={
+                                                                () => navigate(`${filterSearch.book_title}?Details`, 
+                                                                {state: {book: filterSearch, user}})
+                                                            }>
+                                                            Buy</span>
+                                                        </div>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            </>
+                                        ) : (
+                                            filterGenre ? (
+                                                bookData.map((genreData, idx) => (
+                                                    <div key={idx}>
+                                                        <h2>{genreData.genre}</h2>
+                                                        <hr></hr>
+                                                        <div className="bg">
+                                                            {genreData.data.map((book, index) => (
+                                                                <div className="first" key={index}>
+                                                                    {book.second_hand === true && ( <div className="sec-hand">2nd Hand</div> )}
+                                                                    {book.in_process === 0 && book.book_quantity === 0 ? (
+                                                                    <>
+                                                                        <span className="out-of-stock1"></span> 
+                                                                        <span className="out-of-stock">OUT OF STOCK</span>
+                                                                        <img src={book.imagetag} alt="" />
+                                                                        <div className="text">
+                                                                            <div className="titlediv">
+                                                                                <label>{book.book_title}</label>
+                                                                            </div>
+                                                                            <div className="price">
+                                                                                <p>P{book.book_price}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </>
+                                                                    ) : (
+                                                                        <>
+                                                                        <img src={book.imagetag} alt="" />
+                                                                        <div className="text">
+                                                                            <div className="titlediv">
+                                                                                <label>{book.book_title}</label>
+                                                                            </div>
+                                                                            <div className="price">
+                                                                                <p>P{book.book_price}</p>
+                                                                            </div>
+                                                                            <span className="Buybutton" 
+                                                                                onClick={
+                                                                                () => navigate(`${book.book_title}?Details`, 
+                                                                                {state: {book, user}})
+                                                                            }>
+                                                                            Buy</span>
+                                                                        </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ):(
+                                                chosenGenre.map((genreData, idx) => (
+                                                    <div key={idx}>
+                                                        <h2>{genreData.genre}</h2>
+                                                        <hr></hr>
+                                                        <div className="bg">
+                                                            {genreData.data.map((book, index) => (
+                                                                <div className="first" key={index}>
+                                                                {book.second_hand === true && ( <div className="sec-hand">2nd Hand</div> )}
+                                                                    {book.in_process === 0 && book.book_quantity === 0 ? (
+                                                                    <>
+                                                                        <span className="out-of-stock1"></span> 
+                                                                        <span className="out-of-stock">OUT OF STOCK</span>
+                                                                        <img src={book.imagetag} alt="" />
+                                                                        <div className="text">
+                                                                            <div className="titlediv">
+                                                                                <label>{book.book_title}</label>
+                                                                            </div>
+                                                                            <div className="price">
+                                                                                <p>P{book.book_price}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </>
+                                                                    ) : (
+                                                                        <>
+                                                                        <img src={book.imagetag} alt="" />
+                                                                        <div className="text">
+                                                                            <div className="titlediv">
+                                                                                <label>{book.book_title}</label>
+                                                                            </div>
+                                                                            <div className="price">
+                                                                                <p>P{book.book_price}</p>
+                                                                            </div>
+                                                                            <span className="Buybutton" 
+                                                                                onClick={
+                                                                                () => navigate(`${book.book_title}?Details`, 
+                                                                                {state: {book, user}})
+                                                                            }>
+                                                                            Buy</span>
+                                                                        </div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            )
                                         )
                                     )
                                 )}

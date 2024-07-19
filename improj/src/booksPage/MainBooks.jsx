@@ -3,9 +3,11 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SearchSuggest from './SearchSuggest';
 import BooksDisplay from './Books'
+import UserHook from '../Supabase/UserSessionData';
 
 export default function LandingBooks(){
 
+    const {user} = UserHook()
     const [genre, setGenre] = useState('');
     const [filterGenre, setfilterGenre] = useState(true);
     const [searchSuggest, setSearchSuggest] = useState('');
@@ -13,11 +15,12 @@ export default function LandingBooks(){
     const [searchPicked, setSearchPicked] = useState('');
     const [searchTrigger, setSearchTrigger] = useState(false);
     const [citySearchTrigger, setCityTrigger] = useState(false);
+    const [cityPicked, setCityPicked] = useState('');
     const navigate = useNavigate();
 
     console.log(searchSuggest);
     console.log(searchPicked);
-
+    console.log(user)
     return(
         <>
         <div className='container'>
@@ -37,7 +40,6 @@ export default function LandingBooks(){
                                             onChange={(e) => setSearchSuggest(e.target.value)}
                                             value={searchSuggest}
                                             placeholder="Enter book title..."
-                                            onBlur={() => setSearchTrigger(false)}
                                         />
                                     </div>
                                     <div className="col">
@@ -48,11 +50,10 @@ export default function LandingBooks(){
                                             placeholder='Enter A City...'
                                             value={citySuggest}
                                             onChange={(e) => setCitySuggest(e.target.value)}
-                                            // onBlur={() => setCityTrigger(false)}
                                         />
                                     </div>
                                     <div className="col1">
-                                        <button className="btn" >SEARCH</button> {/*onclick="Search()"*/}
+                                        <button className="btn">SEARCH</button> {/*onclick="Search()"*/}
                                     </div>
                                 </div>
                             </div>
@@ -67,6 +68,7 @@ export default function LandingBooks(){
                                 setSearchTrigger = {setSearchTrigger}
                                 citySearchTrigger = {citySearchTrigger}
                                 setCityTrigger = {setCityTrigger}
+                                setCityPicked = {setCityPicked}
                                 type = "physical"
                             />
                         </div>
@@ -107,19 +109,25 @@ export default function LandingBooks(){
                             <img src="https://justbooks.in/assets/images/categ-info/comics.svg" style={{height: "50px"}} id="Manga" className="images"/>
                             <label>Manga</label>
                         </div>
+                        <div className="label Manga Others" onClick={() => {setGenre('Others'), setfilterGenre(false)}}> 
+                            <img src="https://justbooks.in/assets/images/categ-info/technical.svg" style={{height: "50px"}} id="Manga" className="images"/>
+                            <label>Others</label>
+                        </div>
                     </div>
                 </div>
             </div>
+            
             <BooksDisplay 
                 Genre={genre} 
                 filterGenre={filterGenre} 
                 setfilterGenre={setfilterGenre}
                 searchPicked = {searchPicked}
                 setSearchPicked = {setSearchPicked}
+                cityPicked = {cityPicked}
                 type = "physical"
             />
         </div>
-        <Link to ='/uploadBooks'><button id="PostBox">POST ITEM</button></Link>
+        {user.length !== 0 &&(<Link to ='/uploadBooks'><button id="PostBox">POST ITEM</button></Link>)}
         </>
     );
 }

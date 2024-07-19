@@ -112,7 +112,7 @@ export default function MessageTab() {
                             <div className='input-message-bar'>
                                 <hr />
                                 <div style={{display: "flex", alignItems: "center"}}>
-                                    <input type="file" />
+                                   
                                     <input placeholder='Enter Message...' 
                                         onChange={(e) => setEnterMessage(e.target.value)} 
                                         value={enterMessage}

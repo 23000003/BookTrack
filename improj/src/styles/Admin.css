@@ -16,6 +16,27 @@
     color: white;
   }
   
+  .tab-labels h2{
+    cursor: pointer;
+  }
+
+  .approve-div-button button{
+    margin-right: 5px;
+    border: none;
+    background-color: #ff5f5f;
+    border: 1px solid #ff5f5f;;
+    padding: 0.5em 0.8em 0.5em 0.8em;
+    color: white;
+    cursor: pointer;
+  }
+
+  .approve-div-button button:hover{
+    margin-right: 5px;
+    border: 1px solid #ff5f5f;;
+    background-color: white;
+    color:  #ff5f5f;
+  }
+
   .Welcome img{
     width: 50px;
     border-radius: 1em;
@@ -64,6 +85,12 @@
     background-color: #ffffff;
   }
   
+  .Decline-Row{
+    margin-left: 5px;background-color: #ff5f5f;
+    color: white;
+    cursor: pointer;
+  }
+
   .tab-labels hr{
     height: 23px;
   }

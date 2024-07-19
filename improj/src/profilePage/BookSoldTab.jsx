@@ -1,10 +1,12 @@
-import UserHook from "../Supabase/UserSessionData";
 import FetchBook from "./profileDataHook";
 import emptydata from "../assets/EmptyData.jpg"
+import { useLocation } from "react-router-dom";
 
 export default function BookSoltTab(){
 
-    const {user} = UserHook();
+    const location = useLocation()
+    const user = location.state.user;
+
     const {tabData, loading} = FetchBook('books_sold', user.account_name)
     console.log("sold", tabData)
     

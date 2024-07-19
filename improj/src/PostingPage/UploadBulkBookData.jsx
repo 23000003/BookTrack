@@ -12,7 +12,8 @@ export default function BulkEBookUploadData() {
         images,
         MyEbookFiles,
         ebookFiles,
-        uploadLoading
+        uploadLoading,
+        fileName
      } = UploadBulkData();
 
     useEffect(() => {
@@ -71,24 +72,33 @@ export default function BulkEBookUploadData() {
                         </div>
                         <div style={{ marginTop: "20px" }}>
                             <h3>Locationtag: "Your Google Map Location Link"</h3>
+                            <h3>Second_hand: Type: 0 if second_hand / 1 if original</h3>
                         </div>
                     </div>
 
                     <div className="image-upload">
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                            <h2>Upload CSV</h2>
-                            <span id="Cancel-Image">X</span>
-                        </div>
-
+                        <h2>Upload CSV</h2>
+                        <label for="file-input3" class="custom-file-upload" style={{marginTop: "20px"}}>
+                                Choose CSV
+                        </label>
                         <input 
+                            id='file-input3'
                             name="text" 
                             type="file"
                             onChange={SelectFiles}
                             accept='.csv'
-                        />
 
-                        <h2>Upload Images</h2>
+                        />
+                        {fileName !== '' && (
+                            <p>{fileName}</p>
+                        )}
+
+                        <h2 style={{marginTop: "30px"}}>Upload Images</h2>
+                        <label for="file-input10" class="custom-file-upload" style={{marginTop: "15px"}}>
+                                Choose Image
+                        </label>
                         <input 
+                            id='file-input10'
                             name="text" 
                             type="file"
                             onChange={MyImages}

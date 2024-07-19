@@ -4,13 +4,16 @@ import supabase from '../Supabase/Supabase';
 import gcash from '../assets/GCash.png'
 import useBuyItem from './BuyitemHook';
 import useBookDetailsHook from './BookDetailsHook';
+import UserHook from '../Supabase/UserSessionData';
 
 
 export default function EBookDetails() {
 
+    const {user} = UserHook();
+
     const location = useLocation();
     const [passDets, setPassDets] = useState(location.state.book);
-    const [user, setUser] = useState(location.state.user);
+    const [seller, setSeller] = useState(location.state.user);
     console.log(location.state)
     console.log(passDets);
     const navigate = useNavigate();
@@ -26,8 +29,9 @@ export default function EBookDetails() {
         setContactNo,
         AddtoFavourites,
         DeleteFavourites,
-        BuyEbookTrigger 
-    } = useBuyItem(user);
+        BuyEbookTrigger,
+        uploadLoading 
+    } = useBuyItem(seller);
 
     const {
         QuantityAdd,
@@ -47,7 +51,7 @@ export default function EBookDetails() {
         favourites,
         setFavourites,
         favouriteLoad
-    } = useBookDetailsHook(passDets, setIsChecked, user);
+    } = useBookDetailsHook(passDets, setIsChecked, seller);
 
     useEffect(() => {
         const subscription = supabase
@@ -102,46 +106,39 @@ export default function EBookDetails() {
                 <div className="left-details">
                     <div className="book-title">
                         <h2>{passDets.book_title}
-                        {favouriteLoad ? (
+                        {favouriteLoad && user.length !== 0? (
                             null
                         ): (
-                            favourites ? (
-                                // <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
-                                //     <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.18.18 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.18.18 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.18.18 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.18.18 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.18.18 0 0 0 .134-.098z"/>
-                                //     <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
-                                // </svg>
-                                <button onClick={() => DeleteFavourites(passDets.id)}>Remove Favourite</button>
-                            ):(
-                                // <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
-                                //     <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.18.18 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.18.18 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.18.18 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.18.18 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.18.18 0 0 0 .134-.098z"/>
-                                //     <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
-                                // </svg>
-                                <button onClick={() => AddtoFavourites(passDets.id)}>Add to favourite</button>
+                            user.length !== 0 && (
+                                favourites ? (
+                                    <button className='remove-favourite' onClick={() => DeleteFavourites(passDets.id)}>Remove Favourite</button>
+                                ):(
+                                    <button className='add-favourite'  onClick={() => AddtoFavourites(passDets.id)}>Add to favourite</button>
+                                )
                             )
                         )}
                         </h2>
-                        <div style={{color: "grey"}}>Posted By: 
-                        <span onClick={() =>{navigate(`/userProfile/${passDets.account_name}?Profile`, {state: {passDets}})}}>{passDets.account_name}</span>
-                        <svg onClick={() => setTriggerMessage(!triggerMessage)} 
-                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-dots-fill bi-message-icon" viewBox="0 0 16 16">
-                            <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                        </svg>
-                        {triggerMessage && (
-                            <span className="send-a-message-details" ref={messageRef}>
-                                <div style={{display: "flex"}}>
-                                    <input type="text" 
-                                        placeholder='Send A Message...' 
-                                        onChange={(e) => setMessageContent(e.target.value)}
-                                    />
-                                    <svg xmlns="http://www.w3.org/2000/svg" onClick={() => SendMessageFunc(passDets.account_name)}
-                                        width="16" height="16" fill="currentColor" className="bi bi-send-fill bi-message-icon" viewBox="0 0 16 16">
-                                        <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
-                                    </svg>
-                                </div>
-                            </span>
-                        )}
+                        <div style={{color: "grey", marginBottom: "20px"}}>Posted By: 
+                            <span onClick={() =>{navigate(`/userProfile/${passDets.account_name}?Profile`, {state: {passDets}})}}>{passDets.account_name}</span>
+                            <svg onClick={() => setTriggerMessage(!triggerMessage)} 
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-dots-fill bi-message-icon" viewBox="0 0 16 16">
+                                <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                            </svg>
+                            {triggerMessage && (
+                                <span className="send-a-message-details" ref={messageRef}>
+                                    <div style={{display: "flex"}}>
+                                        <input type="text" 
+                                            placeholder='Send A Message...' 
+                                            onChange={(e) => setMessageContent(e.target.value)}
+                                        />
+                                        <svg xmlns="http://www.w3.org/2000/svg" onClick={() => SendMessageFunc(passDets.account_name)}
+                                            width="16" height="16" fill="currentColor" className="bi bi-send-fill bi-message-icon" viewBox="0 0 16 16">
+                                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+                                        </svg>
+                                    </div>
+                                </span>
+                            )}
                         </div>
-                        <p>Location: <a href={passDets.location_tag} target="_blank">{passDets.location}</a></p>
                     </div>
                     <div className="left-img">
                         <img src={passDets.imagetag} alt="Book" />
@@ -164,7 +161,13 @@ export default function EBookDetails() {
 
                             <h2 className='priceh2'>₱{totalPrice}.00</h2>
                             <div className="Qty">
-                                <button className="Buy Buy-hover" onClick={() => paymentTrigger()}>Buy E-Book</button>
+                                {user.length === 0 ? (
+                                    <div className="guestuser">
+
+                                    </div>
+                                ):(
+                                    <button className="Buy Buy-hover" onClick={() => paymentTrigger()}>Buy E-Book</button>
+                                )}
                             </div>
                         </div>
                         <hr style={{ marginTop: '25px' }} />
@@ -240,6 +243,14 @@ export default function EBookDetails() {
                     </div>
                 </div>
             </div>
+            {uploadLoading && (
+                <>
+                <div className='upload-loader'></div>
+                <div className='loading center-loader'>
+                    <div className='loader'></div>
+                </div>
+                </>
+            )}
             </>
             }
 

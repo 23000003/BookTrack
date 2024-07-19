@@ -21,19 +21,9 @@ export default function UploadEBookData(){
 
     const PreviewImage = (e) =>{
         const file = e.target.files[0];
-        if (file) {
-          setImage(file);
-          visible.current.style.visibility = 'hidden';
-          cancelVisible.current.style.visibility = 'visible';
-        }    
+        setImage(file);
     }
 
-    const CancelImage = () =>{
-        setImage(null);
-        visible.current.style.visibility = 'visible';
-        cancelVisible.current.style.visibility = 'hidden';
-        fileInput.current.value = '';
-    }
 
     const {
         setTitle,
@@ -45,6 +35,7 @@ export default function UploadEBookData(){
         UploadBook,
         uploadLoading,
         setEbookFile,
+        ebookFile,
         image
     } = useUploadHook();
     
@@ -117,36 +108,36 @@ export default function UploadEBookData(){
                 </div>
         
                 <div className="image-upload">
-                    <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                        <h2>Upload Image</h2>
-                        <span id="Cancel-Image" 
-                            ref={cancelVisible}
-                            onClick={() => CancelImage()}
-                        >X</span>
-                    </div>
                     
-                    {image && <img src={URL.createObjectURL(image)} alt="" id="image-preview"/>}
-                    
-                    <div ref={visible}>
-                        <label for="file" className="labelFile">
-                            <ImageStyle />
-                            <p>Select a PNG File</p>
-                        </label>
-                    </div>
-                    
+                                    
+                    <h2>Upload Image</h2>
+                    <label for="file-input8" class="custom-file-upload" style={{marginTop: "15px"}}>
+                            Choose Image
+                    </label>
                     <input className="input" name="text" 
-                        id="file" 
+                        id="file-input8" 
                         type="file"
-                        onChange={PreviewImage}
+                        onChange={(e) => setImage(e.target.files[0])}
                         ref={fileInput}    
                     />
 
-                    <h2>Upload E-Book Files</h2>
+                    {image !== null && (
+                        <p>{image.name}</p>
+                    )}
+
+                    <h2 style={{marginTop: "35px"}}>Upload E-Book Files</h2>
+                    <label for="file-input5" class="custom-file-upload" style={{marginTop: "15px"}}>
+                            Choose Files
+                    </label>
                     <input 
+                        id='file-input5'
                         name="text" 
                         type="file"
                         onChange={(e) => setEbookFile(e.target.files[0])}
                     />
+                    {ebookFile !== null && (
+                        <p>{ebookFile.name}</p>
+                    )}
                 </div>
                 {uploadLoading && (
                     <>
