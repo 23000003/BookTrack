@@ -23,7 +23,7 @@ An E-Commerce application specializing in books and e-books, allows you to find 
 1. **C.R.U.D.F.**
 2. **Real Time Messaging**
 3. **Authentication and Session**
-4. **Node Mailer**
+4. **Node Mailer** [Deployed in render]
 5. **Bulk Data Upload Through CSV**
 
 ## How to Run:
