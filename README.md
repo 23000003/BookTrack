@@ -26,21 +26,9 @@ An E-Commerce application specializing in books and e-books, allows you to find 
 4. **Node Mailer**
 5. **Bulk Data Upload Through CSV**
 
-## Install Dependencies:
+## How to Run:
 ```
-npm install @supabase/supabase-js
-npm install create-router-dom
-npm install @supabase/auth-helpers-react
-npm install date-fns
-npm install axios
-npm install uuid
-
--- Set Up Node Mailer -- 
-npm init
-npm install nodemailer express cors nodemon
-npm install -g nodemon
-cd ./Controller/ nodemon Nodemailer.js
-
--- Open windows Powershell if Denied --
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser (Enter Yes)
+cd ./improj
+npm install
+npm run dev
 ```
